@@ -50,7 +50,7 @@ export default function NavBar() {
       position="fixed"
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
     >
-      <Box px={4}>
+      <Box px={4} sx={{ paddingX: { xs: 0, sm: 5 } }}>
         <Toolbar disableGutters>
           <Typography
             variant="h5"
@@ -60,7 +60,7 @@ export default function NavBar() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontWeight: 400,
+              fontWeight: { xs: 300, md: 400 },
               color: "inherit",
               textDecoration: "none",
             }}

@@ -14,6 +14,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import TipificationTable from "./TipíficationTable";
 
 export default function DocumentationTab({ doc }) {
   const [value, setValue] = React.useState(doc[0].siniestro);
@@ -54,15 +55,17 @@ export default function DocumentationTab({ doc }) {
                 <Typography>{data.description}</Typography>
               </Box>
               <List>
-                {data.documentacion.map((doc, index) => (
-                  <ListItemText key={index}>
-                    <Box display="flex" spacing={2}>
-                      <NoiseControlOffIcon color="primary" fontSize="xs" />
-                      <Typography>{doc}</Typography>
-                    </Box>
-                  </ListItemText>
-                ))}
+                {data &&
+                  data.documentacion.map((doc, index) => (
+                    <ListItemText key={index}>
+                      <Box display="flex" spacing={2}>
+                        <NoiseControlOffIcon color="primary" fontSize="xs" />
+                        <Typography>{doc}</Typography>
+                      </Box>
+                    </ListItemText>
+                  ))}
               </List>
+              <TipificationTable tipificaciones={data.tipificacion} />
             </CardContent>
           </Card>
         ))}
@@ -75,19 +78,22 @@ export default function DocumentationTab({ doc }) {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            {doc.map((data, index) => (
-              <Tab key={index} label={data.siniestro} value={data.siniestro} />
-            ))}
+            {doc &&
+              doc.map((data, index) => (
+                <Tab
+                  key={index}
+                  label={data.siniestro}
+                  value={data.siniestro}
+                />
+              ))}
           </TabList>
         </Box>
-        {doc.map((data, index) => (
-          <TabPanel key={index} value={data.siniestro}>
-            <DocumentationCard subtipo={data.subtipo} />
-          </TabPanel>
-        ))}
-
-        {/* <TabPanel value="2">Item Two</TabPanel>
-        <TabPanel value="3">Item Three</TabPanel> */}
+        {doc &&
+          doc.map((data, index) => (
+            <TabPanel key={index} value={data.siniestro}>
+              <DocumentationCard subtipo={data.subtipo} />
+            </TabPanel>
+          ))}
       </TabContext>
     </Box>
   );

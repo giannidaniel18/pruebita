@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import TipificationTable from "./TipíficationTable";
+
 import DocumentationTab from "./DocumentationTab";
 import { useTheme } from "@emotion/react";
 import { ColorsPalette } from "../config/ColorsPalette";
@@ -31,7 +31,6 @@ export default function BranchCard({ branch }) {
         sx={{
           minWidth: 275,
           width: "100%",
-          marginX: "200px",
         }}
       >
         <CardContent>
@@ -44,10 +43,6 @@ export default function BranchCard({ branch }) {
             <Typography variant="h3" component="div">
               {branch.text_branch}
             </Typography>
-            <Box display={"flex"} width={300} justifyContent={"space-between"}>
-              <Button variant="contained">documentacion</Button>
-              <Button variant="contained">Tipificacion</Button>
-            </Box>
           </Stack>
           <Divider />
           <Alert sx={{ marginTop: 2 }} variant="outlined" severity="error">
@@ -137,27 +132,21 @@ export default function BranchCard({ branch }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <DocumentationTab doc={branch.documentacion} />
-        </CardActions>
-      </Card>
-    );
-  }
-
-  function Tipificaciones() {
-    return (
-      <Card
-        sx={{
-          minWidth: 275,
-          width: "100%",
-        }}
-      >
-        <CardContent>
-          <Typography variant="h5" component="div">
-            Tipificaciones
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <TipificationTable />
+          {/* si el array de documentacion esta vacio renderizo un texto con "falta de informacion" */}
+          {branch.documentacion.length > 0 ? (
+            <DocumentationTab doc={branch.documentacion} />
+          ) : (
+            <Card
+              sx={
+                (theme.palette.mode === "dark"
+                  ? { border: 0.5, borderColor: "#1B2430" }
+                  : { border: 0.5, borderColor: "#d3d5df" },
+                { width: "100%", padding: "10px" })
+              }
+            >
+              <Typography>información Faltante</Typography>
+            </Card>
+          )}
         </CardActions>
       </Card>
     );
@@ -168,9 +157,10 @@ export default function BranchCard({ branch }) {
       <Typography sx={{ fontSize: 14 }} color="text.secondary">
         Actualizado por ultima vez hace X : XX dias
       </Typography>
-      <MainInfo />
-      <Documentation />
-      <Tipificaciones />
+      <Stack spacing={4} sx={{ width: { xs: 300, sm: "auto" } }}>
+        <MainInfo />
+        <Documentation />
+      </Stack>
     </Stack>
   );
 }

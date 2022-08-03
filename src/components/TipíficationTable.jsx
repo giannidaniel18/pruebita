@@ -9,19 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useTheme } from "@emotion/react";
 import { ColorsPalette } from "../config/ColorsPalette";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
-export default function TipificationTable() {
+export default function TipificationTable({ tipificaciones }) {
   const theme = useTheme();
 
   return (
@@ -36,28 +24,29 @@ export default function TipificationTable() {
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Evento</TableCell>
+            <TableCell align="right">Core</TableCell>
+            <TableCell align="right">Acción</TableCell>
+            <TableCell align="right">Resultado de gestión</TableCell>
+            <TableCell align="right">Tipo de resultado</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
+          {tipificaciones &&
+            tipificaciones.map((row, index) => (
+              <TableRow
+                key={index}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.evento}
+                </TableCell>
+                <TableCell align="right">{row.core}</TableCell>
+                <TableCell align="right">{row.accion}</TableCell>
+                <TableCell align="right">{row.resultado_de_gestion}</TableCell>
+                <TableCell align="right">{row.tipo_de_resultado}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
