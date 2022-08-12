@@ -71,19 +71,7 @@ export default function BranchCard({ branch }) {
                   </ListItem>
                 ))
               ) : (
-                <Box>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Ipsum sequi rerum similique neque ipsa commodi nulla sit a
-                  necessitatibus unde alias voluptas accusantium sunt ab, harum
-                  cupiditate quaerat odio quibusdam Vitae minus excepturi fugit
-                  earum veniam. Modi ex vel nesciunt Inventore possimus
-                  voluptatem, voluptatibus beatae officia quas accusamus hic,
-                  iste ipsa voluptates dicta architecto necessitatibus Ab, qui.
-                  Quos, asperiores placeat. Voluptate commodi consequuntur et
-                  maiores adipisci, nostrum quibusdam ipsa hic ad maxime, ipsam
-                  cumque. Amet consectetur asperiores ea corrupti nihil sapiente
-                  eius beatae rerum, ullam sunt vel qui assumenda poro
-                </Box>
+                <Box>Falta de Información</Box>
               )}
             </List>
           </Alert>

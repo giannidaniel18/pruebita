@@ -57,7 +57,6 @@ function SinesterDrawer() {
       <Tabs
         orientation="vertical"
         value={selectedTab}
-        textColor="primary"
         variant="scrollable"
         onChange={handleChange}
       >

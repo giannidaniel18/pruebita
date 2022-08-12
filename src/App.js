@@ -8,7 +8,12 @@ function App() {
   return (
     <BranchContextProvider>
       <NavBar />
-      <Box p={4} mt={6}>
+      <Box
+        p={4}
+        mt={6}
+        display={{ xs: "flex", sm: "inherit" }}
+        justifyContent="center"
+      >
         <HomeRoutes />
       </Box>
     </BranchContextProvider>

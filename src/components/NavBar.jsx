@@ -20,7 +20,7 @@ import { Link as ReactLink } from "react-router-dom";
 const pages = [
   { text: "Individuos", path: "/individuos" },
   { text: "Empresas", path: "/empresas" },
-  { text: "Pyme", path: "/pyme" },
+  { text: "Pymes", path: "/pymes" },
   { text: "Especialistas", path: "/especialistas" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -98,7 +98,12 @@ export default function NavBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.text} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page.text}
+                  component={ReactLink}
+                  to={page.path}
+                  onClick={handleCloseNavMenu}
+                >
                   <Typography textAlign="center">{page.text}</Typography>
                 </MenuItem>
               ))}
@@ -124,6 +129,8 @@ export default function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page.text}
+                component={ReactLink}
+                to={page.path}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >

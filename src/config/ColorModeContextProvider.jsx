@@ -1,5 +1,9 @@
 import * as React from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { ColorsPalette } from "./ColorsPalette";
 import { grey } from "@mui/material/colors";
@@ -19,7 +23,7 @@ export default function ToggleColorMode({ children }) {
     []
   );
 
-  const theme = React.useMemo(
+  let theme = React.useMemo(
     () =>
       createTheme({
         palette: {
@@ -59,13 +63,13 @@ export default function ToggleColorMode({ children }) {
           MuiListItemButton: {
             styleOverrides: {
               root: {
-                "&.Mui-selected":
+                "&.Mui-selected, &:hover":
                   mode === "dark"
                     ? {
                         backgroundColor: "#FA6400",
                       }
                     : {
-                        backgroundColor: grey[300],
+                        backgroundColor: grey[400],
                       },
               },
             },
@@ -74,6 +78,7 @@ export default function ToggleColorMode({ children }) {
       }),
     [mode]
   );
+  theme = responsiveFontSizes(theme);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
