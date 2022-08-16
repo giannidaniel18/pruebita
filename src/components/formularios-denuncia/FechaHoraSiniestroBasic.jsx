@@ -52,6 +52,7 @@ export default function FechaHoraSiniestroBasic({ control }) {
             <Controller
               name="horaSiniestro"
               control={control}
+              defaultValue={format(date, "HH:mm aa")}
               render={({ field: { onChange, ref, value, ...fieldProps } }) => (
                 <TimePicker
                   {...fieldProps}
