@@ -12,7 +12,7 @@ export default function BranchContainer() {
   const { selectedbranch } = useParams();
 
   useEffect(() => {
-    const newbranch = ramos.find((ramo) => ramo.id_branch === selectedbranch);
+    const newbranch = ramos.find((ramo) => ramo._id === selectedbranch);
     setUpCurrentBranch(newbranch);
     setLoading(false);
   }, [selectedbranch, ramos, setUpCurrentBranch]);

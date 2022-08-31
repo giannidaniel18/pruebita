@@ -52,7 +52,7 @@ export default function DocumentationTab({ doc }) {
                       }
                 }
               >
-                <Typography>{data.description}</Typography>
+                <Typography>{data.descripcion}</Typography>
               </Box>
               <List>
                 {data &&
@@ -91,7 +91,7 @@ export default function DocumentationTab({ doc }) {
         {doc &&
           doc.map((data, index) => (
             <TabPanel key={index} value={data.siniestro}>
-              <DocumentationCard subtipo={data.subtipo} />
+              <DocumentationCard subtipo={data.subtipos_Siniestro} />
             </TabPanel>
           ))}
       </TabContext>

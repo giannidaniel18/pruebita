@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
@@ -17,12 +17,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";
 import { ColorModeContext } from "../config/ColorModeContextProvider";
 import { Link as ReactLink } from "react-router-dom";
-const pages = [
-  { text: "Individuos", path: "/individuos" },
-  { text: "Empresas", path: "/empresas" },
-  { text: "Pymes", path: "/pymes" },
-  { text: "Especialistas", path: "/especialistas" },
-];
+const usuario = { nombreUsuario: "admin", rol: "admin" };
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function NavBar() {
@@ -30,6 +25,19 @@ export default function NavBar() {
   const colorMode = React.useContext(ColorModeContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [isAdmin, setIsAdmin] = useState(null);
+
+  useEffect(() => {
+    usuario.rol === "admin" ? setIsAdmin(null) : setIsAdmin("none");
+  }, []);
+
+  const pages = [
+    { text: "Individuos", path: "/individuos", display: null },
+    { text: "Empresas", path: "/empresas", display: null },
+    { text: "Pymes", path: "/pymes", display: null },
+    { text: "Especialistas", path: "/especialistas", display: null },
+    { text: "Administracion", path: "/admin", display: isAdmin },
+  ];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -103,6 +111,7 @@ export default function NavBar() {
                   component={ReactLink}
                   to={page.path}
                   onClick={handleCloseNavMenu}
+                  sx={{ display: page.display }}
                 >
                   <Typography textAlign="center">{page.text}</Typography>
                 </MenuItem>
@@ -132,7 +141,7 @@ export default function NavBar() {
                 component={ReactLink}
                 to={page.path}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: "white", display: page.display }}
               >
                 {page.text}
               </Button>

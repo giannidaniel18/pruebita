@@ -1,13 +1,14 @@
 export const branch = [
   {
-    id_branch: "combinadofamiliar",
-    text_branch: "Combinado familiar",
-    documentacion: [
+    _id: "630d040660a300354499b91b",
+    titulo_Ramo: "Combinado Familiar",
+    estado: true,
+    eventos: [
       {
-        siniestro: "incendio",
-        subtipo: [
+        siniestro: "Incendio",
+        subtipos_Siniestro: [
           {
-            description: "incendio edificio",
+            descripcion: "incendio edificio",
             documentacion: [
               "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
               "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
@@ -21,6 +22,9 @@ export const branch = [
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
                 resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d66447",
+                createdAt: "2022-08-29T19:31:37.952Z",
+                updatedAt: "2022-08-29T19:31:37.952Z",
               },
               {
                 evento:
@@ -29,43 +33,58 @@ export const branch = [
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
                 resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d66448",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
+            _id: "630d1419ad9e40e3f0d66446",
+            createdAt: "2022-08-29T19:31:37.953Z",
+            updatedAt: "2022-08-29T19:31:37.953Z",
           },
           {
-            description: "incendio contenido",
+            descripcion: "incendio de contenido",
             documentacion: [
-              "Fotos de daño",
-              " Presupuestos de reparación con informe técnico (si se solicitaron para daños por terremoto, vendaval, granizo , incendio o rayo)",
-              "Informe de los bomberos (si hubo intervención)",
+              "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
+              "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
             ],
             plantilla: "",
             tipificacion: [
               {
                 evento:
-                  "Cuando se produzca un incendio parcial de la vivienda.",
+                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT1",
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
-                resultado_de_gestion: "Incendio Parcial",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d66333",
+                createdAt: "2022-08-29T19:31:37.952Z",
+                updatedAt: "2022-08-29T19:31:37.952Z",
               },
               {
                 evento:
-                  "Cuando se produzca un incendio parcial de la vivienda.",
+                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT7",
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
-                resultado_de_gestion: "Incendio Parcial",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d66222",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
+            _id: "630d1419ad9e40e3f0d66111",
+            createdAt: "2022-08-29T19:31:37.953Z",
+            updatedAt: "2022-08-29T19:31:37.953Z",
           },
         ],
+        _id: "630d068260a300354499b986",
       },
       {
         siniestro: "Daños por agua",
-        subtipo: [
+        subtipos_Siniestro: [
           {
-            description: "Daños por agua al contenido",
+            descripcion: "Daño por agua al contenido",
             documentacion: [
               "Denuncia de siniestro (Formulario administrativo)",
               "Fotos del daño",
@@ -80,7 +99,10 @@ export const branch = [
                 core: "VT1",
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
-                resultado_de_gestion: "Daños por agua al contenido",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d6644e",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
               },
               {
                 evento:
@@ -88,17 +110,24 @@ export const branch = [
                 core: "VT7",
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
-                resultado_de_gestion: "Daños por agua al contenido",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d6644f",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
+            _id: "630d1419ad9e40e3f0d6644d",
+            createdAt: "2022-08-29T19:31:37.953Z",
+            updatedAt: "2022-08-29T19:31:37.953Z",
           },
         ],
+        _id: "630d1419ad9e40e3f0d6644c",
       },
       {
-        siniestro: "robo/hurto",
-        subtipo: [
+        siniestro: "Robo",
+        subtipos_Siniestro: [
           {
-            description: "Robo",
+            descripcion: "Robo",
             documentacion: [
               " Copia de Denuncia policial",
               "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
@@ -106,16 +135,37 @@ export const branch = [
               "Presupuesto del daño",
               "Estimación del daño",
             ],
-          },
-          {
-            description: "Robo Objeto Especifico",
-            documentacion: [
-              "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
-              "Fotos originales de daño",
+            plantilla: "",
+            tipificacion: [
+              {
+                evento: "evento de robo etc",
+                core: "VT1",
+                accion: "Siniestros",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d068260a300354499b988",
+                updatedAt: "2022-08-29T18:33:38.435Z",
+                createdAt: "2022-08-29T18:33:38.435Z",
+              },
+
+              {
+                evento: "evento de robo etc",
+                core: "VT7",
+                accion: "Siniestros",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d068260a300354499b989",
+                updatedAt: "2022-08-29T18:33:38.435Z",
+                createdAt: "2022-08-29T18:33:38.435Z",
+              },
             ],
+
+            _id: "630d068260a300354499b987",
+            updatedAt: "2022-08-29T18:33:38.435Z",
+            createdAt: "2022-08-29T18:33:38.435Z",
           },
           {
-            description: "Hurto",
+            descripcion: " Daños por robo ",
             documentacion: [
               " Copia de Denuncia policial",
               "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
@@ -123,124 +173,384 @@ export const branch = [
               "Presupuesto del daño",
               "Estimación del daño",
             ],
-          },
-          {
-            description: "Daños por robo o su tentativa",
-            documentacion: [
-              " Copia de Denuncia policial",
-              "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
-              "Fotos originales de daño",
-              "Presupuesto del daño",
-              "Estimación del daño",
+            plantilla: "",
+            tipificacion: [
+              {
+                evento: "evento de Daños por robo",
+                core: "VT1",
+                accion: "Siniestros",
+                _id: "630d068260a300354499b988",
+                updatedAt: "2022-08-29T18:33:38.435Z",
+                createdAt: "2022-08-29T18:33:38.435Z",
+              },
+
+              {
+                evento: "evento de Daños por robo",
+                core: "VT7",
+                accion: "SiniestrosVT7",
+                _id: "630d068260a300354499b989",
+                updatedAt: "2022-08-29T18:33:38.435Z",
+                createdAt: "2022-08-29T18:33:38.435Z",
+              },
             ],
+
+            _id: "630d068260a300354499b987",
+            updatedAt: "2022-08-29T18:33:38.435Z",
+            createdAt: "2022-08-29T18:33:38.435Z",
           },
         ],
       },
     ],
-    tipificaciones: [],
-    data: {
-      verificaciones_criticas: [
+    verificaciones: {
+      verificaciones_Criticas: [
         {
-          title: "Domicilio",
-          description:
+          titulo: "Domicilio",
+          descripcion:
             "Verificar que el domicilio denunciado sea el mismo que el asegurado",
+          _id: "630d1419ad9e40e3f0d66456",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
         {
-          title: "Vigencia",
-          description:
+          titulo: "Vigencia",
+          descripcion:
             "Verifica que la póliza por la cual se comunica el cliente este o haya estado vigente al momento del hecho",
+          _id: "630d1419ad9e40e3f0d66457",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
         {
-          title: "Rechazos de póliza",
-          description:
+          titulo: "Rechazos de póliza",
+          descripcion:
             "Si la poliza presenta Rechazos en los cobros, vamos a proceder a Tomar la denuncia de siniestro, pero debemos indicar al cliente que “Hubo irregularidades en los pagos” o “aún no se verifican los débitos” motivo por el cual,el análisis “Quedara a consideración de la Cia”. Esta información deberá quedar detallada en las observaciones.",
+          _id: "630d1419ad9e40e3f0d66458",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
         {
-          title: "Coberturas",
-          description: "Verifica las coberturas que tenga la póliza contratada",
+          titulo: "Coberturas",
+          descripcion: "Verifica las coberturas que tenga la póliza contratada",
+          _id: "630d1419ad9e40e3f0d66459",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
         {
-          title: "Verificación de correo electrónico",
-          description:
+          titulo: "Verificación de correo electrónico",
+          descripcion:
             "Una vez que confirmamos el mail del asegurado debemos hacer la pregunta de ¿Aceptas recibir las notificaciones del siniestro en este correo?",
+          _id: "630d1419ad9e40e3f0d6645a",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
       ],
-      verificaciones_extras: [],
-    },
-  },
-  {
-    id_branch: "roboyriesgossimilares",
-    text_branch: "Robo y riesgos similares",
-    documentacion: [],
-    tipificaciones: [],
-    data: {
-      verificaciones_criticas: [
+      verificaciones_Extras: [
         {
-          title: "Domicilio",
-          description:
-            "Verificar que el domicilio denunciado sea el mismo que el asegurado",
+          titulo: "Domicilio",
+          descripcion:
+            "Verificar que el domicilio denunciado sea el mismo que el asegurado ver en => www.google.com.ar",
+          _id: "630d1419ad9e40e3f0d66aaa",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
         {
-          title: "Vigencia",
-          description:
+          titulo: "Vigencia",
+          descripcion:
             "Verifica que la póliza por la cual se comunica el cliente este o haya estado vigente al momento del hecho",
-        },
-        {
-          title: "Rechazos de póliza",
-          description:
-            "Si la poliza presenta Rechazos en los cobros, vamos a proceder a Tomar la denuncia de siniestro, pero debemos indicar al cliente que “Hubo irregularidades en los pagos” o “aún no se verifican los débitos” motivo por el cual,el análisis “Quedara a consideración de la Cia”. Esta información deberá quedar detallada en las observaciones.",
-        },
-        {
-          title: "Coberturas",
-          description: "Verifica las coberturas que tenga la póliza contratada",
-        },
-        {
-          title: "Verificación de correo electrónico",
-          description:
-            "Una vez que confirmamos el mail del asegurado debemos hacer la pregunta de ¿Aceptas recibir las notificaciones del siniestro en este correo?",
+          _id: "630d1419ad9e40e3f0d66bbb",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
       ],
-      verificaciones_extras: [],
+      _id: "630d068260a300354499b996",
     },
+    formularios: [
+      "PolizaBasic",
+      "LineaSiniestradaBasic",
+      "DatosPersonalesBasic",
+      "DescripcionDelHechoBasic",
+      "ObservacionesFinalesBasic",
+    ],
+    creado_por: "alunazzi@galiciaseguros.com.ar",
+    createdAt: "2022-08-29T18:23:02.608Z",
+    updatedAt: "2022-08-29T18:33:38.435Z",
+    __v: 0,
+    modificado_por: "dgianni@galiciaseguros.com.ar",
   },
   {
-    id_branch: "naranjacuenta",
-    text_branch: "Naranja Cuenta",
-    documentacion: [],
-    tipificaciones: [],
-    data: {
-      verificaciones_criticas: [],
-      verificaciones_extras: [],
+    _id: "630d040660a300354499b91c",
+    titulo_Ramo: "Robo",
+    estado: false,
+    eventos: [
+      {
+        siniestro: "Incendio",
+        subtipos_Siniestro: [
+          {
+            descripcion: "incendio edificio",
+            documentacion: [
+              "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
+              "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+            ],
+            plantilla: "",
+            tipificacion: [
+              {
+                evento:
+                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                core: "VT1",
+                accion: "Siniestros",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d66447",
+                createdAt: "2022-08-29T19:31:37.952Z",
+                updatedAt: "2022-08-29T19:31:37.952Z",
+              },
+              {
+                evento:
+                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                core: "VT7",
+                accion: "SiniestrosVT7",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d66448",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
+              },
+            ],
+            _id: "630d1419ad9e40e3f0d66446",
+            createdAt: "2022-08-29T19:31:37.953Z",
+            updatedAt: "2022-08-29T19:31:37.953Z",
+          },
+          {
+            descripcion: "incendio de contenido",
+            documentacion: [
+              "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
+              "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+            ],
+            plantilla: "",
+            tipificacion: [
+              {
+                evento:
+                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                core: "VT1",
+                accion: "Siniestros",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d66333",
+                createdAt: "2022-08-29T19:31:37.952Z",
+                updatedAt: "2022-08-29T19:31:37.952Z",
+              },
+              {
+                evento:
+                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                core: "VT7",
+                accion: "SiniestrosVT7",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d66222",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
+              },
+            ],
+            _id: "630d1419ad9e40e3f0d66111",
+            createdAt: "2022-08-29T19:31:37.953Z",
+            updatedAt: "2022-08-29T19:31:37.953Z",
+          },
+        ],
+        _id: "630d068260a300354499b986",
+      },
+      {
+        siniestro: "Daños por agua",
+        subtipos_Siniestro: [
+          {
+            descripcion: "Daño por agua al contenido",
+            documentacion: [
+              "Denuncia de siniestro (Formulario administrativo)",
+              "Fotos del daño",
+              " Presupuesto membretado con informe técnico con motivo del daño",
+              "Estimación del daño",
+            ],
+            plantilla: "",
+            tipificacion: [
+              {
+                evento:
+                  "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
+                core: "VT1",
+                accion: "Siniestros",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d6644e",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
+              },
+              {
+                evento:
+                  "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
+                core: "VT7",
+                accion: "SiniestrosVT7",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d1419ad9e40e3f0d6644f",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
+              },
+            ],
+            _id: "630d1419ad9e40e3f0d6644d",
+            createdAt: "2022-08-29T19:31:37.953Z",
+            updatedAt: "2022-08-29T19:31:37.953Z",
+          },
+        ],
+        _id: "630d1419ad9e40e3f0d6644c",
+      },
+      {
+        siniestro: "Robo",
+        subtipos_Siniestro: [
+          {
+            descripcion: "Robo",
+            documentacion: [
+              " Copia de Denuncia policial",
+              "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
+              "Fotos originales de daño",
+              "Presupuesto del daño",
+              "Estimación del daño",
+            ],
+            plantilla: "",
+            tipificacion: [
+              {
+                evento: "evento de robo etc",
+                core: "VT1",
+                accion: "Siniestros",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d068260a300354499b988",
+                updatedAt: "2022-08-29T18:33:38.435Z",
+                createdAt: "2022-08-29T18:33:38.435Z",
+              },
+
+              {
+                evento: "evento de robo etc",
+                core: "VT7",
+                accion: "Siniestros",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d068260a300354499b989",
+                updatedAt: "2022-08-29T18:33:38.435Z",
+                createdAt: "2022-08-29T18:33:38.435Z",
+              },
+            ],
+
+            _id: "630d068260a300354499b987",
+            updatedAt: "2022-08-29T18:33:38.435Z",
+            createdAt: "2022-08-29T18:33:38.435Z",
+          },
+          {
+            descripcion: " Daños por robo ",
+            documentacion: [
+              " Copia de Denuncia policial",
+              "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
+              "Fotos originales de daño",
+              "Presupuesto del daño",
+              "Estimación del daño",
+            ],
+            plantilla: "",
+            tipificacion: [
+              {
+                evento: "evento de Daños por robo",
+                core: "VT1",
+                accion: "Siniestros",
+                _id: "630d068260a300354499b988",
+                updatedAt: "2022-08-29T18:33:38.435Z",
+                createdAt: "2022-08-29T18:33:38.435Z",
+              },
+
+              {
+                evento: "evento de Daños por robo",
+                core: "VT7",
+                accion: "SiniestrosVT7",
+                _id: "630d068260a300354499b989",
+                updatedAt: "2022-08-29T18:33:38.435Z",
+                createdAt: "2022-08-29T18:33:38.435Z",
+              },
+            ],
+
+            _id: "630d068260a300354499b987",
+            updatedAt: "2022-08-29T18:33:38.435Z",
+            createdAt: "2022-08-29T18:33:38.435Z",
+          },
+        ],
+      },
+    ],
+    verificaciones: {
+      verificaciones_Criticas: [
+        {
+          titulo: "Domicilio",
+          descripcion:
+            "Verificar que el domicilio denunciado sea el mismo que el asegurado",
+          _id: "630d1419ad9e40e3f0d66456",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
+        },
+        {
+          titulo: "Vigencia",
+          descripcion:
+            "Verifica que la póliza por la cual se comunica el cliente este o haya estado vigente al momento del hecho",
+          _id: "630d1419ad9e40e3f0d66457",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
+        },
+        {
+          titulo: "Rechazos de póliza",
+          descripcion:
+            "Si la poliza presenta Rechazos en los cobros, vamos a proceder a Tomar la denuncia de siniestro, pero debemos indicar al cliente que “Hubo irregularidades en los pagos” o “aún no se verifican los débitos” motivo por el cual,el análisis “Quedara a consideración de la Cia”. Esta información deberá quedar detallada en las observaciones.",
+          _id: "630d1419ad9e40e3f0d66458",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
+        },
+        {
+          titulo: "Coberturas",
+          descripcion: "Verifica las coberturas que tenga la póliza contratada",
+          _id: "630d1419ad9e40e3f0d66459",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
+        },
+        {
+          titulo: "Verificación de correo electrónico",
+          descripcion:
+            "Una vez que confirmamos el mail del asegurado debemos hacer la pregunta de ¿Aceptas recibir las notificaciones del siniestro en este correo?",
+          _id: "630d1419ad9e40e3f0d6645a",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
+        },
+      ],
+      verificaciones_Extras: [
+        {
+          titulo: "Domicilio",
+          descripcion:
+            "Verificar que el domicilio denunciado sea el mismo que el asegurado ver en => www.google.com.ar",
+          _id: "630d1419ad9e40e3f0d66aaa",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
+        },
+        {
+          titulo: "Vigencia",
+          descripcion:
+            "Verifica que la póliza por la cual se comunica el cliente este o haya estado vigente al momento del hecho",
+          _id: "630d1419ad9e40e3f0d66bbb",
+          createdAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-08-29T19:31:37.954Z",
+        },
+      ],
+      _id: "630d068260a300354499b996",
     },
-  },
-  {
-    id_branch: "desempleo",
-    text_branch: "Desempleo",
-    documentacion: [],
-    tipificaciones: [],
-    data: {
-      verificaciones_criticas: [],
-      verificaciones_extras: [],
-    },
-  },
-  {
-    id_branch: "vida",
-    text_branch: "Vida",
-    documentacion: [],
-    tipificaciones: [],
-    data: {
-      verificaciones_criticas: [],
-      verificaciones_extras: [],
-    },
-  },
-  {
-    id_branch: "mascotas",
-    text_branch: "Mascotas",
-    documentacion: [],
-    tipificaciones: [],
-    data: {
-      verificaciones_criticas: [],
-      verificaciones_extras: [],
-    },
+    formularios: [
+      "PolizaBasic",
+      "LineaSiniestradaBasic",
+      "DatosPersonalesBasic",
+      "DescripcionDelHechoBasic",
+      "ObservacionesFinalesBasic",
+    ],
+    creado_por: "alunazzi@galiciaseguros.com.ar",
+    createdAt: "2021-08-29T18:23:02.608Z",
+    updatedAt: "2021-08-29T18:33:38.435Z",
+    __v: 0,
+    modificado_por: "agianni@galiciaseguros.com.ar",
   },
 ];

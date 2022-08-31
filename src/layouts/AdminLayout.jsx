@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -17,27 +17,27 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-import { branch } from "../data";
 import { Link as ReactLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
 
-function SinesterLayout2(props) {
-  const [ramos, setRamos] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState(null);
+function AdminLayout(props) {
   const { window } = props;
+  const [selectedOption, setSelectedOption] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    setRamos(branch);
-  }, []);
-
+  const modulos = [
+    { text: "individuos", path: "individuos " },
+    { text: "Empresas", path: "empresas" },
+    { text: "Pymes", path: "pymes" },
+    { text: "Especialistas", path: "especialistas" },
+    { text: "Usuarios", path: "usuarios" },
+  ];
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const handleSelectedBranch = (e, index) => {
-    setSelectedBranch(index);
+  const handleSelectedOption = (e, index) => {
+    setSelectedOption(index);
   };
 
   const drawer = (
@@ -45,15 +45,15 @@ function SinesterLayout2(props) {
       <Toolbar />
       <Divider />
       <List>
-        {ramos.map((ramo, index) => (
-          <ListItem key={ramo._id} disablePadding>
+        {modulos.map((modulo, index) => (
+          <ListItem key={modulo.text} disablePadding>
             <ListItemButton
               component={ReactLink}
-              to={`${ramo._id}`}
-              selected={selectedBranch === index}
-              onClick={(e) => handleSelectedBranch(e, index)}
+              to={`${modulo.path}`}
+              selected={selectedOption === index}
+              onClick={(e) => handleSelectedOption(e, index)}
             >
-              <ListItemText value={ramo._id} primary={ramo.titulo_Ramo} />
+              <ListItemText value={modulo.text} primary={modulo.text} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -87,7 +87,7 @@ function SinesterLayout2(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Siniestros
+            Administración
           </Typography>
         </Toolbar>
       </AppBar>
@@ -144,7 +144,7 @@ function SinesterLayout2(props) {
   );
 }
 
-SinesterLayout2.propTypes = {
+AdminLayout.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -152,4 +152,4 @@ SinesterLayout2.propTypes = {
   window: PropTypes.func,
 };
 
-export default SinesterLayout2;
+export default AdminLayout;
