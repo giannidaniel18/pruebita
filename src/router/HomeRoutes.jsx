@@ -6,40 +6,42 @@ import Home from "../pages/Home";
 import Individuos from "../pages/Individuos";
 import Pymes from "../pages/Pymes";
 import Especialistas from "../pages/Especialistas";
+import Empresas from "../pages/Empresas";
 import BranchContainer from "../pages/siniestros/BranchContainer";
-import Tutoria from "../components/Tutorias/Tutoria";
 
 import AdminLayout from "../layouts/AdminLayout";
-import AdminIndividuos from "../pages/Admin/AdminIndividuos";
-import AdminEmpresas from "../pages/Admin/AdminEmpresas";
-import AdminPymes from "../pages/Admin/AdminPymes";
-import AdminEspecialistas from "../pages/Admin/AdminEspecialistas";
-import AdminUsuarios from "../pages/Admin/AdminUsuarios";
-import AbmRamosIndividuos from "../pages/Admin/AbmRamosIndividuos";
+
+// Individuos
+import AdminIndividuos from "../pages/Admin/negocio/individuos/AdminIndividuos";
+import AbmRamosIndividuos from "../pages/Admin/negocio/individuos/AbmRamosIndividuos";
+import ActualizarRamoSeleccionado from "../pages/Admin/negocio/individuos/ActualizarRamoSeleccionado";
+
+import AdminEmpresas from "../pages/Admin/negocio/empresas/AdminEmpresas";
+import AdminPymes from "../pages/Admin/negocio/pymes/AdminPymes";
+import AdminEspecialistas from "../pages/Admin/negocio/especialistas/AdminEspecialistas";
+import AdminUsuarios from "../pages/Admin/usuarios/AdminUsuarios";
 
 export default function HomeRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/individuos" element={<Individuos />} />
-      <Route path="/empresas" element={<Tutoria />} />
+      <Route path="/empresas" element={<Empresas />} />
       <Route path="/pymes" element={<Pymes />} />
       <Route path="/especialistas" element={<Especialistas />} />
       <Route path="/siniestros" element={<SinesterLayout2 />}>
-        <Route
-          path="/siniestros/:selectedbranch"
-          element={<BranchContainer />}
-        />
+        <Route path=":selectedbranch" element={<BranchContainer />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
-        <Route path="/admin/individuos" element={<AdminIndividuos />} />
-        <Route path="/admin/empresas" element={<AdminEmpresas />} />
-        <Route path="/admin/pymes" element={<AdminPymes />} />
-        <Route path="/admin/especialistas" element={<AdminEspecialistas />} />
-        <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+        <Route path="individuos" element={<AdminIndividuos />} />
+        <Route path="empresas" element={<AdminEmpresas />} />
+        <Route path="pymes" element={<AdminPymes />} />
+        <Route path="especialistas" element={<AdminEspecialistas />} />
+        <Route path="usuarios" element={<AdminUsuarios />} />
+        <Route path="individuos/abmramos" element={<AbmRamosIndividuos />} />
         <Route
-          path="/admin/individuos/abmramos"
-          element={<AbmRamosIndividuos />}
+          path="individuos/abmramos/:selectedbranch"
+          element={<ActualizarRamoSeleccionado />}
         />
       </Route>
     </Routes>

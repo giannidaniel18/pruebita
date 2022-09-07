@@ -1,10 +1,9 @@
 import { Grid, Stack, Typography } from "@mui/material";
 import React from "react";
-
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
-import ModuleCard from "../../components/ModuleCard";
+import ModuleCard from "../../../../components/ModuleCard";
 import BuildIcon from "@mui/icons-material/Build";
 
 const modules = [
@@ -48,7 +47,7 @@ export default function AdminIndividuos() {
         alignItems="center"
       >
         {modules.map((mod) => (
-          <Grid key={mod.title} item disabled>
+          <Grid key={mod.title} m={1} disabled>
             <ModuleCard
               icon={mod.icon}
               title={mod.title}

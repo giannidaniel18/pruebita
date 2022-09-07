@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useTheme } from "@emotion/react";
-import { ColorsPalette } from "../config/ColorsPalette";
+import { ColorsPalette } from "../../config/ColorsPalette";
 
 export default function TipificationTable({ tipificaciones }) {
   const theme = useTheme();

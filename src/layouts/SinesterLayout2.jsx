@@ -21,7 +21,7 @@ import { branch } from "../data";
 import { Link as ReactLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 function SinesterLayout2(props) {
   const [ramos, setRamos] = useState([]);
@@ -133,11 +133,11 @@ function SinesterLayout2(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          px: { xs: 2, sm: 3 },
+          py: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <Toolbar />
         <Outlet />
       </Box>
     </Box>

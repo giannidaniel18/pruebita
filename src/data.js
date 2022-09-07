@@ -267,6 +267,7 @@ export const branch = [
       "PolizaBasic",
       "LineaSiniestradaBasic",
       "DatosPersonalesBasic",
+      "DatosPersonalesExtended",
       "DescripcionDelHechoBasic",
       "ObservacionesFinalesBasic",
     ],

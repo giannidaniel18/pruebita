@@ -31,7 +31,7 @@ export default function ModuleCard({ title, text, icon, to, disabled }) {
   return (
     <CustomCard
       sx={{
-        height: { xs: "110px", sm: "200px" },
+        height: { xs: "115px", sm: "200px" },
         width: { xs: "250px", sm: "400px" },
       }}
     >

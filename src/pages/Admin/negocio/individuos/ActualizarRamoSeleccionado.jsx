@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import BranchCard from "../../components/siniestros/BranchCard";
+import { useEffect, useState } from "react";
+import UpdateBranchCard from "../../../../components/Admin/individuos/UpdateBranchCard";
 import { useParams } from "react-router-dom";
-import { useBranchContext } from "../../context/BranchContext";
+import { useBranchContext } from "../../../../context/BranchContext";
 
-export default function BranchContainer() {
+export default function ActualizarRamoSeleccionado() {
   const { currentBranch, setUpCurrentBranch, branches } = useBranchContext();
   const [loading, setLoading] = useState(true);
   const { selectedbranch } = useParams();
@@ -15,7 +15,7 @@ export default function BranchContainer() {
   }, [selectedbranch, branches, setUpCurrentBranch]);
 
   return !loading ? (
-    <BranchCard branch={currentBranch} />
+    <UpdateBranchCard branch={currentBranch} />
   ) : (
     <div>cargando...</div>
   );

@@ -40,12 +40,11 @@ export default function Individuos() {
       <Grid
         container
         direction="row"
-        spacing={2}
         justifyContent="center"
         alignItems="center"
       >
         {modules.map((mod) => (
-          <Grid key={mod.title} item disabled>
+          <Grid key={mod.title} m={1}>
             <ModuleCard
               icon={mod.icon}
               title={mod.title}

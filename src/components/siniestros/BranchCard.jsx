@@ -15,17 +15,16 @@ import {
   AccordionSummary,
   AccordionDetails,
   AlertTitle,
-  IconButton,
-  Chip,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import EditIcon from "@mui/icons-material/Edit";
+
 import DocumentationTab from "./DocumentationTab";
 import { useTheme } from "@emotion/react";
-import { ColorsPalette } from "../config/ColorsPalette";
+import { ColorsPalette } from "../../config/ColorsPalette";
 import Tutoria from "./Tutorias/Tutoria";
 import { useRef } from "react";
+import { format, parseISO } from "date-fns";
 
 export default function BranchCard({ branch }) {
   const theme = useTheme();
@@ -35,8 +34,7 @@ export default function BranchCard({ branch }) {
     return (
       <Card
         sx={{
-          minWidth: 275,
-          width: "100%",
+          minWidth: "310px",
         }}
       >
         <CardContent>
@@ -49,9 +47,6 @@ export default function BranchCard({ branch }) {
             <Typography variant="h3" component="div">
               {branch.titulo_Ramo}
             </Typography>
-            <IconButton>
-              <EditIcon aria-label="Example" />
-            </IconButton>
           </Stack>
           <Divider />
           <Alert sx={{ marginTop: 2 }} variant="outlined" severity="error">
@@ -149,12 +144,7 @@ export default function BranchCard({ branch }) {
 
   function Documentation() {
     return (
-      <Card
-        sx={{
-          minWidth: 275,
-          width: "100%",
-        }}
-      >
+      <Card>
         <CardContent>
           <Typography variant="h5" component="div">
             Documentación a presentar según siniestro
@@ -166,11 +156,11 @@ export default function BranchCard({ branch }) {
             <DocumentationTab doc={branch.eventos} />
           ) : (
             <Card
+              id="Eventocard"
               sx={
-                (theme.palette.mode === "dark"
+                theme.palette.mode === "dark"
                   ? { border: 0.5, borderColor: "#1B2430" }
-                  : { border: 0.5, borderColor: "#d3d5df" },
-                { width: "100%", padding: "10px" })
+                  : { border: 0.5, borderColor: "#d3d5df" }
               }
             >
               <Typography>información Faltante</Typography>
@@ -180,14 +170,26 @@ export default function BranchCard({ branch }) {
       </Card>
     );
   }
-
+  const updateText = `Ultima actualizacion :  ${format(
+    parseISO(branch.updatedAt),
+    "MM/dd/yyyy"
+  )} por ${branch.modificado_por}`;
   return (
-    <Stack spacing={4}>
-      <Typography sx={{ fontSize: 16 }} color="text.secondary">
-        Actualizado por ultima vez {branch.updatedAt} por{" "}
-        {branch.modificado_por}
-      </Typography>
-      <Stack spacing={4} sx={{ width: { xs: 300, sm: "auto" } }}>
+    <Stack
+      spacing={4}
+      mt={{ xs: 2, sm: 0 }}
+      alignItems={{ xs: "center", sm: "flex-start" }}
+    >
+      <Alert
+        severity="info"
+        variant="outlined"
+        color="info"
+        sx={{ paddingY: 0 }}
+      >
+        {updateText}
+      </Alert>
+
+      <Stack spacing={4} sx={{ width: { xs: 315, sm: "100%" } }}>
         <Box>
           <MainInfo />
         </Box>

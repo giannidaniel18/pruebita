@@ -9,7 +9,8 @@ function App() {
     <BranchContextProvider>
       <NavBar />
       <Box
-        p={4}
+        py={4}
+        px={1}
         mt={6}
         display={{ xs: "flex", sm: "inherit" }}
         justifyContent="center"
