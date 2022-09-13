@@ -1,13 +1,13 @@
 import { Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
-import FormAbmRamos from "../../../../components/Admin/individuos/FormAbmRamos";
+import TextImputControlSmall from "../../../../components/Admin/individuos/TextImputControlSmall";
 import TableAbmRamos from "../../../../components/Admin/individuos/TableAbmRamos";
 import { useForm } from "react-hook-form";
 import { useTheme } from "@emotion/react";
 import { ColorsPalette } from "../../../../config/ColorsPalette";
 import { useBranchContext } from "../../../../context/BranchContext";
 
-export default function AbmRamosIndividuos() {
+export default function AbmRamosGeneralContainer() {
   const theme = useTheme();
   const { control, handleSubmit, resetField } = useForm();
   const { addBranchToBranches, branches } = useBranchContext();
@@ -15,6 +15,8 @@ export default function AbmRamosIndividuos() {
     addBranchToBranches(data.titulo_ramo);
     resetField("titulo_ramo");
   };
+
+  console.log(branches);
 
   return (
     <Stack spacing={5}>
@@ -35,18 +37,10 @@ export default function AbmRamosIndividuos() {
           }
         >
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid
-              container
-              spacing={2}
-              alignItems="center"
-              textAlign="end"
-              p={2}
-            >
-              <FormAbmRamos
-                control={control}
-                name="titulo_ramo"
-                label="Nombre del ramo a crear"
-              />
+            <Grid container spacing={2} alignItems="center" textAlign="end" p={2}>
+              <Grid item xs={12} sm={7}>
+                <TextImputControlSmall control={control} name="titulo_ramo" label="Nombre del ramo a crear" />
+              </Grid>
               <Grid item xs={12} sm={5}>
                 <Button variant="outlined" type="submit">
                   Agregar +

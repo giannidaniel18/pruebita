@@ -1,12 +1,6 @@
-import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material";
+import { Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { drawerWidth } from "../variables/variablesGlobales";
+import { drawerWidth } from "../constants/variablesGlobales";
 import { branch } from "../data";
 import { Link as ReactLink } from "react-router-dom";
 

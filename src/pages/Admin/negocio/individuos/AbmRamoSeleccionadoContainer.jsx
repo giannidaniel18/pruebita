@@ -3,7 +3,7 @@ import UpdateBranchCard from "../../../../components/Admin/individuos/UpdateBran
 import { useParams } from "react-router-dom";
 import { useBranchContext } from "../../../../context/BranchContext";
 
-export default function ActualizarRamoSeleccionado() {
+export default function AbmRamoSeleccionadoContainer() {
   const { currentBranch, setUpCurrentBranch, branches } = useBranchContext();
   const [loading, setLoading] = useState(true);
   const { selectedbranch } = useParams();

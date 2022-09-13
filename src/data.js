@@ -16,8 +16,7 @@ export const branch = [
             plantilla: "",
             tipificacion: [
               {
-                evento:
-                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT1",
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
@@ -27,8 +26,7 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.952Z",
               },
               {
-                evento:
-                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT7",
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
@@ -51,8 +49,7 @@ export const branch = [
             plantilla: "",
             tipificacion: [
               {
-                evento:
-                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT1",
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
@@ -62,8 +59,7 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.952Z",
               },
               {
-                evento:
-                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT7",
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
@@ -94,8 +90,7 @@ export const branch = [
             plantilla: "",
             tipificacion: [
               {
-                evento:
-                  "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
+                evento: "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
                 core: "VT1",
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
@@ -105,8 +100,7 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },
               {
-                evento:
-                  "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
+                evento: "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
                 core: "VT7",
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
@@ -205,8 +199,7 @@ export const branch = [
       verificaciones_Criticas: [
         {
           titulo: "Domicilio",
-          descripcion:
-            "Verificar que el domicilio denunciado sea el mismo que el asegurado",
+          descripcion: "Verificar que el domicilio denunciado sea el mismo que el asegurado",
           _id: "630d1419ad9e40e3f0d66456",
           createdAt: "2022-08-29T19:31:37.954Z",
           updatedAt: "2022-08-29T19:31:37.954Z",
@@ -294,8 +287,7 @@ export const branch = [
             plantilla: "",
             tipificacion: [
               {
-                evento:
-                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT1",
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
@@ -305,8 +297,7 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.952Z",
               },
               {
-                evento:
-                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT7",
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
@@ -329,8 +320,7 @@ export const branch = [
             plantilla: "",
             tipificacion: [
               {
-                evento:
-                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT1",
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
@@ -340,8 +330,7 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.952Z",
               },
               {
-                evento:
-                  "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
                 core: "VT7",
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
@@ -372,8 +361,7 @@ export const branch = [
             plantilla: "",
             tipificacion: [
               {
-                evento:
-                  "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
+                evento: "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
                 core: "VT1",
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
@@ -383,8 +371,7 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },
               {
-                evento:
-                  "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
+                evento: "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
                 core: "VT7",
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
@@ -483,8 +470,7 @@ export const branch = [
       verificaciones_Criticas: [
         {
           titulo: "Domicilio",
-          descripcion:
-            "Verificar que el domicilio denunciado sea el mismo que el asegurado",
+          descripcion: "Verificar que el domicilio denunciado sea el mismo que el asegurado",
           _id: "630d1419ad9e40e3f0d66456",
           createdAt: "2022-08-29T19:31:37.954Z",
           updatedAt: "2022-08-29T19:31:37.954Z",

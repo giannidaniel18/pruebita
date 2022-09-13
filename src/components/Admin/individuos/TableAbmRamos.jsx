@@ -85,6 +85,7 @@ const headCells = [
   },
 ];
 function createData(
+  _id,
   titulo_Ramo,
   fechaCreacion,
   fechaModificacion,
@@ -92,6 +93,7 @@ function createData(
   estado
 ) {
   return {
+    _id,
     titulo_Ramo,
     fechaCreacion,
     fechaModificacion,
@@ -169,6 +171,7 @@ export default function TableAbmRamos({ branches }) {
 
   const rows = branches.map((ramo) =>
     createData(
+      ramo._id,
       ramo.titulo_Ramo,
       ramo.createdAt,
       ramo.updatedAt,
@@ -234,7 +237,7 @@ export default function TableAbmRamos({ branches }) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
-                    <TableRow key={row.titulo_Ramo}>
+                    <TableRow key={row._id}>
                       <TableCell component="th" scope="row">
                         {row.titulo_Ramo}
                       </TableCell>

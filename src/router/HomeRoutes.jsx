@@ -13,13 +13,15 @@ import AdminLayout from "../layouts/AdminLayout";
 
 // Individuos
 import AdminIndividuos from "../pages/Admin/negocio/individuos/AdminIndividuos";
-import AbmRamosIndividuos from "../pages/Admin/negocio/individuos/AbmRamosIndividuos";
-import ActualizarRamoSeleccionado from "../pages/Admin/negocio/individuos/ActualizarRamoSeleccionado";
+import AbmRamosGeneralContainer from "../pages/Admin/negocio/individuos/AbmRamosGeneralContainer";
+import AbmRamoSeleccionadoContainer from "../pages/Admin/negocio/individuos/AbmRamoSeleccionadoContainer";
 
 import AdminEmpresas from "../pages/Admin/negocio/empresas/AdminEmpresas";
 import AdminPymes from "../pages/Admin/negocio/pymes/AdminPymes";
 import AdminEspecialistas from "../pages/Admin/negocio/especialistas/AdminEspecialistas";
 import AdminUsuarios from "../pages/Admin/usuarios/AdminUsuarios";
+
+import WelcomePage from "../pages/WelcomePage";
 
 export default function HomeRoutes() {
   return (
@@ -30,19 +32,18 @@ export default function HomeRoutes() {
       <Route path="/pymes" element={<Pymes />} />
       <Route path="/especialistas" element={<Especialistas />} />
       <Route path="/siniestros" element={<SinesterLayout2 />}>
+        <Route path="" element={<WelcomePage idWelcome="individuosSiniestros" />} />
         <Route path=":selectedbranch" element={<BranchContainer />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
+        <Route path="" element={<WelcomePage idWelcome="admin" />} />
         <Route path="individuos" element={<AdminIndividuos />} />
         <Route path="empresas" element={<AdminEmpresas />} />
         <Route path="pymes" element={<AdminPymes />} />
         <Route path="especialistas" element={<AdminEspecialistas />} />
         <Route path="usuarios" element={<AdminUsuarios />} />
-        <Route path="individuos/abmramos" element={<AbmRamosIndividuos />} />
-        <Route
-          path="individuos/abmramos/:selectedbranch"
-          element={<ActualizarRamoSeleccionado />}
-        />
+        <Route path="individuos/abmramos" element={<AbmRamosGeneralContainer />} />
+        <Route path="individuos/abmramos/:selectedbranch" element={<AbmRamoSeleccionadoContainer />} />
       </Route>
     </Routes>
   );

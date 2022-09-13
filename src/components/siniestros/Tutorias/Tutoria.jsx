@@ -16,10 +16,7 @@ import {
   LineaSiniestradaBasic,
 } from "../formularios-denuncia/FormulariosDeSiniestros";
 
-export default function Tutoria({
-  formularios = ["PolizaBasic"],
-  tituloTutoria = "XXX",
-}) {
+export default function Tutoria({ formularios = ["PolizaBasic"], tituloTutoria = "XXX" }) {
   const { control, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log("copied data : ", data);
@@ -69,9 +66,7 @@ export default function Tutoria({
     },
   ];
 
-  const mapeo = formsMapping.filter((item) =>
-    formularios.includes(item.idform)
-  );
+  const mapeo = formsMapping.filter((item) => formularios.includes(item.idform));
 
   const formulariosArenderizar = mapeo.map((form) => (
     <Grid key={form.idform} item xs={12}>

@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";
@@ -27,6 +16,7 @@ export default function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
 
+  //Esto se deberia reemplazar por el contexto del usuario
   useEffect(() => {
     usuario.rol === "admin" ? setIsAdmin(null) : setIsAdmin("none");
   }, []);
@@ -54,10 +44,7 @@ export default function NavBar() {
     setAnchorElUser(null);
   };
   return (
-    <AppBar
-      position="fixed"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-    >
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Box px={4} sx={{ paddingX: { xs: 0, sm: 5 } }}>
         <Toolbar disableGutters>
           <Typography
@@ -149,16 +136,8 @@ export default function NavBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <IconButton
-              sx={{ ml: 1 }}
-              onClick={colorMode.toggleColorMode}
-              color="inherit"
-            >
-              {theme.palette.mode === "dark" ? (
-                <Brightness7Icon />
-              ) : (
-                <Brightness4Icon />
-              )}
+            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+              {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

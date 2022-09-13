@@ -1,43 +1,44 @@
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-
-import ListItemText from "@mui/material/ListItemText";
+import { useState } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 
-import { branch } from "../data";
 import { Link as ReactLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import { useBranchContext } from "../context/BranchContext";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  Toolbar,
+  Typography,
+  ListItemText,
+} from "@mui/material";
 
-const drawerWidth = 220;
+const drawerWidth = 180;
 
-function SinesterLayout2(props) {
-  const [ramos, setRamos] = useState([]);
+function SinesterLayout2() {
+  const { branches } = useBranchContext();
   const [selectedBranch, setSelectedBranch] = useState(null);
-  const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+  // const [ramos, setRamos] = useState(branches);
+  // const { window } = props;
 
-  useEffect(() => {
-    setRamos(branch);
-  }, []);
+  // useEffect(() => {
+  //   setRamos(branches.filter((ramoActivo) => ramoActivo.estado));
+  // }, [branches]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const handleSelectedBranch = (e, index) => {
-    setSelectedBranch(index);
+
+  const handleSelectedBranch = (e, id) => {
+    setSelectedBranch(id);
   };
 
   const drawer = (
@@ -45,24 +46,26 @@ function SinesterLayout2(props) {
       <Toolbar />
       <Divider />
       <List>
-        {ramos.map((ramo, index) => (
-          <ListItem key={ramo._id} disablePadding>
-            <ListItemButton
-              component={ReactLink}
-              to={`${ramo._id}`}
-              selected={selectedBranch === index}
-              onClick={(e) => handleSelectedBranch(e, index)}
-            >
-              <ListItemText value={ramo._id} primary={ramo.titulo_Ramo} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {branches
+          .filter((ramoActivo) => ramoActivo.estado)
+          .map((ramo) => (
+            <ListItem key={ramo._id} disablePadding>
+              <ListItemButton
+                component={ReactLink}
+                to={`${ramo._id}`}
+                selected={selectedBranch === ramo._id}
+                onClick={(e) => handleSelectedBranch(e, ramo._id)}
+              >
+                <ListItemText value={ramo._id} primary={ramo.titulo_Ramo} />
+              </ListItemButton>
+            </ListItem>
+          ))}
       </List>
     </div>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  // const container =
+  //   window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -91,14 +94,10 @@ function SinesterLayout2(props) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
-          container={container}
+          // container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
@@ -143,13 +142,5 @@ function SinesterLayout2(props) {
     </Box>
   );
 }
-
-SinesterLayout2.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default SinesterLayout2;
