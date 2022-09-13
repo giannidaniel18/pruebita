@@ -6,14 +6,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import NoiseControlOffIcon from "@mui/icons-material/NoiseControlOff";
 import { useTheme } from "@emotion/react";
-import {
-  Card,
-  CardContent,
-  List,
-  ListItemText,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, List, ListItemText, Stack, Typography } from "@mui/material";
 import TipificationTable from "./TipíficationTable";
 
 export default function DocumentationTab({ doc }) {
@@ -78,14 +71,7 @@ export default function DocumentationTab({ doc }) {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList variant="scrollable" onChange={handleChange}>
-            {doc &&
-              doc.map((data, index) => (
-                <Tab
-                  key={index}
-                  label={data.siniestro}
-                  value={data.siniestro}
-                />
-              ))}
+            {doc && doc.map((data, index) => <Tab key={index} label={data.siniestro} value={data.siniestro} />)}
           </TabList>
         </Box>
         {doc &&

@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import TextImputControlSmall from "../TextImputControlSmall";
+import TextImputControlSmall from "../../../../components/TextImputControlSmall";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useForm } from "react-hook-form";

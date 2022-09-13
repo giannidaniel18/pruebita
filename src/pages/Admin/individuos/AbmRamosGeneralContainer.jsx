@@ -1,11 +1,11 @@
 import { Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
-import TextImputControlSmall from "../../../../components/Admin/individuos/TextImputControlSmall";
-import TableAbmRamos from "../../../../components/Admin/individuos/TableAbmRamos";
+import TextImputControlSmall from "../../../components/TextImputControlSmall";
+import TableAbmRamos from "../../../components/Admin/individuos/TableAbmRamos";
 import { useForm } from "react-hook-form";
 import { useTheme } from "@emotion/react";
-import { ColorsPalette } from "../../../../config/ColorsPalette";
-import { useBranchContext } from "../../../../context/BranchContext";
+import { ColorsPalette } from "../../../config/ColorsPalette";
+import { useBranchContext } from "../../../context/BranchContext";
 
 export default function AbmRamosGeneralContainer() {
   const theme = useTheme();

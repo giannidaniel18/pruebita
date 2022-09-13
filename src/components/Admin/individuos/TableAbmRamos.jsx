@@ -84,14 +84,7 @@ const headCells = [
     label: "Estado",
   },
 ];
-function createData(
-  _id,
-  titulo_Ramo,
-  fechaCreacion,
-  fechaModificacion,
-  editar,
-  estado
-) {
+function createData(_id, titulo_Ramo, fechaCreacion, fechaModificacion, editar, estado) {
   return {
     _id,
     titulo_Ramo,
@@ -112,11 +105,7 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={"left"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
+          <TableCell key={headCell.id} align={"left"} sortDirection={orderBy === headCell.id ? order : false}>
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
@@ -145,12 +134,7 @@ EnhancedTableHead.propTypes = {
 const EnhancedTableToolbar = ({ table_title }) => {
   return (
     <Toolbar>
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-      >
+      <Typography sx={{ flex: "1 1 100%" }} variant="h6" id="tableTitle" component="div">
         {table_title}
       </Typography>
     </Toolbar>
@@ -178,12 +162,7 @@ export default function TableAbmRamos({ branches }) {
       <IconButton component={ReactLink} to={`${ramo._id}`} aria-label="Editar">
         <BorderColorIcon />
       </IconButton>,
-      <Switch
-        id={ramo._id}
-        checked={ramo.estado}
-        onChange={handleChange}
-        inputProps={{ "aria-label": "controlled" }}
-      />
+      <Switch id={ramo._id} checked={ramo.estado} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
     )
   );
 
@@ -204,8 +183,7 @@ export default function TableAbmRamos({ branches }) {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
     <Box
@@ -227,11 +205,7 @@ export default function TableAbmRamos({ branches }) {
         <EnhancedTableToolbar table_title={"Ramos"} />
         <TableContainer id="table-container">
           <Table aria-labelledby="tableTitle" size={"small"}>
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-            />
+            <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -241,12 +215,8 @@ export default function TableAbmRamos({ branches }) {
                       <TableCell component="th" scope="row">
                         {row.titulo_Ramo}
                       </TableCell>
-                      <TableCell align="left">
-                        {format(parseISO(row.fechaCreacion), "MM/dd/yyyy")}
-                      </TableCell>
-                      <TableCell align="left">
-                        {format(parseISO(row.fechaModificacion), "MM/dd/yyyy")}
-                      </TableCell>
+                      <TableCell align="left">{format(parseISO(row.fechaCreacion), "MM/dd/yyyy")}</TableCell>
+                      <TableCell align="left">{format(parseISO(row.fechaModificacion), "MM/dd/yyyy")}</TableCell>
                       <TableCell align="left">{row.editar}</TableCell>
                       <TableCell align="left">{row.estado}</TableCell>
                     </TableRow>

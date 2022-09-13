@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  Divider,
-  Icon,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Card, CardActionArea, CardContent, Divider, Icon, Stack, Typography } from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import { ColorsPalette } from "../config/ColorsPalette";
@@ -22,10 +14,7 @@ export default function ModuleCard({ title, text, icon, to, disabled }) {
     textAlign: "center",
     borderRadius: 5,
     boxShadow: 5,
-    backgroundColor:
-      theme.palette.mode === "dark"
-        ? ColorsPalette.bg_dark.light
-        : ColorsPalette.bg_light.dark,
+    backgroundColor: theme.palette.mode === "dark" ? ColorsPalette.bg_dark.light : ColorsPalette.bg_light.dark,
   });
 
   return (
@@ -42,9 +31,7 @@ export default function ModuleCard({ title, text, icon, to, disabled }) {
           height: "100%",
           "&.Mui-disabled": {
             backgroundColor:
-              theme.palette.mode === "dark"
-                ? ColorsPalette.bg_dark.dark
-                : ColorsPalette.bg_light.DeepDark,
+              theme.palette.mode === "dark" ? ColorsPalette.bg_dark.dark : ColorsPalette.bg_light.DeepDark,
           },
           "&:hover ": { backgroundColor: "primary.main", color: "white" },
         }}

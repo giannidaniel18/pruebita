@@ -1,14 +1,5 @@
-import * as React from "react";
-import {
-  TextField,
-  Typography,
-  Grid,
-  Container,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import React from "react";
+import { TextField, Typography, Grid, Container, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { Controller } from "react-hook-form";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -359,10 +350,7 @@ export function DescripcionDelHechoBasic({ control }) {
     </Container>
   );
 }
-export function DescripcionDelHechoExtended({
-  control,
-  tiposDeSiniestros = ["sin datos", "sin datos"],
-}) {
+export function DescripcionDelHechoExtended({ control, tiposDeSiniestros = ["sin datos", "sin datos"] }) {
   return (
     <Container>
       <Grid container spacing={2}>
@@ -376,9 +364,7 @@ export function DescripcionDelHechoExtended({
             defaultValue={tiposDeSiniestros[0]}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <FormControl fullWidth size="small">
-                <InputLabel id="tipoDeSiniestroLabel">
-                  Tipo de siniestro
-                </InputLabel>
+                <InputLabel id="tipoDeSiniestroLabel">Tipo de siniestro</InputLabel>
                 <Select
                   {...fieldProps}
                   inputRef={ref}
@@ -482,16 +468,9 @@ export function FechaHoraLugarSiniestroBasic({ control }) {
                   label="dd/mm/yyyy"
                   value={date}
                   size="small"
-                  onChange={(value) =>
-                    onChange(format(value, "dd/MM/yyyy"), setDate(value))
-                  }
+                  onChange={(value) => onChange(format(value, "dd/MM/yyyy"), setDate(value))}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      fullWidth
-                      size="small"
-                      helperText="Fecha del hecho"
-                    /> //textfild
+                    <TextField {...params} fullWidth size="small" helperText="Fecha del hecho" /> //textfild
                   )}
                 /> //datepicker
               )}
@@ -512,9 +491,7 @@ export function FechaHoraLugarSiniestroBasic({ control }) {
                   inputFormat="HH:mm aa"
                   mask="__:__ _M"
                   value={hora}
-                  onChange={(value) =>
-                    onChange(format(value, "HH:mm aa"), setHora(value))
-                  }
+                  onChange={(value) => onChange(format(value, "HH:mm aa"), setHora(value))}
                   renderInput={(params) => (
                     <TextField
                       value={value}
@@ -595,16 +572,9 @@ export function FechaHoraSiniestroBasic({ control }) {
                   label="dd/mm/yyyy"
                   value={date}
                   size="small"
-                  onChange={(value) =>
-                    onChange(format(value, "dd/MM/yyyy"), setDate(value))
-                  }
+                  onChange={(value) => onChange(format(value, "dd/MM/yyyy"), setDate(value))}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      fullWidth
-                      size="small"
-                      helperText="Fecha del hecho"
-                    /> //textfild
+                    <TextField {...params} fullWidth size="small" helperText="Fecha del hecho" /> //textfild
                   )}
                 /> //datepicker
               )}
@@ -625,9 +595,7 @@ export function FechaHoraSiniestroBasic({ control }) {
                   inputFormat="HH:mm aa"
                   mask="__:__ _M"
                   value={hora}
-                  onChange={(value) =>
-                    onChange(format(value, "HH:mm aa"), setHora(value))
-                  }
+                  onChange={(value) => onChange(format(value, "HH:mm aa"), setHora(value))}
                   renderInput={(params) => (
                     <TextField
                       value={value}
@@ -678,9 +646,7 @@ export function ObservacionesFinalesBasic({ control }) {
             defaultValue={"No"}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <FormControl fullWidth size="small">
-                <InputLabel id="siniestroDudosoLabel">
-                  ¿ Es un siniestro dudoso ?
-                </InputLabel>
+                <InputLabel id="siniestroDudosoLabel">¿ Es un siniestro dudoso ?</InputLabel>
                 <Select
                   {...fieldProps}
                   inputRef={ref}
@@ -732,9 +698,7 @@ export function ObservacionesFinalesExtended({ control }) {
             defaultValue={"No"}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <FormControl fullWidth size="small">
-                <InputLabel id="siniestroDudosoLabel">
-                  ¿ Es un siniestro dudoso ?
-                </InputLabel>
+                <InputLabel id="siniestroDudosoLabel">¿ Es un siniestro dudoso ?</InputLabel>
                 <Select
                   {...fieldProps}
                   inputRef={ref}
@@ -757,9 +721,7 @@ export function ObservacionesFinalesExtended({ control }) {
             defaultValue={"No"}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <FormControl fullWidth size="small">
-                <InputLabel id="siniestroMultipleLabel">
-                  ¿ Es un siniestro Multiple ?
-                </InputLabel>
+                <InputLabel id="siniestroMultipleLabel">¿ Es un siniestro Multiple ?</InputLabel>
                 <Select
                   {...fieldProps}
                   inputRef={ref}
@@ -818,16 +780,9 @@ export function DatosLaboralesBasic({ control }) {
                   label="dd/mm/yyyy"
                   value={date}
                   size="small"
-                  onChange={(value) =>
-                    onChange(format(value, "dd/MM/yyyy"), setDate(value))
-                  }
+                  onChange={(value) => onChange(format(value, "dd/MM/yyyy"), setDate(value))}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      fullWidth
-                      size="small"
-                      helperText="Fecha de desvinculacion"
-                    /> //textfild
+                    <TextField {...params} fullWidth size="small" helperText="Fecha de desvinculacion" /> //textfild
                   )}
                 /> //datepicker
               )}
@@ -878,9 +833,7 @@ export function DatosLaboralesBasic({ control }) {
             defaultValue={"No"}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <FormControl fullWidth size="small">
-                <InputLabel id="finalizacionDeObraLabel">
-                  ¿ Es por finalización de obra ?
-                </InputLabel>
+                <InputLabel id="finalizacionDeObraLabel">¿ Es por finalización de obra ?</InputLabel>
                 <Select
                   {...fieldProps}
                   inputRef={ref}

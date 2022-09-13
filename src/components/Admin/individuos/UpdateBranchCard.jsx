@@ -8,13 +8,13 @@ import UpdateVerificaciones from "./UpdateBranchCard/UpdateVerificaciones";
 import UpdateBranchTabs from "./UpdateBranchTabs";
 
 export default function UpdateBranchCard({ branch }) {
-  const [propiedadAmodificar, setPropiedadAmodificar] = useState(0);
-  const propiedades = {
-    actualizarVerificaciones: 0,
-    actualizarEventos: 1,
-    actualizarTutoria: 2,
-  };
+  const [propiedadAmodificar, setPropiedadAmodificar] = useState(1); //modificar a 0 antes de pasar a DEV
 
+  const tabArray = [
+    { id: "AdminVerificaciones", label: "Administrar verificaciones", position: 0 },
+    { id: "AdminEventos", label: "Administrar Eventos", position: 1 },
+    { id: "AdminTutoria", label: "Administrar tutoria", position: 2 },
+  ];
   const handleChangePropiedadAmodificar = (newIndex) => {
     setPropiedadAmodificar(newIndex);
   };
@@ -22,19 +22,17 @@ export default function UpdateBranchCard({ branch }) {
   return (
     <Stack spacing={2} maxWidth={"xl"}>
       <Stack direction={"row"} alignItems="center" spacing={2}>
-        <Typography variant="h4">
-          Actualizando el ramo {branch.titulo_Ramo}
-        </Typography>
+        <Typography variant="h4">Actualizando el ramo {branch.titulo_Ramo}</Typography>
         <FeedIcon fontSize="large" />
       </Stack>
       <Divider />
-
       <UpdateBranchTabs
         handleChangePropiedadAmodificar={handleChangePropiedadAmodificar}
-        defaultValue={propiedades.actualizarVerificaciones}
+        defaultValue={tabArray[1].position} //modificar a 0 antes de pasar a DEV
+        tabArray={tabArray}
       />
 
-      {propiedadAmodificar === propiedades.actualizarVerificaciones ? (
+      {propiedadAmodificar === tabArray[0].position ? (
         <>
           <UpdateVerificaciones
             verificaciones={branch.verificaciones}
@@ -47,8 +45,8 @@ export default function UpdateBranchCard({ branch }) {
             title="Administrar Verificaciones Extras"
           />
         </>
-      ) : propiedadAmodificar === propiedades.actualizarEventos ? (
-        <UpdateEventos />
+      ) : propiedadAmodificar === tabArray[1].position ? (
+        <UpdateEventos eventos={branch.eventos} />
       ) : (
         <UpdateTutorias />
       )}

@@ -25,6 +25,7 @@ import { ColorsPalette } from "../../config/ColorsPalette";
 import Tutoria from "./Tutorias/Tutoria";
 import { useRef } from "react";
 import { format, parseISO } from "date-fns";
+import AlertUpdate from "../AlertUpdate";
 
 export default function BranchCard({ branch }) {
   const theme = useTheme();
@@ -38,18 +39,13 @@ export default function BranchCard({ branch }) {
         }}
       >
         <CardContent>
-          <Stack
-            display={"flex"}
-            direction={"row"}
-            alignItems="center"
-            justifyContent={"space-between"}
-          >
+          <Stack display={"flex"} direction={"row"} alignItems="center" justifyContent={"space-between"}>
             <Typography variant="h3" component="div">
               {branch.titulo_Ramo}
             </Typography>
           </Stack>
           <Divider />
-          <Alert sx={{ marginTop: 2 }} variant="outlined" severity="error">
+          <Alert sx={{ marginTop: 2 }} variant="outlined" severity="warning">
             <AlertTitle>Verificaciones Criticas!</AlertTitle>
             <List dense>
               {branch.verificaciones.verificaciones_Criticas.length > 0 ? (
@@ -63,11 +59,7 @@ export default function BranchCard({ branch }) {
                         </Typography>
                       }
                       secondary={
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
+                        <Typography component="span" variant="body2" color="text.primary">
                           {data.descripcion}
                         </Typography>
                       }
@@ -86,11 +78,7 @@ export default function BranchCard({ branch }) {
                 : { backgroundColor: ColorsPalette.bg_light.dark }
             }
           >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
               <Typography variant="h4">Información extra</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -106,11 +94,7 @@ export default function BranchCard({ branch }) {
                           </Typography>
                         }
                         secondary={
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
+                          <Typography component="span" variant="body2" color="text.primary">
                             {data.descripcion}
                           </Typography>
                         }
@@ -129,7 +113,6 @@ export default function BranchCard({ branch }) {
             size="small"
             onClick={() =>
               siniestrosRef.current.scrollIntoView({
-                block: "end",
                 behavior: "smooth",
               })
             }
@@ -170,25 +153,13 @@ export default function BranchCard({ branch }) {
       </Card>
     );
   }
-  const updateText = `Ultima actualizacion :  ${format(
-    parseISO(branch.updatedAt),
-    "MM/dd/yyyy"
-  )} por ${branch.modificado_por}`;
-  return (
-    <Stack
-      spacing={4}
-      mt={{ xs: 2, sm: 0 }}
-      alignItems={{ xs: "center", sm: "flex-start" }}
-    >
-      <Alert
-        severity="info"
-        variant="outlined"
-        color="info"
-        sx={{ paddingY: 0 }}
-      >
-        {updateText}
-      </Alert>
+  const updateText = `Ultima actualizacion :  ${format(parseISO(branch.updatedAt), "MM/dd/yyyy")} por ${
+    branch.modificado_por
+  }`;
 
+  return (
+    <Stack spacing={4} mt={{ xs: 2, sm: 0 }} alignItems={{ xs: "center", sm: "flex-start" }}>
+      <AlertUpdate text={updateText} severity="info" color="warning" />
       <Stack spacing={4} sx={{ width: { xs: 315, sm: "100%" } }}>
         <Box>
           <MainInfo />
@@ -198,10 +169,7 @@ export default function BranchCard({ branch }) {
           <Documentation />
         </Box>
         <Box ref={siniestrosRef}>
-          <Tutoria
-            formularios={branch.formularios}
-            tituloTutoria={branch.titulo_Ramo}
-          />
+          <Tutoria formularios={branch.formularios} tituloTutoria={branch.titulo_Ramo} />
         </Box>
       </Stack>
     </Stack>

@@ -34,17 +34,14 @@ export default function TipificationTable({ tipificaciones }) {
         <TableBody>
           {tipificaciones &&
             tipificaciones.map((row, index) => (
-              <TableRow
-                key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
+              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                 <TableCell component="th" scope="row">
                   {row.evento}
                 </TableCell>
-                <TableCell align="right">{row.core}</TableCell>
-                <TableCell align="right">{row.accion}</TableCell>
-                <TableCell align="right">{row.resultado_de_gestion}</TableCell>
-                <TableCell align="right">{row.tipo_de_resultado}</TableCell>
+                <TableCell align="right">{row.core ? row.core : "sin info"}</TableCell>
+                <TableCell align="right">{row.accion ? row.accion : "sin info"}</TableCell>
+                <TableCell align="right">{row.resultado_de_gestion ? row.resultado_de_gestion : "sin info"}</TableCell>
+                <TableCell align="right">{row.tipo_de_resultado ? row.tipo_de_resultado : "sin info"}</TableCell>
               </TableRow>
             ))}
         </TableBody>

@@ -3,7 +3,7 @@ import React from "react";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
-import ModuleCard from "../../../../components/ModuleCard";
+import ModuleCard from "../../../components/ModuleCard";
 import BuildIcon from "@mui/icons-material/Build";
 
 const modules = [
@@ -36,25 +36,11 @@ export default function AdminIndividuos() {
       <Typography variant="h3">
         Administración de Individuos <BuildIcon fontSize="large" />
       </Typography>
-      <Typography veriant="subtitle1">
-        Bienvenido al modulo de administración de la sección Individuos
-      </Typography>
-      <Grid
-        container
-        direction="row"
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Typography veriant="subtitle1">Bienvenido al modulo de administración de la sección Individuos</Typography>
+      <Grid container direction="row" spacing={2} justifyContent="center" alignItems="center">
         {modules.map((mod) => (
           <Grid key={mod.title} m={1} disabled>
-            <ModuleCard
-              icon={mod.icon}
-              title={mod.title}
-              text={mod.text}
-              to={mod.href}
-              disabled={mod.disabled}
-            />
+            <ModuleCard icon={mod.icon} title={mod.title} text={mod.text} to={mod.href} disabled={mod.disabled} />
           </Grid>
         ))}
       </Grid>
