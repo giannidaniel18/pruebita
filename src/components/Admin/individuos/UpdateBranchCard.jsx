@@ -20,7 +20,7 @@ export default function UpdateBranchCard({ branch }) {
   };
 
   return (
-    <Stack spacing={2} maxWidth={"xl"}>
+    <Stack spacing={2}>
       <Stack direction={"row"} alignItems="center" spacing={2}>
         <Typography variant="h4">Actualizando el ramo {branch.titulo_Ramo}</Typography>
         <FeedIcon fontSize="large" />

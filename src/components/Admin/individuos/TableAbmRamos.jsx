@@ -188,7 +188,7 @@ export default function TableAbmRamos({ branches }) {
   return (
     <Box
       sx={{
-        width: { xs: "310px", sm: "100%" },
+        width: "100%",
         marginTop: { xs: "50px", sm: "10px" },
       }}
     >

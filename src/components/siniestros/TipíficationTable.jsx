@@ -8,9 +8,20 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useTheme } from "@emotion/react";
 import { ColorsPalette } from "../../config/ColorsPalette";
+import { IconButton, Stack } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
-export default function TipificationTable({ tipificaciones }) {
+export default function TipificationTable({ tipificaciones, updateMode = false }) {
   const theme = useTheme();
+
+  const HEADERS = [
+    { id: "event", titulo: "Situación", cabecera: true },
+    { id: "core", titulo: "Core" },
+    { id: "accion", titulo: "Accion" },
+    { id: "resgesdesc", titulo: "Resultado de gestión" },
+    { id: "tipgesdesc", titulo: "Tipo de resultado" },
+  ];
 
   return (
     <TableContainer
@@ -21,27 +32,53 @@ export default function TipificationTable({ tipificaciones }) {
           : { backgroundColor: ColorsPalette.bg_light.dark }
       }
     >
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
+      <Table sx={{ minWidth: 650 }} size="small">
+        <TableHead
+          sx={
+            theme.palette.mode === "dark"
+              ? { backgroundColor: ColorsPalette.bg_dark.dark }
+              : { backgroundColor: ColorsPalette.bg_light.DeepDark }
+          }
+        >
           <TableRow>
-            <TableCell>Evento</TableCell>
-            <TableCell align="right">Core</TableCell>
-            <TableCell align="right">Acción</TableCell>
-            <TableCell align="right">Resultado de gestión</TableCell>
-            <TableCell align="right">Tipo de resultado</TableCell>
+            {HEADERS.map((header) => (
+              <TableCell key={header.id} align={!header.cabecera ? "right" : "left"}>
+                {header.titulo}
+              </TableCell>
+            ))}
+
+            {updateMode && (
+              <>
+                <TableCell align="center">Actualizar</TableCell>
+                <TableCell align="center">Eliminar</TableCell>
+              </>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
           {tipificaciones &&
             tipificaciones.map((row, index) => (
               <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell component="th" scope="row">
-                  {row.evento}
-                </TableCell>
+                <TableCell component="th">{row.evento}</TableCell>
                 <TableCell align="right">{row.core ? row.core : "sin info"}</TableCell>
                 <TableCell align="right">{row.accion ? row.accion : "sin info"}</TableCell>
                 <TableCell align="right">{row.resultado_de_gestion ? row.resultado_de_gestion : "sin info"}</TableCell>
                 <TableCell align="right">{row.tipo_de_resultado ? row.tipo_de_resultado : "sin info"}</TableCell>
+
+                {updateMode && (
+                  <>
+                    <TableCell align="center">
+                      <IconButton size="small" id={row._id}>
+                        <ModeEditIcon fontSize="small" />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="center">
+                      <IconButton size="small" id={row._id}>
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </TableCell>
+                  </>
+                )}
               </TableRow>
             ))}
         </TableBody>

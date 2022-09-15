@@ -16,18 +16,10 @@ export default function AbmRamosGeneralContainer() {
     resetField("titulo_ramo");
   };
 
-  console.log(branches);
-
   return (
     <Stack spacing={5}>
       <TableAbmRamos branches={branches} />
-      <Stack
-        spacing={1}
-        sx={{
-          width: { xs: "310px", sm: "100%" },
-          marginTop: { xs: "50px", sm: "10px" },
-        }}
-      >
+      <Stack spacing={1}>
         <Typography variant="h6"> Agrega un nuevo ramo</Typography>
         <Paper
           sx={

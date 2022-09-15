@@ -9,8 +9,8 @@ import { useTheme } from "@emotion/react";
 import { Card, CardContent, List, ListItemText, Stack, Typography } from "@mui/material";
 import TipificationTable from "./TipíficationTable";
 
-export default function DocumentationTab({ doc }) {
-  const [value, setValue] = React.useState(doc[0].siniestro);
+export default function DocumentationTab({ eventos }) {
+  const [value, setValue] = React.useState(eventos[0].siniestro);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -18,11 +18,12 @@ export default function DocumentationTab({ doc }) {
 
   const DocumentationCard = ({ subtipo }) => {
     const theme = useTheme();
+
     return (
       <Stack spacing={2}>
-        {subtipo.map((data, index) => (
+        {subtipo.map((data) => (
           <Card
-            key={index}
+            key={data._id}
             sx={
               theme.palette.mode === "dark"
                 ? { border: 0.5, borderColor: "#1B2430" }
@@ -49,11 +50,11 @@ export default function DocumentationTab({ doc }) {
               </Box>
               <List>
                 {data &&
-                  data.documentacion.map((doc, index) => (
-                    <ListItemText key={index}>
+                  data.documentacion.map((doc) => (
+                    <ListItemText key={doc._id}>
                       <Box display="flex" spacing={2}>
                         <NoiseControlOffIcon color="primary" fontSize="xs" />
-                        <Typography>{doc}</Typography>
+                        <Typography>{doc.titulo}</Typography>
                       </Box>
                     </ListItemText>
                   ))}
@@ -71,13 +72,14 @@ export default function DocumentationTab({ doc }) {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList variant="scrollable" onChange={handleChange}>
-            {doc && doc.map((data, index) => <Tab key={index} label={data.siniestro} value={data.siniestro} />)}
+            {eventos &&
+              eventos.map((evento) => <Tab key={evento._id} label={evento.siniestro} value={evento.siniestro} />)}
           </TabList>
         </Box>
-        {doc &&
-          doc.map((data, index) => (
-            <TabPanel key={index} value={data.siniestro}>
-              <DocumentationCard subtipo={data.subtipos_Siniestro} />
+        {eventos &&
+          eventos.map((evento) => (
+            <TabPanel key={evento._id} value={evento.siniestro}>
+              <DocumentationCard subtipo={evento.subtipos_Siniestro} />
             </TabPanel>
           ))}
       </TabContext>

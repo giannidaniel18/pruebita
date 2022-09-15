@@ -10,8 +10,15 @@ export const branch = [
           {
             descripcion: "incendio edificio",
             documentacion: [
-              "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
-              "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              {
+                _id: "00001",
+                titulo:
+                  "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
+              },
+              {
+                _id: "00002",
+                titulo: "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -43,8 +50,15 @@ export const branch = [
           {
             descripcion: "incendio de contenido",
             documentacion: [
-              "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
-              "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              {
+                _id: "00030",
+                titulo:
+                  "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
+              },
+              {
+                _id: "00031",
+                titulo: "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -82,10 +96,22 @@ export const branch = [
           {
             descripcion: "Daño por agua al contenido",
             documentacion: [
-              "Denuncia de siniestro (Formulario administrativo)",
-              "Fotos del daño",
-              " Presupuesto membretado con informe técnico con motivo del daño",
-              "Estimación del daño",
+              {
+                _id: "00004",
+                titulo: "Denuncia de siniestro (Formulario administrativo)",
+              },
+              {
+                _id: "00005",
+                titulo: "Fotos del daño",
+              },
+              {
+                _id: "00006",
+                titulo: "Presupuesto membretado con informe técnico con motivo del daño",
+              },
+              {
+                _id: "00003",
+                titulo: "Estimación del daño",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -123,11 +149,23 @@ export const branch = [
           {
             descripcion: "Robo",
             documentacion: [
-              " Copia de Denuncia policial",
-              "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
-              "Fotos originales de daño",
-              "Presupuesto del daño",
-              "Estimación del daño",
+              {
+                _id: "00007",
+                titulo: "Copia de Denuncia policial",
+              },
+              {
+                _id: "00008",
+                titulo:
+                  "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
+              },
+              {
+                _id: "00009",
+                titulo: "Fotos originales de daño",
+              },
+              {
+                _id: "00010",
+                titulo: "Estimación del daño",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -161,11 +199,23 @@ export const branch = [
           {
             descripcion: " Daños por robo ",
             documentacion: [
-              " Copia de Denuncia policial",
-              "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
-              "Fotos originales de daño",
-              "Presupuesto del daño",
-              "Estimación del daño",
+              {
+                _id: "00050",
+                titulo: "Copia de Denuncia policial",
+              },
+              {
+                _id: "00051",
+                titulo:
+                  "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
+              },
+              {
+                _id: "00052",
+                titulo: "Fotos originales de daño",
+              },
+              {
+                _id: "00053",
+                titulo: "Estimación del daño",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -282,8 +332,23 @@ export const branch = [
           {
             descripcion: "incendio edificio",
             documentacion: [
-              "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
-              "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              {
+                _id: "00011",
+                titulo:
+                  "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
+              },
+              {
+                _id: "00012",
+                titulo: "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              },
+              {
+                _id: "00013",
+                titulo: "Fotos originales de daño ddd",
+              },
+              {
+                _id: "00014",
+                titulo: "Estimación del daño",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -315,8 +380,23 @@ export const branch = [
           {
             descripcion: "incendio de contenido",
             documentacion: [
-              "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
-              "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              {
+                _id: "00018",
+                titulo: "Estimación del daño",
+              },
+              {
+                _id: "00015",
+                titulo:
+                  "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
+              },
+              {
+                _id: "00016",
+                titulo: "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              },
+              {
+                _id: "00017",
+                titulo: "Fotos originales de daño ddd",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -354,10 +434,18 @@ export const branch = [
           {
             descripcion: "Daño por agua al contenido",
             documentacion: [
-              "Denuncia de siniestro (Formulario administrativo)",
-              "Fotos del daño",
-              " Presupuesto membretado con informe técnico con motivo del daño",
-              "Estimación del daño",
+              {
+                _id: "00019",
+                titulo: "Denuncia de siniestro (Formulario administrativo)",
+              },
+              {
+                _id: "00020",
+                titulo: "Fotos del daño",
+              },
+              {
+                _id: "00021",
+                titulo: " Presupuesto membretado con informe técnico con motivo del daño",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -393,13 +481,30 @@ export const branch = [
         siniestro: "Robo",
         subtipos_Siniestro: [
           {
+            _id: "630d068260a300354499b987",
             descripcion: "Robo",
             documentacion: [
-              " Copia de Denuncia policial",
-              "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
-              "Fotos originales de daño",
-              "Presupuesto del daño",
-              "Estimación del daño",
+              {
+                _id: "00029",
+                titulo: " Copia de Denuncia policial",
+              },
+              {
+                _id: "00024",
+                titulo:
+                  "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
+              },
+              {
+                _id: "00025",
+                titulo: "Fotos originales de daño",
+              },
+              {
+                _id: "00026",
+                titulo: "Presupuesto del daño",
+              },
+              {
+                _id: "00027",
+                titulo: "Estimación del daño",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -426,18 +531,22 @@ export const branch = [
               },
             ],
 
-            _id: "630d068260a300354499b987",
             updatedAt: "2022-08-29T18:33:38.435Z",
             createdAt: "2022-08-29T18:33:38.435Z",
           },
           {
-            descripcion: " Daños por robo ",
+            _id: "630d068260a300354499bdddddddsssss",
+            descripcion: "Daños por robo",
             documentacion: [
-              " Copia de Denuncia policial",
-              "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
-              "Fotos originales de daño",
-              "Presupuesto del daño",
-              "Estimación del daño",
+              {
+                _id: "00040",
+                titulo: " Copia de Denuncia policial",
+              },
+              {
+                _id: "00041",
+                titulo:
+                  "Documentación que demuestre preexistencia (manual de uso, factura, garantía, foto JPG/JPEGs, etc.)",
+              },
             ],
             plantilla: "",
             tipificacion: [
@@ -460,7 +569,6 @@ export const branch = [
               },
             ],
 
-            _id: "630d068260a300354499b987",
             updatedAt: "2022-08-29T18:33:38.435Z",
             createdAt: "2022-08-29T18:33:38.435Z",
           },

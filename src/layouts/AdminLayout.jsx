@@ -1,5 +1,18 @@
 import { useState } from "react";
-import { AppBar, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { Link as ReactLink, Outlet } from "react-router-dom";
@@ -31,7 +44,12 @@ function AdminLayout(props) {
       <List>
         {modulos.map((modulo, index) => (
           <ListItem key={modulo.text} disablePadding>
-            <ListItemButton component={ReactLink} to={`${modulo.path}`} selected={selectedOption === index} onClick={(e) => handleSelectedOption(e, index)}>
+            <ListItemButton
+              component={ReactLink}
+              to={`${modulo.path}`}
+              selected={selectedOption === index}
+              onClick={(e) => handleSelectedOption(e, index)}
+            >
               <ListItemText value={modulo.text} primary={modulo.text} />
             </ListItemButton>
           </ListItem>
@@ -55,7 +73,13 @@ function AdminLayout(props) {
         }}
       >
         <Toolbar>
-          <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
@@ -98,11 +122,12 @@ function AdminLayout(props) {
         </Drawer>
       </Box>
       <Box
+        id="layoutContainer"
         sx={{
           flexGrow: 1,
           px: { xs: 2, sm: 3 },
           py: { xs: 6, sm: 3 },
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { xs: "310px", sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <Outlet />

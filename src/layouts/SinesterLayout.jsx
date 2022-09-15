@@ -24,12 +24,6 @@ export default function SinesterLayout() {
   const { branches } = useBranchContext();
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  // const [ramos, setRamos] = useState(branches);
-  // const { window } = props;
-
-  // useEffect(() => {
-  //   setRamos(branches.filter((ramoActivo) => ramoActivo.estado));
-  // }, [branches]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

@@ -4,15 +4,14 @@ import { useParams } from "react-router-dom";
 import { useBranchContext } from "../../../context/BranchContext";
 
 export default function AbmRamoSeleccionadoContainer() {
-  const { currentBranch, setUpCurrentBranch, branches } = useBranchContext();
+  const { currentBranch, setUpCurrentBranch } = useBranchContext();
   const [loading, setLoading] = useState(true);
   const { selectedbranch } = useParams();
 
   useEffect(() => {
-    const newbranch = branches.find((ramo) => ramo._id === selectedbranch);
-    setUpCurrentBranch(newbranch);
+    setUpCurrentBranch(selectedbranch);
     setLoading(false);
-  }, [selectedbranch, branches, setUpCurrentBranch]);
+  }, [currentBranch, selectedbranch, setUpCurrentBranch]);
 
   return loading ? <div>cargando...</div> : <UpdateBranchCard branch={currentBranch} />;
 }

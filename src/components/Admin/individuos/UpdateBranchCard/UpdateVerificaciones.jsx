@@ -55,7 +55,7 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
                 + Verificación
               </Typography>
               <Grid container alignItems="center" textAlign="end" spacing={2}>
-                <Grid item xs={12} sm={5}>
+                <Grid item xs={12} md={5}>
                   <TextImputControlSmall
                     control={control}
                     name={"titulo_Verificacion_" + tipoVerificacion}
@@ -63,7 +63,7 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
                     multiline={true}
                   />
                 </Grid>
-                <Grid item xs={12} sm={5}>
+                <Grid item xs={12} md={5}>
                   <TextImputControlSmall
                     control={control}
                     name={"descripcion_Verificacion_" + tipoVerificacion}
@@ -71,7 +71,7 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
                     multiline={true}
                   />
                 </Grid>
-                <Grid item xs={12} sm={2}>
+                <Grid item xs={12} md={2}>
                   <Button variant="outlined" type="submit">
                     Agregar +
                   </Button>
@@ -120,11 +120,7 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
           : { backgroundColor: ColorsPalette.bg_light.dark }
       }
     >
-      <TableContainer
-        sx={{
-          width: { xs: "310px", sm: "100%" },
-        }}
-      >
+      <TableContainer>
         <Table aria-label="simple table" size="small">
           <TableHead
             sx={

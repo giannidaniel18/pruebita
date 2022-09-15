@@ -1,5 +1,5 @@
 export const defaultBranch = {
-  _id: new Date(),
+  _id: "",
   titulo_Ramo: "",
   estado: false,
   formularios: [],
@@ -16,7 +16,7 @@ export const defaultBranch = {
 export const defaultVerificacion_Critica = {
   titulo: "",
   descripcion: "",
-  _id: new Date(),
+  _id: new Date().valueOf(),
   createdAt: "2022-08-29T19:31:37.954Z",
   updatedAt: "2022-08-29T19:31:37.954Z",
 };
@@ -27,7 +27,27 @@ export const defaultVerificacion_Extra = {
   createdAt: "2022-08-29T19:31:37.954Z",
   updatedAt: "2022-08-29T19:31:37.954Z",
 };
-
+export const defaultEvento = {
+  _id: new Date().valueOf(),
+  siniestro: "",
+  subtipos_Siniestro: [],
+};
+export const subtipos_Siniestro = {
+  _id: new Date().valueOf(),
+  descripcion: "",
+  documentacion: [],
+  plantilla: "",
+  tipificacion: [],
+};
+export const defaultDocumento = { _id: new Date().valueOf(), titulo: "" };
+export const defaultTipificacion = {
+  _id: "",
+  evento: "",
+  core: "",
+  accion: "",
+  tipo_de_resultado: "",
+  resultado_de_gestion: "",
+};
 export const welcomePagesData = [
   {
     id: "individuosSiniestros",

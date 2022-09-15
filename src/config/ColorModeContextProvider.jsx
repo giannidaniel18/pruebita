@@ -1,9 +1,5 @@
-import * as React from "react";
-import {
-  ThemeProvider,
-  createTheme,
-  responsiveFontSizes,
-} from "@mui/material/styles";
+import React from "react";
+import { ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { ColorsPalette } from "./ColorsPalette";
 import { grey } from "@mui/material/colors";

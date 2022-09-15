@@ -136,7 +136,7 @@ export default function BranchCard({ branch }) {
         <CardActions>
           {/* si el array de documentacion esta vacio renderizo un texto con "falta de informacion" */}
           {branch.eventos.length > 0 ? (
-            <DocumentationTab doc={branch.eventos} />
+            <DocumentationTab eventos={branch.eventos} />
           ) : (
             <Card
               id="Eventocard"

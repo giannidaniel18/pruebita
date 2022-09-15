@@ -9,7 +9,6 @@ export default function UpdateBranchTabs({ handleChangePropiedadAmodificar, defa
     console.log(event);
   };
 
-  console.log(tabArray);
   return (
     <Box>
       <Tabs value={value} onChange={handleChange} variant="fullWidth">

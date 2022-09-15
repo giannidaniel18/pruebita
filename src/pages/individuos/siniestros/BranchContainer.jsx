@@ -4,15 +4,14 @@ import BranchCard from "../../../components/siniestros/BranchCard";
 import { useBranchContext } from "../../../context/BranchContext";
 
 export default function BranchContainer() {
-  const { currentBranch, setUpCurrentBranch, branches } = useBranchContext();
+  const { currentBranch, setUpCurrentBranch } = useBranchContext();
   const [loading, setLoading] = useState(true);
   const { selectedbranch } = useParams();
-
+  console.log(currentBranch);
   useEffect(() => {
-    const newbranch = branches.find((ramo) => ramo._id === selectedbranch);
-    setUpCurrentBranch(newbranch);
+    setUpCurrentBranch(selectedbranch);
     setLoading(false);
-  }, [selectedbranch, branches, setUpCurrentBranch]);
+  }, [selectedbranch, setUpCurrentBranch, currentBranch]);
 
   return !loading ? <BranchCard branch={currentBranch} /> : <div>cargando...</div>;
 }
