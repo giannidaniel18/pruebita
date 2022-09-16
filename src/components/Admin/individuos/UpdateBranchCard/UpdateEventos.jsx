@@ -29,37 +29,70 @@ import { useBranchContext } from "../../../../context/BranchContext";
 import { useForm } from "react-hook-form";
 
 export default function UpdateEventos({ eventos }) {
-  const { addEventoToBranch, deleteEventoFromBranch } = useBranchContext();
+  const {
+    addEventoToBranch,
+    deleteEventoFromBranch,
+    updateEventoFromBranch,
+    addSubtipo_siniestro,
+    deleteSubtipo_siniestroFromBranch,
+    updateSubtipo_siniestroFromBranch,
+    addTipificacionToBranch,
+  } = useBranchContext();
   const [evento, setEvento] = useState(null);
   const { control, handleSubmit, resetField } = useForm();
-  const [updateMode, setUpdateMode] = useState(false);
-  const [dataToUpdate, setDataToUpdate] = useState([]);
+  const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState([]);
+  console.log(drawerDataToHandle);
 
+  const onToggleDrawerVisibleMode = () => {
+    setDrawerVisibleMode(!drawerVisibleMode);
+  };
   const renderData = (id) => {
-    setEvento(eventos.find((ev) => ev._id === id));
+    id === evento?._id ? setEvento(null) : setEvento(eventos.find((ev) => ev._id === id));
   };
 
-  const onSubmit = (data) => {
+  const onSettingDrawerDataToHandle = (dataArray) => {
+    setDrawerDataToHandle(dataArray);
+  };
+
+  // handling Eventos
+  const onSubmitEvento = (data) => {
     resetField("tituloEvento");
     addEventoToBranch(data);
   };
-
-  const onDelete = (id) => {
+  const onDeleteEvento = (id) => {
     deleteEventoFromBranch(id);
   };
-  const onSettingDataToUpdate = (dataObject) => {
-    setDataToUpdate([dataObject]);
-  };
-
-  const onToggleUpdateMode = () => {
-    setUpdateMode(!updateMode);
-  };
-
   const onUpdateEvento = (newData) => {
-    const updatedData = dataToUpdate;
-    updatedData.oldValue = newData.evento;
-    console.log(newData.evento);
+    updateEventoFromBranch(drawerDataToHandle[0].id, newData.evento);
+    setDrawerDataToHandle([]);
   };
+
+  //Handling Subtipos
+  const onSubmitSubtipo = (data) => {
+    addSubtipo_siniestro(data, evento._id);
+  };
+  const onDeleteSubtipo = (idSubtipo) => {
+    deleteSubtipo_siniestroFromBranch(idSubtipo, evento._id);
+  };
+  const onUpdateSubtipo = (data) => {
+    updateSubtipo_siniestroFromBranch(drawerDataToHandle[0].id, data.subtipo, evento._id);
+    setDrawerDataToHandle([]);
+  };
+
+  //Handling Tipificaciones
+
+  const onSubmitTipificacion = (data) => {
+    addTipificacionToBranch(data, drawerDataToHandle[0].currentSubtipoId, evento._id);
+  };
+  const onDeleteTipificacion = (data) => {};
+  const onUpdateTipificacion = (data) => {};
+  const tipificacionMethods = {
+    onSubmitTipificacion: onSubmitTipificacion,
+    onDeleteTipificacion: onDeleteTipificacion,
+    onUpdateTipificacion: onUpdateTipificacion,
+  };
+  //Handling Documentacion
 
   return (
     <Stack spacing={2} textAlign={{ xs: "center", md: "left" }}>
@@ -75,12 +108,12 @@ export default function UpdateEventos({ eventos }) {
           eventos={eventos}
           renderData={renderData}
           selectedID={evento?._id}
-          onDelete={onDelete}
-          onSettingDataToUpdate={onSettingDataToUpdate}
-          onToggleUpdateMode={onToggleUpdateMode}
+          onDeleteEvento={onDeleteEvento}
+          onSettingDrawerDataToHandle={onSettingDrawerDataToHandle}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
         />
       </Stack>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmitEvento)}>
         <Grid container alignItems="center" textAlign="end" spacing={2}>
           <Grid item xs={12} md={8}>
             <TextImputControlSmall control={control} name="tituloEvento" label="Evento a agregar" />
@@ -94,22 +127,39 @@ export default function UpdateEventos({ eventos }) {
       </form>
       <Stack>
         {evento ? (
-          <EventosAccordion evento={evento} />
+          <EventosAccordion
+            evento={evento}
+            onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+            onSettingDrawerDataToHandle={onSettingDrawerDataToHandle}
+            onSubmitSubtipo={onSubmitSubtipo}
+            onDeleteSubtipo={onDeleteSubtipo}
+            tipificacionMethods={tipificacionMethods}
+          />
         ) : (
           <Typography variant="h5"> Por favor selecciona un en la tabla superior</Typography>
         )}
       </Stack>
       <AdminDrawerEventos
-        updateMode={updateMode}
-        onToggleUpdateMode={onToggleUpdateMode}
-        dataToUpdate={dataToUpdate}
+        drawerVisibleMode={drawerVisibleMode}
+        onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+        drawerDataToHandle={drawerDataToHandle}
+        setDrawerDataToHandle={setDrawerDataToHandle}
         onUpdateEvento={onUpdateEvento}
+        onUpdateSubtipo={onUpdateSubtipo}
+        onSubmitTipificacion={onSubmitTipificacion}
       />
     </Stack>
   );
 }
 
-function EventosTable({ eventos, renderData, selectedID = "", onDelete, onSettingDataToUpdate, onToggleUpdateMode }) {
+function EventosTable({
+  eventos,
+  renderData,
+  selectedID = "",
+  onDeleteEvento,
+  onSettingDrawerDataToHandle,
+  onToggleDrawerVisibleMode,
+}) {
   const theme = useTheme();
   const handleRenderData = (e) => {
     renderData(e.currentTarget.id);
@@ -118,16 +168,19 @@ function EventosTable({ eventos, renderData, selectedID = "", onDelete, onSettin
   const HEADERS = [{ id: "event", titulo: "Eventos", cabecera: true }];
 
   const handleDelete = (e) => {
-    onDelete(e.currentTarget.id);
+    onDeleteEvento(e.currentTarget.id);
   };
   const handleTogleUpdateMode = (e) => {
-    onToggleUpdateMode();
-    onSettingDataToUpdate({
-      id: e.currentTarget.id,
-      oldValue: e.currentTarget.name,
-      label: "Evento",
-      type: "evento",
-    });
+    onToggleDrawerVisibleMode();
+    onSettingDrawerDataToHandle([
+      {
+        id: e.currentTarget.id,
+        valueToUpdate: e.currentTarget.name,
+        label: "Evento",
+        type: "evento",
+        method: "update",
+      },
+    ]);
   };
 
   return (
@@ -249,7 +302,84 @@ function DocumentacionTable({ documentacion }) {
   );
 }
 
-function EventosAccordion({ evento }) {
+function EventosAccordion({
+  evento,
+  onSubmitSubtipo,
+  onDeleteSubtipo,
+  onSettingDrawerDataToHandle,
+  onToggleDrawerVisibleMode,
+  tipificacionMethods,
+}) {
+  const { control, handleSubmit, resetField } = useForm();
+
+  const onSubmit = (data) => {
+    resetField("tituloSubtipo");
+    onSubmitSubtipo(data);
+  };
+  const handleDelete = (e) => {
+    onDeleteSubtipo(e.currentTarget.id);
+  };
+  const handleTogleUpdateMode = (e) => {
+    onToggleDrawerVisibleMode();
+    onSettingDrawerDataToHandle([
+      {
+        id: e.currentTarget.id,
+        valueToUpdate: e.currentTarget.name,
+        label: "Subtipo",
+        type: "subtipo",
+        method: "update",
+      },
+    ]);
+  };
+
+  const { onDeleteTipificacion, onUpdateTipificacion } = tipificacionMethods;
+
+  const onAddTipificacion = (e) => {
+    onToggleDrawerVisibleMode();
+    onSettingDrawerDataToHandle([
+      {
+        id: "situacion",
+        valueToUpdate: null,
+        label: "situation",
+        type: "tipificacion",
+        method: "Add",
+        currentSubtipoId: e.currentTarget.id,
+      },
+      {
+        id: "core",
+        valueToUpdate: null,
+        label: "Core",
+        type: "tipificacion",
+        method: "Add",
+        currentSubtipoId: e.currentTarget.id,
+      },
+      {
+        id: "accion",
+        valueToUpdate: null,
+        label: "Accion",
+        type: "tipificacion",
+        method: "Add",
+        currentSubtipoId: e.currentTarget.id,
+      },
+      {
+        id: "resgesdesc",
+        valueToUpdate: null,
+        label: "Resultado de gestion",
+        type: "tipificacion",
+        method: "Add",
+        currentSubtipoId: e.currentTarget.id,
+      },
+      {
+        id: "tipgesdesc",
+        valueToUpdate: null,
+        label: "Tipo de resultado",
+        type: "tipificacion",
+        method: "Add",
+        currentSubtipoId: e.currentTarget.id,
+      },
+    ]);
+  };
+
   return (
     <Stack spacing={4} boxShadow={5} p={2}>
       {evento.subtipos_Siniestro.length ? (
@@ -259,58 +389,93 @@ function EventosAccordion({ evento }) {
           No existen Subtipos para el evento: {evento?.siniestro}, creá uno nuevo aquí
         </Typography>
       )}
-
-      <Stack>
+      <Stack id="stackAccordion">
         {evento?.subtipos_Siniestro.map((subtipo) => (
-          <Accordion key={subtipo._id}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={subtipo.descripcion} id={subtipo._id}>
-              {subtipo.descripcion}
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack>
-                <Card>
-                  <DocumentacionTable documentacion={subtipo.documentacion} />
-                </Card>
-                <Button sx={{ width: "fit-content" }}>+ Documento</Button>
-              </Stack>
-              <Stack>
-                <Card>
-                  <TipificationTable tipificaciones={subtipo.tipificacion} updateMode={true} />
-                </Card>
-                <Button sx={{ width: "fit-content" }} alignself="flex-end">
-                  + Tipificacion
-                </Button>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
+          <Stack key={subtipo._id} direction={{ xs: "column-reverse", md: "row" }}>
+            <Accordion sx={{ width: { md: "100%" } }}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={subtipo.descripcion} id={subtipo._id}>
+                {subtipo.descripcion}
+              </AccordionSummary>
+              <AccordionDetails>
+                <Stack>
+                  <Card>
+                    <DocumentacionTable documentacion={subtipo.documentacion} />
+                  </Card>
+                  <Button sx={{ width: "fit-content" }}>+ Documento</Button>
+                </Stack>
+                <Stack>
+                  <Card>
+                    <TipificationTable tipificaciones={subtipo.tipificacion} drawerVisibleMode={true} />
+                  </Card>
+                  <Button
+                    sx={{ width: "fit-content" }}
+                    alignself="flex-end"
+                    id={subtipo._id}
+                    onClick={onAddTipificacion}
+                  >
+                    + Tipificacion
+                  </Button>
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+
+            <Stack direction={"row"} height="fit-content">
+              <IconButton size="small" id={subtipo._id} name={subtipo.descripcion} onClick={handleTogleUpdateMode}>
+                <ModeEditIcon fontSize="small" />
+              </IconButton>
+              <IconButton size="small" id={subtipo._id} onClick={handleDelete}>
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Stack>
+          </Stack>
         ))}
       </Stack>
-      <Button sx={{ width: "fit-content" }} variant="outlined">
-        + Nuevo subtipo de siniestro
-      </Button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container alignItems="center" textAlign="end" spacing={2}>
+          <Grid item xs={12} md={8}>
+            <TextImputControlSmall control={control} name="tituloSubtipo" label="Subtipo a agregar" />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Button variant="outlined" type="submit">
+              Subtipo +
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     </Stack>
   );
 }
 
-function AdminDrawerEventos({ updateMode, onToggleUpdateMode, dataToUpdate, onUpdateEvento }) {
+function AdminDrawerEventos({
+  drawerVisibleMode,
+  onToggleDrawerVisibleMode,
+  drawerDataToHandle,
+  setDrawerDataToHandle,
+  onUpdateEvento,
+  onUpdateSubtipo,
+  onSubmitTipificacion,
+}) {
   const { control, handleSubmit } = useForm();
   const CloseDrawer = () => {
-    onToggleUpdateMode();
+    onToggleDrawerVisibleMode();
+    setDrawerDataToHandle([]);
   };
 
   const onSubmit = (data) => {
-    switch (dataToUpdate[0].type) {
+    switch (drawerDataToHandle[0].type) {
       case "evento":
         onUpdateEvento(data);
         break;
       case "subtipo":
-        console.log("updating subtipo");
+        onUpdateSubtipo(data);
         break;
       case "documento":
         console.log("updating documento");
         break;
       case "tipificacion":
-        console.log("updating tipificacion");
+        drawerDataToHandle[0].method === "Add"
+          ? onSubmitTipificacion(data)
+          : console.log("Updateando tipificacion", data);
         break;
 
       default:
@@ -319,7 +484,7 @@ function AdminDrawerEventos({ updateMode, onToggleUpdateMode, dataToUpdate, onUp
   };
 
   return (
-    <Drawer anchor={"right"} open={updateMode}>
+    <Drawer anchor={"right"} open={drawerVisibleMode}>
       <Stack marginTop={10} width={{ xs: "300px", sm: "500px" }}>
         <Button sx={{ alignSelf: "flex-end" }} onClick={CloseDrawer}>
           X
@@ -328,21 +493,21 @@ function AdminDrawerEventos({ updateMode, onToggleUpdateMode, dataToUpdate, onUp
         <Stack p={{ xs: 1, sm: 4 }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container alignItems="center" textAlign="end" spacing={2}>
-              {dataToUpdate.map((data) => (
+              {drawerDataToHandle.map((data) => (
                 <Grid key={data.id} item xs={12}>
                   <TextImputControlSmall
                     control={control}
-                    name={data.type}
+                    name={data.method === "Add" ? data.id : data.type}
                     label={data.label}
-                    defaultValue={data.oldValue}
+                    defaultValue={data.valueToUpdate}
                     multiline={true}
                   />
                 </Grid>
               ))}
 
               <Grid item xs={12}>
-                <Button sx={{ alignSelf: "flex-end" }} variant="outlined" type="submit" onClick={CloseDrawer}>
-                  Actualizar
+                <Button sx={{ alignSelf: "flex-end" }} variant="outlined" type="submit">
+                  Enviar
                 </Button>
               </Grid>
             </Grid>

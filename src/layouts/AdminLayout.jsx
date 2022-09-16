@@ -127,7 +127,7 @@ function AdminLayout(props) {
           flexGrow: 1,
           px: { xs: 2, sm: 3 },
           py: { xs: 6, sm: 3 },
-          width: { xs: "310px", sm: `calc(100% - ${drawerWidth}px)` },
+          width: { xs: "100vw", sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <Outlet />

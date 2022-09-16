@@ -5,6 +5,7 @@ export const branch = [
     estado: true,
     eventos: [
       {
+        _id: "630d068260a300354499b986",
         siniestro: "Incendio",
         subtipos_Siniestro: [
           {
@@ -43,7 +44,7 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
-            _id: "630d1419ad9e40e3f0d66446",
+            _id: "630d1419ad9e40e3f0d66446xxxxxx",
             createdAt: "2022-08-29T19:31:37.953Z",
             updatedAt: "2022-08-29T19:31:37.953Z",
           },
@@ -83,12 +84,52 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
-            _id: "630d1419ad9e40e3f0d66111",
+            _id: "630d1419ad9e40e3f0d66111xxxx",
+            createdAt: "2022-08-29T19:31:37.953Z",
+            updatedAt: "2022-08-29T19:31:37.953Z",
+          },
+          {
+            _id: "630d1419ad9e40e3f0d6655551",
+            descripcion: "incendio de verga",
+            documentacion: [
+              {
+                _id: "00090",
+                titulo:
+                  "Si el cliente se comunica informando que se Incendio por Completo su casa: No hagámoslas consultas de la tutoría y No indiquemos documentación a presentar.",
+              },
+              {
+                _id: "00091",
+                titulo: "Al cliente debemos indicarle que lo va a estar llamando un Estudio liquidador para ayudarlo.",
+              },
+            ],
+            plantilla: "",
+            tipificacion: [
+              {
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                core: "VT1",
+                accion: "Siniestros",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d141911140e3f0d66333",
+                createdAt: "2022-08-29T19:31:37.952Z",
+                updatedAt: "2022-08-29T19:31:37.952Z",
+              },
+              {
+                evento: "Eventos que dejen el bien inhabitable por ejemplo: Incendio,terremoto, vendabal, etc",
+                core: "VT7",
+                accion: "SiniestrosVT7",
+                tipo_de_resultado: "Toma de denuncia",
+                resultado_de_gestion: "Incendio total",
+                _id: "630d141922240e3f0d66222",
+                createdAt: "2022-08-29T19:31:37.953Z",
+                updatedAt: "2022-08-29T19:31:37.953Z",
+              },
+            ],
+
             createdAt: "2022-08-29T19:31:37.953Z",
             updatedAt: "2022-08-29T19:31:37.953Z",
           },
         ],
-        _id: "630d068260a300354499b986",
       },
       {
         siniestro: "Daños por agua",

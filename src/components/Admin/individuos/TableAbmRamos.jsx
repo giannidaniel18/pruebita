@@ -33,7 +33,6 @@ function descendingComparator(a, b, orderBy) {
   }
   return 0;
 }
-
 function getComparator(order, orderBy) {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -42,6 +41,7 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
+  console.log(array);
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -52,6 +52,7 @@ function stableSort(array, comparator) {
   });
   return stabilizedThis.map((el) => el[0]);
 }
+
 const headCells = [
   {
     id: "titulo_Ramo",
@@ -94,7 +95,6 @@ function createData(_id, titulo_Ramo, fechaCreacion, fechaModificacion, editar, 
     estado,
   };
 }
-
 function EnhancedTableHead(props) {
   const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
@@ -124,13 +124,11 @@ function EnhancedTableHead(props) {
     </TableHead>
   );
 }
-
 EnhancedTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
 };
-
 const EnhancedTableToolbar = ({ table_title }) => {
   return (
     <Toolbar>
@@ -140,7 +138,6 @@ const EnhancedTableToolbar = ({ table_title }) => {
     </Toolbar>
   );
 };
-
 export default function TableAbmRamos({ branches }) {
   const theme = useTheme();
   const [order, setOrder] = useState("asc");

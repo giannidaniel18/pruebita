@@ -33,11 +33,7 @@ export default function BranchCard({ branch }) {
 
   function MainInfo() {
     return (
-      <Card
-        sx={{
-          minWidth: "310px",
-        }}
-      >
+      <Card>
         <CardContent>
           <Stack display={"flex"} direction={"row"} alignItems="center" justifyContent={"space-between"}>
             <Typography variant="h3" component="div">
@@ -160,7 +156,7 @@ export default function BranchCard({ branch }) {
   return (
     <Stack spacing={4} mt={{ xs: 2, sm: 0 }} alignItems={{ xs: "center", sm: "flex-start" }}>
       <AlertUpdate text={updateText} severity="info" color="warning" />
-      <Stack spacing={4} sx={{ width: { xs: 315, sm: "100%" } }}>
+      <Stack spacing={4} width="100%">
         <Box>
           <MainInfo />
         </Box>

@@ -32,8 +32,8 @@ export const defaultEvento = {
   siniestro: "",
   subtipos_Siniestro: [],
 };
-export const subtipos_Siniestro = {
-  _id: new Date().valueOf(),
+export const defaultSubtipos_Siniestro = {
+  _id: "",
   descripcion: "",
   documentacion: [],
   plantilla: "",

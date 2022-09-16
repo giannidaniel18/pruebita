@@ -126,7 +126,7 @@ export default function SinesterLayout() {
           flexGrow: 1,
           px: { xs: 2, sm: 3 },
           py: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { xs: "100vw", sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <Outlet />
