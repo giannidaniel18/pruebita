@@ -12,16 +12,28 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
-export default function TipificationTable({ tipificaciones, updateMode = false }) {
+const HEADERS = [
+  { id: "event", titulo: "Situación", cabecera: true },
+  { id: "core", titulo: "Core" },
+  { id: "accion", titulo: "Accion" },
+  { id: "resgesdesc", titulo: "Resultado de gestión" },
+  { id: "tipgesdesc", titulo: "Tipo de resultado" },
+];
+export default function TipificationTable({
+  tipificaciones,
+  updateMode = false,
+  handleDeleteTipificacion,
+  handleUpdateTipificacion,
+  subtipoId,
+}) {
   const theme = useTheme();
 
-  const HEADERS = [
-    { id: "event", titulo: "Situación", cabecera: true },
-    { id: "core", titulo: "Core" },
-    { id: "accion", titulo: "Accion" },
-    { id: "resgesdesc", titulo: "Resultado de gestión" },
-    { id: "tipgesdesc", titulo: "Tipo de resultado" },
-  ];
+  const onDelete = (e) => {
+    handleDeleteTipificacion(e.currentTarget.id, subtipoId);
+  };
+  const onUpdate = (e) => {
+    handleUpdateTipificacion(e.currentTarget.dataset, subtipoId);
+  };
 
   return (
     <TableContainer
@@ -68,12 +80,22 @@ export default function TipificationTable({ tipificaciones, updateMode = false }
                 {updateMode && (
                   <>
                     <TableCell align="center">
-                      <IconButton size="small" id={row._id}>
+                      <IconButton
+                        size="small"
+                        id={row._id}
+                        data-id={row._id}
+                        data-evento={row.evento}
+                        data-core={row.core}
+                        data-accion={row.accion}
+                        data-resgesdesc={row.resultado_de_gestion}
+                        data-tipgesdesc={row.tipo_de_resultado}
+                        onClick={onUpdate}
+                      >
                         <ModeEditIcon fontSize="small" />
                       </IconButton>
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton size="small" id={row._id}>
+                      <IconButton size="small" id={row._id} onClick={onDelete}>
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </TableCell>

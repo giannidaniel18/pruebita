@@ -39,7 +39,7 @@ export const defaultSubtipos_Siniestro = {
   plantilla: "",
   tipificacion: [],
 };
-export const defaultDocumento = { _id: new Date().valueOf(), titulo: "" };
+export const defaultDocumento = { _id: "", titulo: "" };
 export const defaultTipificacion = {
   _id: "",
   evento: "",

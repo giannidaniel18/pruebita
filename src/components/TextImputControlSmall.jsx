@@ -2,13 +2,7 @@ import { Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 
-export default function TextImputControlSmall({
-  control,
-  name,
-  label,
-  multiline = false,
-  defaultValue,
-}) {
+export default function TextImputControlSmall({ control, name, label, multiline = false, defaultValue }) {
   const [defaultInputValue, setDefaultInputValue] = useState(defaultValue);
 
   return (
@@ -25,12 +19,7 @@ export default function TextImputControlSmall({
             name={name}
             label={label}
             value={defaultValue ? defaultInputValue : value}
-            onChange={
-              defaultValue
-                ? (value) =>
-                    onChange(value, setDefaultInputValue(value.target.value))
-                : onChange
-            }
+            onChange={defaultValue ? (value) => onChange(value, setDefaultInputValue(value.target.value)) : onChange}
             fullWidth
             autoComplete="none"
             size="small"

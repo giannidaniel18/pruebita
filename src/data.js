@@ -29,7 +29,7 @@ export const branch = [
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
                 resultado_de_gestion: "Incendio total",
-                _id: "630d1419ad9e40e3f0d66447",
+                _id: "630d1419ad9e40e3f0d66447dddd",
                 createdAt: "2022-08-29T19:31:37.952Z",
                 updatedAt: "2022-08-29T19:31:37.952Z",
               },
@@ -90,7 +90,7 @@ export const branch = [
           },
           {
             _id: "630d1419ad9e40e3f0d6655551",
-            descripcion: "incendio de verga",
+            descripcion: "incendio de casa",
             documentacion: [
               {
                 _id: "00090",
@@ -399,7 +399,7 @@ export const branch = [
                 accion: "Siniestros",
                 tipo_de_resultado: "Toma de denuncia",
                 resultado_de_gestion: "Incendio total",
-                _id: "630d1419ad9e40e3f0d66447",
+                _id: "630d1419ad9e40e3f0d66447dddddd",
                 createdAt: "2022-08-29T19:31:37.952Z",
                 updatedAt: "2022-08-29T19:31:37.952Z",
               },
@@ -409,7 +409,7 @@ export const branch = [
                 accion: "SiniestrosVT7",
                 tipo_de_resultado: "Toma de denuncia",
                 resultado_de_gestion: "Incendio total",
-                _id: "630d1419ad9e40e3f0d66448",
+                _id: "630d1419ad9e40e3f0d664481231321456465",
                 createdAt: "2022-08-29T19:31:37.953Z",
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },

@@ -7,6 +7,7 @@ import {
   defaultEvento,
   defaultSubtipos_Siniestro,
   defaultTipificacion,
+  defaultDocumento,
 } from "../constants/variablesGlobales";
 
 const BranchContext = createContext(null);
@@ -118,6 +119,7 @@ const BranchContextProvider = ({ children }) => {
   const deleteEventoFromBranch = (idEvento) => {
     const newBranch = currentBranch;
     newBranch.eventos = currentBranch.eventos.filter((evento) => evento._id !== idEvento);
+    console.log(newBranch);
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
   };
@@ -164,7 +166,6 @@ const BranchContextProvider = ({ children }) => {
 
   //ABM DE TIPIFICACIONES
   const addTipificacionToBranch = (tipificacion, idSubtipo, idEvento) => {
-    console.log(tipificacion, idSubtipo, idEvento);
     const newBranch = currentBranch;
     const newTipificacion = { ...defaultTipificacion };
     newTipificacion._id = new Date().valueOf().toString();
@@ -185,14 +186,86 @@ const BranchContextProvider = ({ children }) => {
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
   };
-
-  const deleteTipificacionFromBranch = () => {};
-  const updateTipificacionFromBranch = () => {};
+  const deleteTipificacionFromBranch = (tipificacionId, idSubtipo, idEvento) => {
+    const newBranch = currentBranch;
+    const indexEvento = currentBranch.eventos.findIndex((evento) => evento._id === idEvento);
+    const indexSubtipo = currentBranch.eventos[indexEvento].subtipos_Siniestro.findIndex(
+      (subtipo) => subtipo._id === idSubtipo
+    );
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion = newBranch.eventos[
+      indexEvento
+    ].subtipos_Siniestro[indexSubtipo].tipificacion.filter((tipif) => tipif._id !== tipificacionId);
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
+  const updateTipificacionFromBranch = (tipificacionId, updatedTipificacion, idSubtipo, idEvento) => {
+    const newBranch = currentBranch;
+    const indexEvento = currentBranch.eventos.findIndex((evento) => evento._id === idEvento);
+    const indexSubtipo = currentBranch.eventos[indexEvento].subtipos_Siniestro.findIndex(
+      (subtipo) => subtipo._id === idSubtipo
+    );
+    const indexTipif = currentBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion.findIndex(
+      (tipif) => tipif._id === tipificacionId
+    );
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion[indexTipif].evento =
+      updatedTipificacion.situacion;
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion[indexTipif].core =
+      updatedTipificacion.core;
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion[indexTipif].accion =
+      updatedTipificacion.accion;
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion[indexTipif].tipo_de_resultado =
+      updatedTipificacion.tipgesdesc;
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion[indexTipif].resultado_de_gestion =
+      updatedTipificacion.resgesdesc;
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+    // console.log("index evento :", indexEvento, "\nIndexSubtipo : ", indexSubtipo, "\nindexTipificacion : ", indexTipif);
+  };
 
   //ABM DE DOCUMENTOS
-  const addDocumentoToBranch = () => {};
-  const deleteDocumentoFromBranch = () => {};
-  const updateDocumentoFromBranch = () => {};
+  const addDocumentoToBranch = (newDocumento, idSubtipo, idEvento) => {
+    const newBranch = currentBranch;
+    const newDoc = { ...defaultDocumento };
+    newDoc._id = new Date().valueOf().toString();
+    newDoc.titulo = newDocumento;
+    const indexEvento = currentBranch.eventos.findIndex((evento) => evento._id === idEvento); // tengo que encontrar la posicion del evento a la que le estoy agregando el subtipo
+    const indexSubtipo = currentBranch.eventos[indexEvento].subtipos_Siniestro.findIndex(
+      (subtipo) => subtipo._id === idSubtipo
+    );
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].documentacion = [
+      ...newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].documentacion,
+      newDoc,
+    ];
+
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
+  const deleteDocumentoFromBranch = (idDoc, idSubtipo, idEvento) => {
+    const newBranch = currentBranch;
+    const indexEvento = currentBranch.eventos.findIndex((evento) => evento._id === idEvento);
+    const indexSubtipo = currentBranch.eventos[indexEvento].subtipos_Siniestro.findIndex(
+      (subtipo) => subtipo._id === idSubtipo
+    );
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].documentacion = newBranch.eventos[
+      indexEvento
+    ].subtipos_Siniestro[indexSubtipo].documentacion.filter((doc) => doc._id !== idDoc);
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
+  const updateDocumentoFromBranch = (idDoc, updatedDoc, idSubtipo, idEvento) => {
+    const newBranch = currentBranch;
+    const indexEvento = currentBranch.eventos.findIndex((evento) => evento._id === idEvento);
+    const indexSubtipo = currentBranch.eventos[indexEvento].subtipos_Siniestro.findIndex(
+      (subtipo) => subtipo._id === idSubtipo
+    );
+    const indexDoc = currentBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].documentacion.findIndex(
+      (doc) => doc._id === idDoc
+    );
+    newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].documentacion[indexDoc].titulo =
+      updatedDoc.tituloDocumento;
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
 
   return (
     <BranchContext.Provider
