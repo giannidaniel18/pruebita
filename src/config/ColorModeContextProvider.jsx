@@ -2,7 +2,7 @@ import React from "react";
 import { ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { ColorsPalette } from "./ColorsPalette";
-import { grey } from "@mui/material/colors";
+import { grey, red } from "@mui/material/colors";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -68,6 +68,27 @@ export default function ToggleColorMode({ children }) {
                         backgroundColor: grey[400],
                       },
               },
+            },
+          },
+          MuiTableContainer: {
+            defaultProps: {
+              style: { borderRadius: 10 },
+            },
+          },
+          MuiTableBody: {
+            defaultProps: {
+              style:
+                mode === "dark"
+                  ? { backgroundColor: ColorsPalette.bg_dark.light }
+                  : { backgroundColor: ColorsPalette.bg_light.dark },
+            },
+          },
+          MuiTableHead: {
+            defaultProps: {
+              style:
+                mode === "dark"
+                  ? { backgroundColor: ColorsPalette.bg_dark.dark }
+                  : { backgroundColor: ColorsPalette.bg_light.DeepDark },
             },
           },
         },

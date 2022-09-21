@@ -16,7 +16,7 @@ export const defaultBranch = {
 export const defaultVerificacion_Critica = {
   titulo: "",
   descripcion: "",
-  _id: new Date().valueOf(),
+  _id: "",
   createdAt: "2022-08-29T19:31:37.954Z",
   updatedAt: "2022-08-29T19:31:37.954Z",
 };

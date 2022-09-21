@@ -10,18 +10,14 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Toolbar,
   Typography,
   IconButton,
   Switch,
-  Paper,
 } from "@mui/material";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { visuallyHidden } from "@mui/utils";
 import { format, parseISO } from "date-fns";
 import { useBranchContext } from "../../../context/BranchContext";
-import { useTheme } from "@emotion/react";
-import { ColorsPalette } from "../../../config/ColorsPalette";
 import { Link as ReactLink } from "react-router-dom";
 
 function descendingComparator(a, b, orderBy) {
@@ -41,7 +37,6 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-  console.log(array);
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -129,17 +124,8 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
 };
-const EnhancedTableToolbar = ({ table_title }) => {
-  return (
-    <Toolbar>
-      <Typography sx={{ flex: "1 1 100%" }} variant="h6" id="tableTitle" component="div">
-        {table_title}
-      </Typography>
-    </Toolbar>
-  );
-};
+
 export default function TableAbmRamos({ branches }) {
-  const theme = useTheme();
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("titulo_Ramo");
   const [page, setPage] = useState(0);
@@ -186,57 +172,48 @@ export default function TableAbmRamos({ branches }) {
     <Box
       sx={{
         width: "100%",
-        marginTop: { xs: "50px", sm: "10px" },
       }}
     >
       <Typography variant="h5" py={3}>
         Administración de Ramos
       </Typography>
-      <Paper
-        sx={
-          theme.palette.mode === "dark"
-            ? { backgroundColor: ColorsPalette.bg_dark.light }
-            : { backgroundColor: ColorsPalette.bg_light.dark }
-        }
-      >
-        <EnhancedTableToolbar table_title={"Ramos"} />
-        <TableContainer id="table-container">
-          <Table aria-labelledby="tableTitle" size={"small"}>
-            <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow key={row._id}>
-                      <TableCell component="th" scope="row">
-                        {row.titulo_Ramo}
-                      </TableCell>
-                      <TableCell align="left">{format(parseISO(row.fechaCreacion), "MM/dd/yyyy")}</TableCell>
-                      <TableCell align="left">{format(parseISO(row.fechaModificacion), "MM/dd/yyyy")}</TableCell>
-                      <TableCell align="left">{row.editar}</TableCell>
-                      <TableCell align="left">{row.estado}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+
+      <TableContainer>
+        <Table aria-labelledby="tableTitle" size={"small"}>
+          <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+          <TableBody>
+            {stableSort(rows, getComparator(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow key={row._id}>
+                    <TableCell component="th" scope="row">
+                      {row.titulo_Ramo}
+                    </TableCell>
+                    <TableCell align="left">{format(parseISO(row.fechaCreacion), "MM/dd/yyyy")}</TableCell>
+                    <TableCell align="left">{format(parseISO(row.fechaModificacion), "MM/dd/yyyy")}</TableCell>
+                    <TableCell align="left">{row.editar}</TableCell>
+                    <TableCell align="left">{row.estado}</TableCell>
+                  </TableRow>
+                );
+              })}
+            {emptyRows > 0 && (
+              <TableRow>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Box>
   );
 }

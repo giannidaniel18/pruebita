@@ -5,9 +5,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { useTheme } from "@emotion/react";
-import { ColorsPalette } from "../../config/ColorsPalette";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -22,36 +19,20 @@ const HEADERS = [
 export default function TipificationTable({
   tipificaciones,
   updateMode = false,
-  handleDeleteTipificacion,
-  handleUpdateTipificacion,
-  subtipoId,
+  onSettingDrawerDataToHandle,
+  onDeleteTipificacion,
 }) {
-  const theme = useTheme();
-
   const onDelete = (e) => {
-    handleDeleteTipificacion(e.currentTarget.id, subtipoId);
+    onDeleteTipificacion(e.currentTarget.id);
   };
   const onUpdate = (e) => {
-    handleUpdateTipificacion(e.currentTarget.dataset, subtipoId);
+    onSettingDrawerDataToHandle(e);
   };
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={
-        theme.palette.mode === "dark"
-          ? { backgroundColor: ColorsPalette.bg_dark.light }
-          : { backgroundColor: ColorsPalette.bg_light.dark }
-      }
-    >
+    <TableContainer>
       <Table sx={{ minWidth: 650 }} size="small">
-        <TableHead
-          sx={
-            theme.palette.mode === "dark"
-              ? { backgroundColor: ColorsPalette.bg_dark.dark }
-              : { backgroundColor: ColorsPalette.bg_light.DeepDark }
-          }
-        >
+        <TableHead>
           <TableRow>
             {HEADERS.map((header) => (
               <TableCell key={header.id} align={!header.cabecera ? "right" : "left"}>
@@ -61,8 +42,7 @@ export default function TipificationTable({
 
             {updateMode && (
               <>
-                <TableCell align="center">Actualizar</TableCell>
-                <TableCell align="center">Eliminar</TableCell>
+                <TableCell align="center">Administrar</TableCell>
               </>
             )}
           </TableRow>
@@ -71,35 +51,33 @@ export default function TipificationTable({
           {tipificaciones &&
             tipificaciones.map((row, index) => (
               <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell component="th">{row.evento}</TableCell>
+                <TableCell component="th" wrapped="true">
+                  {row.evento}
+                </TableCell>
                 <TableCell align="right">{row.core ? row.core : "sin info"}</TableCell>
                 <TableCell align="right">{row.accion ? row.accion : "sin info"}</TableCell>
                 <TableCell align="right">{row.resultado_de_gestion ? row.resultado_de_gestion : "sin info"}</TableCell>
                 <TableCell align="right">{row.tipo_de_resultado ? row.tipo_de_resultado : "sin info"}</TableCell>
 
                 {updateMode && (
-                  <>
-                    <TableCell align="center">
-                      <IconButton
-                        size="small"
-                        id={row._id}
-                        data-id={row._id}
-                        data-evento={row.evento}
-                        data-core={row.core}
-                        data-accion={row.accion}
-                        data-resgesdesc={row.resultado_de_gestion}
-                        data-tipgesdesc={row.tipo_de_resultado}
-                        onClick={onUpdate}
-                      >
-                        <ModeEditIcon fontSize="small" />
-                      </IconButton>
-                    </TableCell>
-                    <TableCell align="center">
-                      <IconButton size="small" id={row._id} onClick={onDelete}>
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </TableCell>
-                  </>
+                  <TableCell align="center">
+                    <IconButton
+                      size="small"
+                      id={row._id}
+                      name={"update"}
+                      data-evento={row.evento}
+                      data-core={row.core}
+                      data-accion={row.accion}
+                      data-resgesdesc={row.resultado_de_gestion}
+                      data-tipgesdesc={row.tipo_de_resultado}
+                      onClick={onUpdate}
+                    >
+                      <ModeEditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton size="small" id={row._id} onClick={onDelete}>
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </TableCell>
                 )}
               </TableRow>
             ))}

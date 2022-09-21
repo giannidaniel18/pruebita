@@ -1,12 +1,9 @@
 import { useState } from "react";
 import {
   Button,
-  Card,
-  CardContent,
   Drawer,
   Grid,
   IconButton,
-  Paper,
   Stack,
   Table,
   TableBody,
@@ -16,14 +13,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-
 import TextImputControlSmall from "../../../../components/TextImputControlSmall";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useForm } from "react-hook-form";
 import { useBranchContext } from "../../../../context/BranchContext";
-import { useTheme } from "@emotion/react";
-import { ColorsPalette } from "../../../../config/ColorsPalette";
+import DataNotFound from "../../../DataNotFound";
 
 export default function UpdateVerificaciones({ verificaciones, tipoVerificacion, title }) {
   const { control, handleSubmit, resetField } = useForm();
@@ -44,43 +39,56 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
 
   return (
     <Stack spacing={2}>
-      <Card>
-        <CardContent>
-          <Stack spacing={2}>
+      <Stack spacing={2}>
+        {arrayVerificaciones.length ? (
+          <>
             <Typography variant="h6">{title}</Typography>
             <TableVerificaciones verificaciones={arrayVerificaciones} tipoVerificacion={tipoVerificacion} />
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Typography variant="h6" mb={2}>
-                + Verificación
+          </>
+        ) : (
+          <DataNotFound>
+            <Stack>
+              <Typography px={2} variant="h5">
+                No existen tipificaciones del tipo " {tipoVerificacion} " creadas para el ramo actual.
               </Typography>
-              <Grid container alignItems="center" textAlign="end" spacing={2}>
-                <Grid item xs={12} md={5}>
-                  <TextImputControlSmall
-                    control={control}
-                    name={"titulo_Verificacion_" + tipoVerificacion}
-                    label={"Titulo de la verificación " + tipoVerificacion}
-                    multiline={true}
-                  />
-                </Grid>
-                <Grid item xs={12} md={5}>
-                  <TextImputControlSmall
-                    control={control}
-                    name={"descripcion_Verificacion_" + tipoVerificacion}
-                    label={"Detalle de la verificación " + tipoVerificacion}
-                    multiline={true}
-                  />
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  <Button variant="outlined" type="submit">
-                    Agregar +
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </Stack>
-        </CardContent>
-      </Card>
+              <Typography px={2} py={1} variant="h6">
+                Crea la primera aqui!
+              </Typography>
+            </Stack>
+          </DataNotFound>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Typography variant="h6" mb={2}>
+            + Verificación {tipoVerificacion}
+          </Typography>
+          <Grid container alignItems="center" textAlign="end" spacing={2}>
+            <Grid item xs={12} md={5}>
+              <TextImputControlSmall
+                control={control}
+                name={"titulo_Verificacion_" + tipoVerificacion}
+                label={"Titulo de la verificación " + tipoVerificacion}
+                multiline={true}
+                multilineRow={3}
+              />
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <TextImputControlSmall
+                control={control}
+                name={"descripcion_Verificacion_" + tipoVerificacion}
+                label={"Detalle de la verificación " + tipoVerificacion}
+                multiline={true}
+                multilineRow={3}
+              />
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Button variant="outlined" type="submit">
+                Agregar +
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Stack>
     </Stack>
   );
 }
@@ -89,7 +97,6 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
   const [updateMode, setUpdateMode] = useState(false);
   const [verifToUpdate, setVerifToUpdate] = useState({});
   const { deleteVerificacionFromBranch, updateVerificacionFromBranch } = useBranchContext();
-  const theme = useTheme();
 
   const deleteVerif = (e) => {
     deleteVerificacionFromBranch(e.currentTarget.id, tipoVerificacion);
@@ -113,22 +120,10 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
   };
 
   return (
-    <Paper
-      sx={
-        theme.palette.mode === "dark"
-          ? { backgroundColor: ColorsPalette.bg_dark.light }
-          : { backgroundColor: ColorsPalette.bg_light.dark }
-      }
-    >
+    <Stack>
       <TableContainer>
         <Table aria-label="simple table" size="small">
-          <TableHead
-            sx={
-              theme.palette.mode === "dark"
-                ? { backgroundColor: ColorsPalette.bg_dark.dark }
-                : { backgroundColor: ColorsPalette.bg_light.DeepDark }
-            }
-          >
+          <TableHead>
             <TableRow>
               <TableCell>Titulo verificación</TableCell>
               <TableCell align="left">Descripción</TableCell>
@@ -168,7 +163,7 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
         tipoVerificacion={tipoVerificacion} // Critica o Extra
         updateVerif={updateVerif} // metodo que retorna con el objeto actualizado
       />
-    </Paper>
+    </Stack>
   );
 }
 

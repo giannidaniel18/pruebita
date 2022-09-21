@@ -6,7 +6,6 @@ export default function UpdateBranchTabs({ handleChangePropiedadAmodificar, defa
   const handleChange = (event, newValue) => {
     setValue(newValue);
     handleChangePropiedadAmodificar(newValue);
-    console.log(event);
   };
 
   return (

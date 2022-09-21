@@ -3,12 +3,10 @@ import React from "react";
 import TextImputControlSmall from "../../../components/TextImputControlSmall";
 import TableAbmRamos from "../../../components/Admin/individuos/TableAbmRamos";
 import { useForm } from "react-hook-form";
-import { useTheme } from "@emotion/react";
-import { ColorsPalette } from "../../../config/ColorsPalette";
+
 import { useBranchContext } from "../../../context/BranchContext";
 
 export default function AbmRamosGeneralContainer() {
-  const theme = useTheme();
   const { control, handleSubmit, resetField } = useForm();
   const { addBranchToBranches, branches } = useBranchContext();
   const onSubmit = (data) => {
@@ -17,17 +15,11 @@ export default function AbmRamosGeneralContainer() {
   };
 
   return (
-    <Stack spacing={5}>
+    <Stack spacing={4}>
       <TableAbmRamos branches={branches} />
       <Stack spacing={1}>
         <Typography variant="h6"> Agrega un nuevo ramo</Typography>
-        <Paper
-          sx={
-            theme.palette.mode === "dark"
-              ? { backgroundColor: ColorsPalette.bg_dark.light }
-              : { backgroundColor: ColorsPalette.bg_light.dark }
-          }
-        >
+        <Paper>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2} alignItems="center" textAlign="end" p={2}>
               <Grid item xs={12} sm={7}>
