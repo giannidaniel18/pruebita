@@ -2,27 +2,33 @@ import { Divider, Stack, Typography } from "@mui/material";
 import FeedIcon from "@mui/icons-material/Feed";
 
 import React, { useState } from "react";
-import UpdateEventosV2 from "./UpdateBranchCard/UpdateEventosV2";
 import UpdateEventos from "./UpdateBranchCard/UpdateEventos";
 import UpdateTutorias from "./UpdateBranchCard/UpdateTutorias";
 import UpdateVerificaciones from "./UpdateBranchCard/UpdateVerificaciones";
 import UpdateBranchTabs from "./UpdateBranchTabs";
-import DataNotFound from "../../DataNotFound";
+import DataNotFound from "../../common/DataNotFound";
+
+const TABARRAY = [
+  { id: "AdminVerificaciones", label: "Administrar verificaciones", position: 0 },
+  { id: "AdminEventos", label: "Administrar Eventos", position: 1 },
+  { id: "AdminTutoria", label: "Administrar tutoria", position: 2 },
+];
 
 export default function UpdateBranchCard({ branch }) {
-  const [propiedadAmodificar, setPropiedadAmodificar] = useState(0); //modificar a 0 antes de pasar a DEV
+  const [propiedadAmodificar, setPropiedadAmodificar] = useState(TABARRAY[0].position); //modificar a 0 antes de pasar a DEV
 
-  const tabArray = [
-    { id: "AdminVerificaciones", label: "Administrar verificaciones", position: 0 },
-    { id: "AdminEventos", label: "Administrar Eventos", position: 1 },
-    { id: "AdminTutoria", label: "Administrar tutoria", position: 2 },
-  ];
   const handleChangePropiedadAmodificar = (newIndex) => {
     setPropiedadAmodificar(newIndex);
   };
 
   return !branch ? (
-    <DataNotFound />
+    <DataNotFound>
+      <Stack>
+        <Typography px={2} variant="h5">
+          Ups! aparentemente ya no existe el ramo que acabas de seleccionar
+        </Typography>
+      </Stack>
+    </DataNotFound>
   ) : (
     <Stack spacing={2}>
       <Stack direction={"row"} alignItems="center" spacing={2}>
@@ -32,11 +38,11 @@ export default function UpdateBranchCard({ branch }) {
       <Divider />
       <UpdateBranchTabs
         handleChangePropiedadAmodificar={handleChangePropiedadAmodificar}
-        defaultValue={tabArray[0].position} //modificar a 0 antes de pasar a DEV
-        tabArray={tabArray}
+        defaultValue={TABARRAY[0].position} //modificar a 0 antes de pasar a DEV
+        tabArray={TABARRAY}
       />
 
-      {propiedadAmodificar === tabArray[0].position ? (
+      {propiedadAmodificar === TABARRAY[0].position ? (
         <>
           <UpdateVerificaciones
             verificaciones={branch.verificaciones}
@@ -49,10 +55,10 @@ export default function UpdateBranchCard({ branch }) {
             title="Administrar Verificaciones Extras"
           />
         </>
-      ) : propiedadAmodificar === tabArray[1].position ? (
-        <UpdateEventosV2 eventos={branch.eventos} />
+      ) : propiedadAmodificar === TABARRAY[1].position ? (
+        <UpdateEventos eventos={branch.eventos} />
       ) : (
-        <UpdateTutorias />
+        <UpdateTutorias tutorias={branch.tutorias} />
       )}
     </Stack>
   );

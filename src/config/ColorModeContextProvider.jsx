@@ -2,7 +2,6 @@ import React from "react";
 import { ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { ColorsPalette } from "./ColorsPalette";
-import { grey, red } from "@mui/material/colors";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -32,7 +31,19 @@ export default function ToggleColorMode({ children }) {
             prefer: { main: "#7F6D48", dark: "#504730", light: "#E2DDCF" },
           },
           secondary: {
-            main: "#990000",
+            main: "#737373",
+            dark: {
+              100: "#666666",
+              200: "#595959",
+              300: "#4d4d4d",
+              400: "#404040",
+            },
+            light: {
+              100: "#808080",
+              200: "#8c8c8c",
+              300: "#999999",
+              400: "#a6a6a6",
+            },
           },
           ...(mode === "dark"
             ? {
@@ -65,7 +76,8 @@ export default function ToggleColorMode({ children }) {
                         backgroundColor: "#FA6400",
                       }
                     : {
-                        backgroundColor: grey[400],
+                        backgroundColor: "#FA6400",
+                        color: "white",
                       },
               },
             },

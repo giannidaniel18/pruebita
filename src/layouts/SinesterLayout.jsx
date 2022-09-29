@@ -29,8 +29,8 @@ export default function SinesterLayout() {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleSelectedBranch = (e, id) => {
-    setSelectedBranch(id);
+  const handleSelectedBranch = (e) => {
+    setSelectedBranch(e.currentTarget.id);
   };
 
   const drawer = (
@@ -46,7 +46,8 @@ export default function SinesterLayout() {
                 component={ReactLink}
                 to={`${ramo._id}`}
                 selected={selectedBranch === ramo._id}
-                onClick={(e) => handleSelectedBranch(e, ramo._id)}
+                id={ramo._id}
+                onClick={handleSelectedBranch}
               >
                 <ListItemText value={ramo._id} primary={ramo.titulo_Ramo} />
               </ListItemButton>

@@ -2,7 +2,7 @@ export const defaultBranch = {
   _id: "",
   titulo_Ramo: "",
   estado: false,
-  formularios: [],
+  tutorias: [],
   eventos: [],
   verificaciones: {
     verificaciones_Criticas: [],
@@ -59,5 +59,55 @@ export const welcomePagesData = [
     titulo: "Administración",
     subtitulo:
       "Selecciona la sección de cliente que deseas administrar para luego obtener un listado de funcionalidades de administración",
+  },
+];
+
+export const formsAndInfo = [
+  { id: "PolizaBasic", nombre: "Solicitar Póliza", info: "Formulario utilizado para incluir el numero de póliza " },
+  {
+    id: "DatosPersonalesBasic",
+    nombre: "Datos Personales Basico",
+    info: "Nombre y apellido / parentesco / mail / teléfono",
+  },
+  {
+    id: "DatosPersonalesExtended",
+    nombre: "Datos Personales Extendido",
+    info: "Nombre y apellido / parentesco / mail / teléfono / domicilio /ciudad /codigo postal",
+  },
+  { id: "LineaSiniestradaBasic", nombre: "Linea Siniestrada", info: "Linea del teléfono sustraido" },
+  {
+    id: "DatosLaboralesBasic",
+    nombre: "Datos laborales",
+    info: "Nombre de la empresa / fecha y motivo de desvinculacion / antigueadad / ¿finalizacion de obra?",
+  },
+  {
+    id: "DescripcionDelHechoBasic",
+    nombre: "Descripcion del hecho Basico",
+    info: " relato de lo sucedido / bienes siniestrados",
+  },
+  {
+    id: "DescripcionDelHechoExtended",
+    nombre: "Descripcion del hecho Extendido",
+    info: "Tipo de siniestro / relato de lo sucedido / bienes siniestrados / monto estimado en $ARS",
+  },
+  {
+    id: "FechaHoraLugarSiniestroBasic",
+    nombre: "Fecha, hora y lugar del siniestro",
+    info: " Fecha / Hora / Lugar de ocurrencia (barrio, calles, ciudad)",
+  },
+  {
+    id: "FechaHoraSiniestroBasic",
+    nombre: "Fecha y hora del siniestro",
+    info: "Fecha y Hora",
+  },
+  {
+    id: "ObservacionesFinalesBasic",
+    nombre: "Observaciones finales Basico",
+    info: " Observaciones / ¿siniestro dudoso?",
+  },
+  {
+    id: "ObservacionesFinalesExtended",
+    nombre: "Observaciones finales Extendido",
+    info: "Observaciones / ¿siniestro dudoso? / ¿siniestro multiple?",
   },
 ];

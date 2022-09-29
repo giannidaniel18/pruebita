@@ -13,12 +13,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import TextImputControlSmall from "../../../../components/TextImputControlSmall";
+import TextImputControlSmall from "../../../../components/common/TextImputControlSmall";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useForm } from "react-hook-form";
 import { useBranchContext } from "../../../../context/BranchContext";
-import DataNotFound from "../../../DataNotFound";
+import DataNotFound from "../../../common/DataNotFound";
 
 export default function UpdateVerificaciones({ verificaciones, tipoVerificacion, title }) {
   const { control, handleSubmit, resetField } = useForm();
@@ -127,16 +127,15 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
             <TableRow>
               <TableCell>Titulo verificación</TableCell>
               <TableCell align="left">Descripción</TableCell>
-              <TableCell align="right">Actualizar</TableCell>
-              <TableCell align="right">Eliminar</TableCell>
+              <TableCell align="right">Administrar</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {verificaciones.map((row) => (
-              <TableRow key={row._id}>
+              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                 <TableCell scope="row">{row.titulo}</TableCell>
                 <TableCell align="left">{row.descripcion}</TableCell>
-                <TableCell align="center">
+                <TableCell align="right" sx={{ minWidth: "115px" }}>
                   <IconButton
                     onClick={handleUpdateModeOn}
                     id={row._id}
@@ -145,8 +144,6 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
                   >
                     <ModeEditIcon />
                   </IconButton>
-                </TableCell>
-                <TableCell align="center">
                   <IconButton onClick={deleteVerif} id={row._id}>
                     <DeleteIcon />
                   </IconButton>

@@ -4,8 +4,9 @@ import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Toolt
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";
-import { ColorModeContext } from "../config/ColorModeContextProvider";
+import { ColorModeContext } from "../../config/ColorModeContextProvider";
 import { Link as ReactLink } from "react-router-dom";
+
 const usuario = { nombreUsuario: "admin", rol: "admin" };
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 

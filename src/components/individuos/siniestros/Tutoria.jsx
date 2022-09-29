@@ -14,7 +14,7 @@ import {
   PolizaBasic,
   DatosLaboralesBasic,
   LineaSiniestradaBasic,
-} from "../formularios-denuncia/FormulariosDeSiniestros";
+} from "./FormulariosDeSiniestros";
 
 export default function Tutoria({ formularios = ["PolizaBasic"], tituloTutoria = "XXX" }) {
   const { control, handleSubmit } = useForm();
@@ -81,7 +81,7 @@ export default function Tutoria({ formularios = ["PolizaBasic"], tituloTutoria =
         padding: 2,
       }}
     >
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h4" gutterBottom>
         Tutoria : {tituloTutoria}
       </Typography>
       <Divider sx={{ marginBottom: 2 }} />

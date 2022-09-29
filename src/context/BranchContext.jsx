@@ -121,7 +121,7 @@ const BranchContextProvider = ({ children }) => {
   const deleteEventoFromBranch = (idEvento) => {
     const newBranch = currentBranch;
     newBranch.eventos = currentBranch.eventos.filter((evento) => evento._id !== idEvento);
-    console.log(newBranch);
+
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
   };
@@ -266,6 +266,18 @@ const BranchContextProvider = ({ children }) => {
     updateBranchesData(newBranch);
   };
 
+  const updateForms = (idform, status) => {
+    const newBranch = currentBranch;
+    if (status === false) {
+      const newFormularios = currentBranch.formularios.filter((form) => form !== idform);
+      newBranch.formularios = newFormularios;
+    } else {
+      newBranch.formularios.push(idform);
+    }
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
+
   return (
     <BranchContext.Provider
       value={{
@@ -289,6 +301,7 @@ const BranchContextProvider = ({ children }) => {
         addTipificacionToSubtipo,
         updateTipificacionFromSubtipo,
         deleteTipificacionFromSubtipo,
+        updateForms,
       }}
     >
       {children}

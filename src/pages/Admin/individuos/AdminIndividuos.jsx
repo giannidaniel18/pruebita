@@ -3,7 +3,7 @@ import React from "react";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
-import ModuleCard from "../../../components/ModuleCard";
+import ModuleCard from "../../../components/common/ModuleCard";
 import BuildIcon from "@mui/icons-material/Build";
 
 const modules = [

@@ -1,6 +1,6 @@
 import { Grid, Stack, Typography } from "@mui/material";
 import React from "react";
-import ModuleCard from "../../components/ModuleCard";
+import ModuleCard from "../../components/common/ModuleCard";
 import NotificationImportantOutlinedIcon from "@mui/icons-material/NotificationImportantOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";

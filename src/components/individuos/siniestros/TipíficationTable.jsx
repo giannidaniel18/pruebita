@@ -13,8 +13,8 @@ const HEADERS = [
   { id: "event", titulo: "Situación", cabecera: true },
   { id: "core", titulo: "Core" },
   { id: "accion", titulo: "Accion" },
-  { id: "resgesdesc", titulo: "Resultado de gestión" },
   { id: "tipgesdesc", titulo: "Tipo de resultado" },
+  { id: "resgesdesc", titulo: "Resultado de gestión" },
 ];
 export default function TipificationTable({
   tipificaciones,
@@ -42,7 +42,7 @@ export default function TipificationTable({
 
             {updateMode && (
               <>
-                <TableCell align="center">Administrar</TableCell>
+                <TableCell align="right"> Administrar</TableCell>
               </>
             )}
           </TableRow>
@@ -56,11 +56,11 @@ export default function TipificationTable({
                 </TableCell>
                 <TableCell align="right">{row.core ? row.core : "sin info"}</TableCell>
                 <TableCell align="right">{row.accion ? row.accion : "sin info"}</TableCell>
-                <TableCell align="right">{row.resultado_de_gestion ? row.resultado_de_gestion : "sin info"}</TableCell>
                 <TableCell align="right">{row.tipo_de_resultado ? row.tipo_de_resultado : "sin info"}</TableCell>
+                <TableCell align="right">{row.resultado_de_gestion ? row.resultado_de_gestion : "sin info"}</TableCell>
 
                 {updateMode && (
-                  <TableCell align="center">
+                  <TableCell align="right" sx={{ width: "115px" }}>
                     <IconButton
                       size="small"
                       id={row._id}

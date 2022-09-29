@@ -186,12 +186,12 @@ export default function TableAbmRamos({ branches }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow key={row._id}>
+                  <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell component="th" scope="row">
                       {row.titulo_Ramo}
                     </TableCell>
-                    <TableCell align="left">{format(parseISO(row.fechaCreacion), "MM/dd/yyyy")}</TableCell>
-                    <TableCell align="left">{format(parseISO(row.fechaModificacion), "MM/dd/yyyy")}</TableCell>
+                    <TableCell align="left">{format(parseISO(row.fechaCreacion), "dd/MM/yyyy")}</TableCell>
+                    <TableCell align="left">{format(parseISO(row.fechaModificacion), "dd/MM/yyyy")}</TableCell>
                     <TableCell align="left">{row.editar}</TableCell>
                     <TableCell align="left">{row.estado}</TableCell>
                   </TableRow>

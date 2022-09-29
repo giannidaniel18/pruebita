@@ -1,9 +1,8 @@
 import { Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
-import TextImputControlSmall from "../../../components/TextImputControlSmall";
+import TextImputControlSmall from "../../../components/common/TextImputControlSmall";
 import TableAbmRamos from "../../../components/Admin/individuos/TableAbmRamos";
 import { useForm } from "react-hook-form";
-
 import { useBranchContext } from "../../../context/BranchContext";
 
 export default function AbmRamosGeneralContainer() {

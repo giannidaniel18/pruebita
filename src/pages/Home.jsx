@@ -6,9 +6,9 @@ export default function Home() {
     <Stack alignItems={"center"} justifyContent={"center"} height="80vh">
       <Typography variant="h1" color="primary">
         Scripting CAC
-        <Typography variant="h2" color="white">
-          Demo
-        </Typography>
+      </Typography>
+      <Typography variant="h2" color="white">
+        Demo
       </Typography>
     </Stack>
   );

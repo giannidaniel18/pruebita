@@ -154,7 +154,7 @@ export const branch = [
                 titulo: "Estimación del daño",
               },
             ],
-            plantilla: "",
+            plantilla: "daksldjaslkdjlaas\n ashjdhkasjdn1khdaskjdas s",
             tipificacion: [
               {
                 evento: "Cuando un caño empotrado en la pared se rompa y dañe los bienes materiales (no así el caño)",
@@ -177,7 +177,7 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
-            _id: "630d1419ad9e40e3f0d6644d",
+            _id: "630d1419ad9e40e3f0d6644ddasdasdddd1231212541541341",
             createdAt: "2022-08-29T19:31:37.953Z",
             updatedAt: "2022-08-29T19:31:37.953Z",
           },
@@ -348,13 +348,25 @@ export const branch = [
       ],
       _id: "630d068260a300354499b996",
     },
-    formularios: [
-      "PolizaBasic",
-      "LineaSiniestradaBasic",
-      "DatosPersonalesBasic",
-      "DatosPersonalesExtended",
-      "DescripcionDelHechoBasic",
-      "ObservacionesFinalesBasic",
+    tutorias: [
+      {
+        _id: "111111111111111",
+        titulo: "Standard",
+        formularios: [
+          "PolizaBasic",
+          "DatosPersonalesBasic",
+          "DatosPersonalesExtended",
+          "DatosLaboralesBasic",
+          "FechaHoraLugarSiniestroBasic",
+          "FechaHoraSiniestroBasic",
+          "ObservacionesFinalesExtended",
+        ],
+      },
+      {
+        _id: "2222222222222222222",
+        titulo: "Express",
+        formularios: ["PolizaBasic", "DatosPersonalesBasic", "DatosPersonalesExtended"],
+      },
     ],
     creado_por: "alunazzi@galiciaseguros.com.ar",
     createdAt: "2022-08-29T18:23:02.608Z",
@@ -368,9 +380,11 @@ export const branch = [
     estado: false,
     eventos: [
       {
+        _id: "630d068260a300354499b986",
         siniestro: "Incendio",
         subtipos_Siniestro: [
           {
+            _id: "630d1419ad9e40e3f0d66446",
             descripcion: "incendio edificio",
             documentacion: [
               {
@@ -414,11 +428,11 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
-            _id: "630d1419ad9e40e3f0d66446",
             createdAt: "2022-08-29T19:31:37.953Z",
             updatedAt: "2022-08-29T19:31:37.953Z",
           },
           {
+            _id: "630d1419ad9e40e3f0d66111",
             descripcion: "incendio de contenido",
             documentacion: [
               {
@@ -462,17 +476,18 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
-            _id: "630d1419ad9e40e3f0d66111",
+
             createdAt: "2022-08-29T19:31:37.953Z",
             updatedAt: "2022-08-29T19:31:37.953Z",
           },
         ],
-        _id: "630d068260a300354499b986",
       },
       {
+        _id: "630d1419ad9e40e3f0d6644c",
         siniestro: "Daños por agua",
         subtipos_Siniestro: [
           {
+            _id: "630d1419ad9e40e3f0d6644d",
             descripcion: "Daño por agua al contenido",
             documentacion: [
               {
@@ -511,14 +526,14 @@ export const branch = [
                 updatedAt: "2022-08-29T19:31:37.953Z",
               },
             ],
-            _id: "630d1419ad9e40e3f0d6644d",
+
             createdAt: "2022-08-29T19:31:37.953Z",
             updatedAt: "2022-08-29T19:31:37.953Z",
           },
         ],
-        _id: "630d1419ad9e40e3f0d6644c",
       },
       {
+        _id: "630d1419ad9e40e3f0d664213",
         siniestro: "Robo",
         subtipos_Siniestro: [
           {
@@ -677,12 +692,33 @@ export const branch = [
       ],
       _id: "630d068260a300354499b996",
     },
-    formularios: [
-      "PolizaBasic",
-      "LineaSiniestradaBasic",
-      "DatosPersonalesBasic",
-      "DescripcionDelHechoBasic",
-      "ObservacionesFinalesBasic",
+    tutorias: [
+      {
+        id: "3333333333333333333",
+        titulo: "Express",
+        formularios: [
+          "PolizaBasic",
+          "DatosPersonalesBasic",
+          "DatosPersonalesExtended",
+          "DatosLaboralesBasic",
+          "FechaHoraLugarSiniestroBasic",
+          "FechaHoraSiniestroBasic",
+          "ObservacionesFinalesExtended",
+        ],
+      },
+      {
+        id: "444444444444444444",
+        titulo: "Standard",
+        formularios: [
+          "PolizaBasic",
+          "DatosPersonalesBasic",
+          "DatosPersonalesExtended",
+          "DatosLaboralesBasic",
+          "FechaHoraLugarSiniestroBasic",
+          "FechaHoraSiniestroBasic",
+          "ObservacionesFinalesExtended",
+        ],
+      },
     ],
     creado_por: "alunazzi@galiciaseguros.com.ar",
     createdAt: "2021-08-29T18:23:02.608Z",
