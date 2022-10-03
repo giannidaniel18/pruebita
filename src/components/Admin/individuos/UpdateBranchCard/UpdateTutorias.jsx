@@ -1,4 +1,7 @@
 import {
+  Button,
+  Drawer,
+  Grid,
   Stack,
   Switch,
   Table,
@@ -11,10 +14,12 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 import { formsAndInfo } from "../../../../constants/variablesGlobales";
 import { useBranchContext } from "../../../../context/BranchContext";
 import AdministracionTable from "../../../common/AdministracionTable";
+import TextImputControlSmall from "../../../common/TextImputControlSmall";
 
 const FORMULARIOS_HEADERS = [
   { id: "form", titulo: "Formulario", cabecera: true },
@@ -24,7 +29,28 @@ const TUTORIA_HEADERS = [{ id: "tutoria", titulo: "tutorias", cabecera: true }];
 
 export default function UpdateTutorias({ tutorias }) {
   const [currentTutoria, setCurrentTutoria] = useState(null);
+  const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState([]);
+  const { control, handleSubmit, resetField } = useForm();
+  const { addTutoriaToBranch, deleteTutoriaFromBranch, updateTutoriaFromBranch } = useBranchContext();
 
+  const onToggleDrawerVisibleMode = () => {
+    setDrawerVisibleMode(!drawerVisibleMode);
+  };
+  const resetDrawerDataToHandle = () => {
+    setDrawerDataToHandle([]);
+  };
+
+  const onAddTutoriaToBranch = (newTutoria) => {
+    resetField("titulo");
+    addTutoriaToBranch(newTutoria);
+  };
+  const onDeleteTutoriaFromBranch = (e) => {
+    deleteTutoriaFromBranch(e.currentTarget.id);
+  };
+  const onUpdateTutoriaFromBranch = (updatedTutoria) => {
+    updateTutoriaFromBranch(drawerDataToHandle[0].id, updatedTutoria.tutoria);
+  };
   const handleCurrentTutoria = (e) => {
     if (e.currentTarget.id === currentTutoria?._id) {
       setCurrentTutoria(null);
@@ -34,11 +60,15 @@ export default function UpdateTutorias({ tutorias }) {
   };
 
   const onSettingDrawerDataToHandle = (e) => {
-    console.log("update tutoria", e.currentTarget.id);
-  };
-
-  const onDeleteTutoria = (e) => {
-    console.log("delete tutoria", e.currentTarget.id);
+    onToggleDrawerVisibleMode();
+    setDrawerDataToHandle([
+      {
+        id: e.currentTarget.id,
+        inputName: "tutoria",
+        valueToUpdate: e.currentTarget.name,
+        label: "titulo",
+      },
+    ]);
   };
 
   return (
@@ -50,22 +80,39 @@ export default function UpdateTutorias({ tutorias }) {
         selectedRow={currentTutoria}
         handleSelectedRow={handleCurrentTutoria}
         updateFunction={onSettingDrawerDataToHandle}
-        deleteFunction={onDeleteTutoria}
+        deleteFunction={onDeleteTutoriaFromBranch}
         type="tutorias"
       />
+      <form onSubmit={handleSubmit(onAddTutoriaToBranch)}>
+        <Grid container>
+          <Grid item xs={12} md={8}>
+            <TextImputControlSmall control={control} name="titulo" label="Tutoria a agregar" />
+          </Grid>
+          <Grid item xs={12} md={4} textAlign="right">
+            <Button variant="outlined" type="submit">
+              Tutoria +
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+      {currentTutoria && <TutoriaTable tutoria={currentTutoria} />}
 
-      {currentTutoria ? <TutoriaTable tutoria={currentTutoria} /> : "null"}
+      <AdminDrawerTutorias
+        drawerVisibleMode={drawerVisibleMode}
+        onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+        drawerDataToHandle={drawerDataToHandle}
+        resetDrawerDataToHandle={resetDrawerDataToHandle}
+        onUpdateTutoriaFromBranch={onUpdateTutoriaFromBranch}
+      />
     </Stack>
   );
 }
 
 function TutoriaTable({ tutoria }) {
-  const { updateForms } = useBranchContext();
-
-  const handleUpdateTutoria = (idform, status) => {
-    updateForms(idform, status);
+  const { updateFormulariosFromTutoria } = useBranchContext();
+  const onUpdateFormulariosFromTutoria = (idform, status) => {
+    updateFormulariosFromTutoria(tutoria._id, idform, status);
   };
-
   return (
     <Stack spacing={2}>
       <Typography>{tutoria.titulo}</Typography>
@@ -94,7 +141,7 @@ function TutoriaTable({ tutoria }) {
                 <TableCell>
                   <FormSwitch
                     idform={row.id}
-                    handleUpdateTutoria={handleUpdateTutoria}
+                    handleUpdateTutoria={onUpdateFormulariosFromTutoria}
                     status={tutoria.formularios.includes(row.id)}
                   />
                 </TableCell>
@@ -108,12 +155,10 @@ function TutoriaTable({ tutoria }) {
 }
 
 function FormSwitch({ status, idform, handleUpdateTutoria }) {
-  const [checked, setChecked] = React.useState(status);
+  const [checked, setChecked] = React.useState(false);
 
   useEffect(() => {
-    return () => {
-      setChecked(status);
-    };
+    setChecked(status);
   }, [status]);
 
   const handleChange = (e) => {
@@ -138,5 +183,58 @@ function FormSwitch({ status, idform, handleUpdateTutoria }) {
     //     )}
     //   />
     // </form>
+  );
+}
+
+function AdminDrawerTutorias({
+  drawerVisibleMode,
+  onToggleDrawerVisibleMode,
+  drawerDataToHandle,
+  resetDrawerDataToHandle,
+  onUpdateTutoriaFromBranch,
+}) {
+  const { control, handleSubmit } = useForm();
+  const CloseDrawer = () => {
+    onToggleDrawerVisibleMode();
+    resetDrawerDataToHandle([]);
+  };
+
+  const onSubmit = (data) => {
+    onToggleDrawerVisibleMode();
+    onUpdateTutoriaFromBranch(data);
+  };
+
+  return (
+    <Drawer anchor={"right"} open={drawerVisibleMode}>
+      <Stack marginTop={10} width={{ xs: "300px", sm: "500px" }}>
+        <Button sx={{ alignSelf: "flex-end" }} onClick={CloseDrawer}>
+          X
+        </Button>
+
+        <Stack p={{ xs: 1, sm: 4 }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container alignItems="center" textAlign="end" spacing={2}>
+              {drawerDataToHandle?.map((data) => (
+                <Grid key={data.id} item xs={12}>
+                  <TextImputControlSmall
+                    control={control}
+                    name={data.inputName}
+                    label={data.label}
+                    defaultValue={data.valueToUpdate}
+                    multiline={data.multiline ? true : false}
+                  />
+                </Grid>
+              ))}
+
+              <Grid item xs={12}>
+                <Button sx={{ alignSelf: "flex-end" }} variant="outlined" type="submit">
+                  Enviar
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Stack>
+      </Stack>
+    </Drawer>
   );
 }

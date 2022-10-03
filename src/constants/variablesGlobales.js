@@ -27,6 +27,11 @@ export const defaultVerificacion_Extra = {
   createdAt: "2022-08-29T19:31:37.954Z",
   updatedAt: "2022-08-29T19:31:37.954Z",
 };
+export const defaultTutoria = {
+  _id: "",
+  titulo: "",
+  formularios: [],
+};
 export const defaultEvento = {
   _id: new Date().valueOf(),
   siniestro: "",

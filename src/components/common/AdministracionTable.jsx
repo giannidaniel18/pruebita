@@ -25,7 +25,7 @@ export default function AdministracionTable({
                 {header.titulo}
               </TableCell>
             ))}
-            {isContainer && <TableCell align="center">Subtipos</TableCell>}
+            {isContainer && <TableCell align="center">Ver</TableCell>}
             <TableCell align="right"> Administrar</TableCell>
           </TableRow>
         </TableHead>

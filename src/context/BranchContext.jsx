@@ -8,6 +8,7 @@ import {
   defaultSubtipos_Siniestro,
   defaultTipificacion,
   defaultDocumento,
+  defaultTutoria,
 } from "../constants/variablesGlobales";
 
 const BranchContext = createContext(null);
@@ -266,13 +267,39 @@ const BranchContextProvider = ({ children }) => {
     updateBranchesData(newBranch);
   };
 
-  const updateForms = (idform, status) => {
+  const addTutoriaToBranch = (tutoria) => {
     const newBranch = currentBranch;
+    const newTutoria = { ...defaultTutoria };
+    newTutoria.titulo = tutoria.titulo;
+    newTutoria._id = new Date().valueOf().toString();
+    newBranch.tutorias = [...currentBranch.tutorias, newTutoria];
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
+  const deleteTutoriaFromBranch = (idTutoria) => {
+    const newBranch = currentBranch;
+    newBranch.tutorias = currentBranch.tutorias.filter((tutoria) => tutoria._id !== idTutoria);
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
+
+  const updateTutoriaFromBranch = (idTutoria, updatedTutoria) => {
+    const newBranch = currentBranch;
+    const indexTutoria = currentBranch.tutorias.findIndex((tutoria) => tutoria._id === idTutoria);
+    newBranch.tutorias[indexTutoria].titulo = updatedTutoria;
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
+
+  const updateFormulariosFromTutoria = (idTutoria, idform, status) => {
+    const newBranch = currentBranch;
+    const indexTutoria = currentBranch.tutorias.findIndex((tutoria) => tutoria._id === idTutoria);
+
     if (status === false) {
-      const newFormularios = currentBranch.formularios.filter((form) => form !== idform);
-      newBranch.formularios = newFormularios;
+      const newFormularios = currentBranch.tutorias[indexTutoria].formularios.filter((form) => form !== idform);
+      newBranch.tutorias[indexTutoria].formularios = newFormularios;
     } else {
-      newBranch.formularios.push(idform);
+      newBranch.tutorias[indexTutoria].formularios.push(idform);
     }
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
@@ -301,7 +328,10 @@ const BranchContextProvider = ({ children }) => {
         addTipificacionToSubtipo,
         updateTipificacionFromSubtipo,
         deleteTipificacionFromSubtipo,
-        updateForms,
+        addTutoriaToBranch,
+        deleteTutoriaFromBranch,
+        updateTutoriaFromBranch,
+        updateFormulariosFromTutoria,
       }}
     >
       {children}
