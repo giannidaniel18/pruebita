@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Button,
-  Drawer,
   Grid,
   IconButton,
   Stack,
@@ -19,6 +18,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useForm } from "react-hook-form";
 import { useBranchContext } from "../../../../context/BranchContext";
 import DataNotFound from "../../../common/DataNotFound";
+import { AdminDrawerUpdate } from "../AdminDrawers";
 
 export default function UpdateVerificaciones({ verificaciones, tipoVerificacion, title }) {
   const { control, handleSubmit, resetField } = useForm();
@@ -27,13 +27,9 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
   const arrayVerificaciones =
     tipoVerificacion === "Critica" ? verificaciones.verificaciones_Criticas : verificaciones.verificaciones_Extras;
 
-  const onSubmit = (data) => {
+  const onAddVerificacion = (data) => {
     resetField("titulo_Verificacion_" + tipoVerificacion);
     resetField("descripcion_Verificacion_" + tipoVerificacion);
-    handleAddVerifCritica(data);
-  };
-
-  const handleAddVerifCritica = (data) => {
     addVerificacionToBranch(data, tipoVerificacion);
   };
 
@@ -58,7 +54,7 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
           </DataNotFound>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onAddVerificacion)}>
           <Typography variant="h6" mb={2}>
             + Verificación {tipoVerificacion}
           </Typography>
@@ -94,29 +90,46 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
 }
 
 function TableVerificaciones({ verificaciones, tipoVerificacion }) {
-  const [updateMode, setUpdateMode] = useState(false);
-  const [verifToUpdate, setVerifToUpdate] = useState({});
+  const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
+  // const [verifToUpdate, setVerifToUpdate] = useState({});
   const { deleteVerificacionFromBranch, updateVerificacionFromBranch } = useBranchContext();
 
-  const deleteVerif = (e) => {
-    deleteVerificacionFromBranch(e.currentTarget.id, tipoVerificacion);
+  const onToggleDrawerVisibleMode = () => {
+    setDrawerVisibleMode(!drawerVisibleMode);
   };
-
-  const updateVerif = (updatedVerif) => {
-    updateVerificacionFromBranch(updatedVerif, tipoVerificacion);
+  const resetDrawerDataToHandle = () => {
+    setDrawerDataToHandle([]);
   };
+  const onSettingDrawerDataToHandle = (e) => {
+    onToggleDrawerVisibleMode();
 
-  const handleUpdateModeOn = (e) => {
-    setUpdateMode(true);
-    setVerifToUpdate({
+    setDrawerDataToHandle({
       id: e.currentTarget.id,
-      title_verif: e.currentTarget.getAttribute("title_verif"),
-      descrip_verif: e.currentTarget.getAttribute("descrip_verif"),
+      type: "verificacion",
+      method: "update",
+      data: [
+        {
+          inputName: "title_verif",
+          label: "Titulo Verificacion",
+          multiline: false,
+          valueToUpdate: e.currentTarget.getAttribute("title_verif"),
+        },
+        {
+          inputName: "descrip_verif",
+          label: "Detalle verificacion",
+          multiline: true,
+          valueToUpdate: e.currentTarget.getAttribute("descrip_verif"),
+        },
+      ],
     });
   };
 
-  const onClose = () => {
-    setUpdateMode(false);
+  const onUpdateVerificacion = (updatedVerif) => {
+    updateVerificacionFromBranch(drawerDataToHandle.id, updatedVerif, tipoVerificacion);
+  };
+  const onDeleteVerificacion = (e) => {
+    deleteVerificacionFromBranch(e.currentTarget.id, tipoVerificacion);
   };
 
   return (
@@ -137,14 +150,14 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
                 <TableCell align="left">{row.descripcion}</TableCell>
                 <TableCell align="right" sx={{ minWidth: "115px" }}>
                   <IconButton
-                    onClick={handleUpdateModeOn}
+                    onClick={onSettingDrawerDataToHandle}
                     id={row._id}
                     title_verif={row.titulo}
                     descrip_verif={row.descripcion}
                   >
                     <ModeEditIcon />
                   </IconButton>
-                  <IconButton onClick={deleteVerif} id={row._id}>
+                  <IconButton onClick={onDeleteVerificacion} id={row._id}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -153,66 +166,15 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <AdminDrawerVerificaciones
-        updateMode={updateMode} // Abrir el drawer y setear el objeto a modificar
-        onClose={onClose} // cerrar el Drawer
-        verifToUpdate={verifToUpdate} //objeto a actualizar
-        tipoVerificacion={tipoVerificacion} // Critica o Extra
-        updateVerif={updateVerif} // metodo que retorna con el objeto actualizado
-      />
+      {drawerVisibleMode && (
+        <AdminDrawerUpdate
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+          drawerDataToHandle={drawerDataToHandle}
+          resetDrawerDataToHandle={resetDrawerDataToHandle}
+          onPersistData={onUpdateVerificacion}
+        />
+      )}
     </Stack>
-  );
-}
-
-function AdminDrawerVerificaciones({ updateMode, onClose, tipoVerificacion, verifToUpdate, updateVerif }) {
-  const { control, handleSubmit } = useForm();
-  const { title_verif, descrip_verif, id } = verifToUpdate;
-  const CloseDrawer = () => {
-    onClose(false);
-  };
-
-  const onSubmit = (data) => {
-    updateVerif({ ...data, id });
-  };
-
-  return (
-    <Drawer anchor={"right"} open={updateMode}>
-      <Stack marginTop={10} width={{ xs: "300px", sm: "500px" }}>
-        <Button sx={{ alignSelf: "flex-end" }} onClick={CloseDrawer}>
-          X
-        </Button>
-
-        <Stack p={{ xs: 1, sm: 4 }}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container alignItems="center" textAlign="end" spacing={2}>
-              <Grid item xs={12}>
-                <TextImputControlSmall
-                  control={control}
-                  name={"titulo_Verificacion_" + tipoVerificacion}
-                  label={"Titulo de la verificación " + tipoVerificacion}
-                  defaultValue={title_verif}
-                  multiline={true}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextImputControlSmall
-                  control={control}
-                  name={"descripcion_Verificacion_" + tipoVerificacion}
-                  label={"Detalle de la verificación " + tipoVerificacion}
-                  defaultValue={descrip_verif}
-                  multiline={true}
-                  focused={true}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button sx={{ alignSelf: "flex-end" }} variant="outlined" type="submit" onClick={CloseDrawer}>
-                  Actualizar
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Stack>
-      </Stack>
-    </Drawer>
   );
 }

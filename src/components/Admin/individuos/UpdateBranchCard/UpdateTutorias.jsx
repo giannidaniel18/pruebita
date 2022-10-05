@@ -1,6 +1,5 @@
 import {
   Button,
-  Drawer,
   Grid,
   Stack,
   Switch,
@@ -20,6 +19,7 @@ import { formsAndInfo } from "../../../../constants/variablesGlobales";
 import { useBranchContext } from "../../../../context/BranchContext";
 import AdministracionTable from "../../../common/AdministracionTable";
 import TextImputControlSmall from "../../../common/TextImputControlSmall";
+import { AdminDrawerUpdate } from "../AdminDrawers";
 
 const FORMULARIOS_HEADERS = [
   { id: "form", titulo: "Formulario", cabecera: true },
@@ -30,7 +30,7 @@ const TUTORIA_HEADERS = [{ id: "tutoria", titulo: "tutorias", cabecera: true }];
 export default function UpdateTutorias({ tutorias }) {
   const [currentTutoria, setCurrentTutoria] = useState(null);
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  const [drawerDataToHandle, setDrawerDataToHandle] = useState([]);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const { control, handleSubmit, resetField } = useForm();
   const { addTutoriaToBranch, deleteTutoriaFromBranch, updateTutoriaFromBranch } = useBranchContext();
 
@@ -49,7 +49,7 @@ export default function UpdateTutorias({ tutorias }) {
     deleteTutoriaFromBranch(e.currentTarget.id);
   };
   const onUpdateTutoriaFromBranch = (updatedTutoria) => {
-    updateTutoriaFromBranch(drawerDataToHandle[0].id, updatedTutoria.tutoria);
+    updateTutoriaFromBranch(drawerDataToHandle.id, updatedTutoria.tutoria);
   };
   const handleCurrentTutoria = (e) => {
     if (e.currentTarget.id === currentTutoria?._id) {
@@ -61,14 +61,13 @@ export default function UpdateTutorias({ tutorias }) {
 
   const onSettingDrawerDataToHandle = (e) => {
     onToggleDrawerVisibleMode();
-    setDrawerDataToHandle([
-      {
-        id: e.currentTarget.id,
-        inputName: "tutoria",
-        valueToUpdate: e.currentTarget.name,
-        label: "titulo",
-      },
-    ]);
+
+    setDrawerDataToHandle({
+      id: e.currentTarget.id,
+      type: "tutoria",
+      method: "update",
+      data: [{ inputName: "tutoria", label: "Titulo tutoria", multiline: false, valueToUpdate: e.currentTarget.name }],
+    });
   };
 
   return (
@@ -97,12 +96,12 @@ export default function UpdateTutorias({ tutorias }) {
       </form>
       {currentTutoria && <TutoriaTable tutoria={currentTutoria} />}
 
-      <AdminDrawerTutorias
+      <AdminDrawerUpdate
         drawerVisibleMode={drawerVisibleMode}
         onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
         drawerDataToHandle={drawerDataToHandle}
         resetDrawerDataToHandle={resetDrawerDataToHandle}
-        onUpdateTutoriaFromBranch={onUpdateTutoriaFromBranch}
+        onPersistData={onUpdateTutoriaFromBranch}
       />
     </Stack>
   );
@@ -183,58 +182,5 @@ function FormSwitch({ status, idform, handleUpdateTutoria }) {
     //     )}
     //   />
     // </form>
-  );
-}
-
-function AdminDrawerTutorias({
-  drawerVisibleMode,
-  onToggleDrawerVisibleMode,
-  drawerDataToHandle,
-  resetDrawerDataToHandle,
-  onUpdateTutoriaFromBranch,
-}) {
-  const { control, handleSubmit } = useForm();
-  const CloseDrawer = () => {
-    onToggleDrawerVisibleMode();
-    resetDrawerDataToHandle([]);
-  };
-
-  const onSubmit = (data) => {
-    onToggleDrawerVisibleMode();
-    onUpdateTutoriaFromBranch(data);
-  };
-
-  return (
-    <Drawer anchor={"right"} open={drawerVisibleMode}>
-      <Stack marginTop={10} width={{ xs: "300px", sm: "500px" }}>
-        <Button sx={{ alignSelf: "flex-end" }} onClick={CloseDrawer}>
-          X
-        </Button>
-
-        <Stack p={{ xs: 1, sm: 4 }}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container alignItems="center" textAlign="end" spacing={2}>
-              {drawerDataToHandle?.map((data) => (
-                <Grid key={data.id} item xs={12}>
-                  <TextImputControlSmall
-                    control={control}
-                    name={data.inputName}
-                    label={data.label}
-                    defaultValue={data.valueToUpdate}
-                    multiline={data.multiline ? true : false}
-                  />
-                </Grid>
-              ))}
-
-              <Grid item xs={12}>
-                <Button sx={{ alignSelf: "flex-end" }} variant="outlined" type="submit">
-                  Enviar
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Stack>
-      </Stack>
-    </Drawer>
   );
 }

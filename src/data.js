@@ -288,6 +288,7 @@ export const branch = [
       },
     ],
     verificaciones: {
+      id: "630d040660a300354499b91bxxxxxsaeddq1wefa",
       verificaciones_Criticas: [
         {
           titulo: "Domicilio",
@@ -346,7 +347,6 @@ export const branch = [
           updatedAt: "2022-08-29T19:31:37.954Z",
         },
       ],
-      _id: "630d068260a300354499b996",
     },
     tutorias: [
       {
@@ -727,3 +727,9 @@ export const branch = [
     modificado_por: "agianni@galiciaseguros.com.ar",
   },
 ];
+
+const objk = {
+  verificaciones: [
+    { id: "1", fechaCreacion: "", fechaUpdate: "", verificacionesCriticas: [], verificacionesExtras: [] },
+  ],
+};

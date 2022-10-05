@@ -18,7 +18,6 @@ export default function TextImputControlSmall({ control, name, label, multiline 
             required
             multiline={multiline}
             rows={multiline ? (multilineRow ? multilineRow : 5) : undefined}
-            name={name}
             label={label}
             value={defaultValue ? defaultInputValue : value}
             onChange={defaultValue ? (value) => onChange(value, setDefaultInputValue(value.target.value)) : onChange}

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useBranchContext } from "../../../../context/BranchContext";
-import { Button, Divider, Drawer, Grid, Stack, Typography } from "@mui/material";
+import { Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import TipificationTable from "../../../individuos/siniestros/TipíficationTable";
 import TextImputControlSmall from "../../../common/TextImputControlSmall";
 import DataNotFound from "../../../common/DataNotFound";
 import AdministracionTable from "../../../common/AdministracionTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { AdminDrawerUpdate, AdminDrawerCreate } from "../AdminDrawers";
 
 const EVENTOS_HEADERS = [{ id: "event", titulo: "Eventos", cabecera: true }];
 const SUBTIPOS_HEADERS = [{ id: "subtipo", titulo: "Subtipos", cabecera: true }];
@@ -76,7 +77,7 @@ export default function UpdateEventos({ eventos }) {
 
 function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrentEvent }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  const [drawerDataToHandle, setDrawerDataToHandle] = useState([]);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const { control, handleSubmit, resetField } = useForm();
   const { addEventoToBranch, deleteEventoFromBranch, updateEventoFromBranch } = useBranchContext();
 
@@ -88,17 +89,13 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
   };
   const onSettingDrawerDataToHandle = (e) => {
     onToggleDrawerVisibleMode();
-    setDrawerDataToHandle([
-      {
-        id: e.currentTarget.id,
-        inputName: "evento",
-        valueToUpdate: e.currentTarget.name,
-        label: "Evento",
-        type: "evento",
-        method: "update",
-        multiline: false,
-      },
-    ]);
+
+    setDrawerDataToHandle({
+      id: e.currentTarget.id,
+      type: "evento",
+      method: "update",
+      data: [{ inputName: "evento", label: "Evento", multiline: false, valueToUpdate: e.currentTarget.name }],
+    });
   };
   const onAddEvento = (newEvento) => {
     addEventoToBranch(newEvento);
@@ -109,7 +106,7 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
     resetCurrentEvent();
   };
   const onUpdateEvento = (updatedEvento) => {
-    updateEventoFromBranch(drawerDataToHandle[0].id, updatedEvento.evento);
+    updateEventoFromBranch(drawerDataToHandle.id, updatedEvento.evento);
   };
   return (
     <>
@@ -149,20 +146,23 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
           </Grid>
         </Grid>
       </form>
-      <AdminDrawerEventos
-        drawerVisibleMode={drawerVisibleMode}
-        onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
-        drawerDataToHandle={drawerDataToHandle}
-        resetDrawerDataToHandle={resetDrawerDataToHandle}
-        onUpdateEvento={onUpdateEvento}
-      />
+
+      {drawerVisibleMode && (
+        <AdminDrawerUpdate
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+          drawerDataToHandle={drawerDataToHandle}
+          resetDrawerDataToHandle={resetDrawerDataToHandle}
+          onPersistData={onUpdateEvento}
+        />
+      )}
     </>
   );
 }
 
 function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, resetCurrentSubtipo }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  const [drawerDataToHandle, setDrawerDataToHandle] = useState([]);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const { control, handleSubmit, resetField } = useForm();
   const { addSubtipoToEvento, deleteSubtipoFromEvento, updateSubtipoFromEvento } = useBranchContext();
 
@@ -174,17 +174,13 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
   };
   const onSettingDrawerDataToHandle = (e) => {
     onToggleDrawerVisibleMode();
-    setDrawerDataToHandle([
-      {
-        id: e.currentTarget.id,
-        inputName: "subtipo",
-        valueToUpdate: e.currentTarget.name,
-        label: "Subtipo",
-        type: "subtipo",
-        method: "update",
-        multiline: false,
-      },
-    ]);
+
+    setDrawerDataToHandle({
+      id: e.currentTarget.id,
+      type: "subtipo",
+      method: "update",
+      data: [{ inputName: "subtipo", label: "Subtipo", multiline: false, valueToUpdate: e.currentTarget.name }],
+    });
   };
 
   const onAddSubtipo = (newSubtipo) => {
@@ -196,7 +192,7 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
     resetCurrentSubtipo();
   };
   const onUpdateSubtipo = (updatedSubtipo) => {
-    updateSubtipoFromEvento(drawerDataToHandle[0].id, updatedSubtipo.subtipo, currentEvento._id);
+    updateSubtipoFromEvento(drawerDataToHandle.id, updatedSubtipo.subtipo, currentEvento._id);
   };
 
   return (
@@ -252,13 +248,15 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
           <Typography variant="h5"> Por favor selecciona un Subtipo en la tabla superior</Typography>
         )}
       </Stack>
-      <AdminDrawerEventos
-        drawerVisibleMode={drawerVisibleMode}
-        onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
-        drawerDataToHandle={drawerDataToHandle}
-        resetDrawerDataToHandle={resetDrawerDataToHandle}
-        onUpdateSubtipo={onUpdateSubtipo}
-      />
+      {drawerVisibleMode && (
+        <AdminDrawerUpdate
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+          drawerDataToHandle={drawerDataToHandle}
+          resetDrawerDataToHandle={resetDrawerDataToHandle}
+          onPersistData={onUpdateSubtipo}
+        />
+      )}
     </Stack>
   );
 }
@@ -282,7 +280,7 @@ function DocAndTip({ currentEvento, currentSubtipo }) {
 
 function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  const [drawerDataToHandle, setDrawerDataToHandle] = useState([]);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const { control, handleSubmit, resetField } = useForm();
   const { addDocumentoToSubtipo, deleteDocumentoFromSubtipo, updateDocumentoFromSubtipo } = useBranchContext();
 
@@ -294,17 +292,12 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
   };
   const onSettingDrawerDataToHandle = (e) => {
     onToggleDrawerVisibleMode();
-    setDrawerDataToHandle([
-      {
-        id: e.currentTarget.id,
-        inputName: "documento",
-        valueToUpdate: e.currentTarget.name,
-        label: "Documento",
-        type: "documento",
-        method: "update",
-        multiline: true,
-      },
-    ]);
+    setDrawerDataToHandle({
+      id: e.currentTarget.id,
+      type: "documento",
+      method: "update",
+      data: [{ inputName: "documento", label: "Documento", multiline: true, valueToUpdate: e.currentTarget.name }],
+    });
   };
 
   const onAddDocumento = (newDoc) => {
@@ -315,7 +308,7 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
     deleteDocumentoFromSubtipo(e.currentTarget.id, currentSubtipoId, currentEventoId);
   };
   const onUpdateDocumento = (updatedDoc) => {
-    updateDocumentoFromSubtipo(drawerDataToHandle[0].id, updatedDoc.documento, currentSubtipoId, currentEventoId);
+    updateDocumentoFromSubtipo(drawerDataToHandle.id, updatedDoc.documento, currentSubtipoId, currentEventoId);
   };
 
   return (
@@ -355,24 +348,26 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
           </Grid>
         </Grid>
       </form>
-      <AdminDrawerEventos
-        drawerVisibleMode={drawerVisibleMode}
-        onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
-        drawerDataToHandle={drawerDataToHandle}
-        resetDrawerDataToHandle={resetDrawerDataToHandle}
-        onUpdateDocumento={onUpdateDocumento}
-      />
+      {drawerVisibleMode && (
+        <AdminDrawerUpdate
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+          drawerDataToHandle={drawerDataToHandle}
+          resetDrawerDataToHandle={resetDrawerDataToHandle}
+          onPersistData={onUpdateDocumento}
+        />
+      )}
     </Stack>
   );
 }
 
 function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  const [drawerDataToHandle, setDrawerDataToHandle] = useState([]);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const { addTipificacionToSubtipo, updateTipificacionFromSubtipo, deleteTipificacionFromSubtipo } = useBranchContext();
 
   const resetDrawerDataToHandle = () => {
-    setDrawerDataToHandle([]);
+    setDrawerDataToHandle({});
   };
   const onToggleDrawerVisibleMode = () => {
     setDrawerVisibleMode(!drawerVisibleMode);
@@ -380,106 +375,76 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
   const onSettingDrawerDataToHandle = (e) => {
     onToggleDrawerVisibleMode();
     if (e.currentTarget.name === "AddTipificacion") {
-      setDrawerDataToHandle([
-        {
-          id: "situacion",
-          inputName: "situacion",
-          valueToUpdate: null,
-          label: "situation",
-          type: "tipificacion",
-          method: "Add",
-          multiline: true,
-        },
-        {
-          id: "core",
-          inputName: "core",
-          valueToUpdate: null,
-          label: "Core",
-          type: "tipificacion",
-          method: "Add",
-          multiline: false,
-        },
-        {
-          id: "accion",
-          inputName: "accion",
-          valueToUpdate: null,
-          label: "Accion",
-          type: "tipificacion",
-          method: "Add",
-          multiline: false,
-        },
-        {
-          id: "resgesdesc",
-          inputName: "resgesdesc",
-          valueToUpdate: null,
-          label: "Resultado de gestion",
-          type: "tipificacion",
-          method: "Add",
-          multiline: false,
-        },
-        {
-          id: "tipgesdesc",
-          inputName: "tipgesdesc",
-          valueToUpdate: null,
-          label: "Tipo de resultado",
-          type: "tipificacion",
-          method: "Add",
-          multiline: false,
-        },
-      ]);
+      setDrawerDataToHandle({
+        id: "",
+        type: "tipificacion",
+        method: "add",
+        data: [
+          {
+            inputName: "evento",
+            label: "situation",
+            multiline: true,
+          },
+          {
+            inputName: "core",
+            label: "Core",
+            multiline: false,
+          },
+          {
+            inputName: "accion",
+            label: "Accion",
+            multiline: false,
+          },
+          {
+            inputName: "tipgesdesc",
+            label: "Tipo de resultado",
+            multiline: false,
+          },
+          {
+            inputName: "resgesdesc",
+            label: "Resultado de gestion",
+            multiline: false,
+          },
+        ],
+      });
     } else {
-      setDrawerDataToHandle([
-        {
-          id: "situacion",
-          inputName: "situacion",
-          valueToUpdate: e.currentTarget.dataset.evento,
-          label: "situation",
-          type: "tipificacion",
-          method: "Update",
-          multiline: true,
-          tipificacionId: e.currentTarget.id,
-        },
-        {
-          id: "core",
-          inputName: "core",
-          valueToUpdate: e.currentTarget.dataset.core,
-          label: "Core",
-          type: "tipificacion",
-          method: "Update",
-          multiline: false,
-          tipificacionId: e.currentTarget.id,
-        },
-        {
-          id: "accion",
-          inputName: "accion",
-          valueToUpdate: e.currentTarget.dataset.accion,
-          label: "Accion",
-          type: "tipificacion",
-          method: "Update",
-          multiline: false,
-          tipificacionId: e.currentTarget.id,
-        },
-        {
-          id: "resgesdesc",
-          inputName: "resgesdesc",
-          valueToUpdate: e.currentTarget.dataset.resgesdesc,
-          label: "Resultado de gestion",
-          type: "tipificacion",
-          method: "Update",
-          multiline: false,
-          tipificacionId: e.currentTarget.id,
-        },
-        {
-          id: "tipgesdesc",
-          inputName: "tipgesdesc",
-          valueToUpdate: e.currentTarget.dataset.tipgesdesc,
-          label: "Tipo de resultado",
-          type: "tipificacion",
-          method: "Update",
-          multiline: false,
-          tipificacionId: e.currentTarget.id,
-        },
-      ]);
+      setDrawerDataToHandle({
+        id: e.currentTarget.id,
+        type: "tipificacion",
+        method: "update",
+        data: [
+          {
+            inputName: "evento",
+            valueToUpdate: e.currentTarget.dataset.evento,
+            label: "situation",
+            multiline: true,
+          },
+          {
+            inputName: "core",
+            valueToUpdate: e.currentTarget.dataset.core,
+            label: "Core",
+            multiline: false,
+          },
+          {
+            inputName: "accion",
+            valueToUpdate: e.currentTarget.dataset.accion,
+            label: "Accion",
+            multiline: false,
+          },
+          {
+            inputName: "tipgesdesc",
+            valueToUpdate: e.currentTarget.dataset.tipgesdesc,
+            label: "Tipo de resultado",
+            multiline: false,
+          },
+          {
+            inputName: "resgesdesc",
+            valueToUpdate: e.currentTarget.dataset.resgesdesc,
+            label: "Resultado de gestion",
+            multiline: false,
+          },
+        ],
+      });
     }
   };
 
@@ -491,12 +456,7 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
     deleteTipificacionFromSubtipo(tipificacionId, currentSubtipoId, currentEventoId);
   };
   const onUpdateTipificacion = (updatedTipificacion) => {
-    updateTipificacionFromSubtipo(
-      drawerDataToHandle[0].tipificacionId,
-      updatedTipificacion,
-      currentSubtipoId,
-      currentEventoId
-    );
+    updateTipificacionFromSubtipo(drawerDataToHandle.id, updatedTipificacion, currentSubtipoId, currentEventoId);
   };
 
   return (
@@ -529,101 +489,24 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
           </Button>
         </Grid>
       </Grid>
-      <AdminDrawerEventos
-        drawerVisibleMode={drawerVisibleMode}
-        onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
-        drawerDataToHandle={drawerDataToHandle}
-        resetDrawerDataToHandle={resetDrawerDataToHandle}
-        onUpdateTipificacion={onUpdateTipificacion}
-        onAddTipificacion={onAddTipificacion}
-      />
+
+      {drawerDataToHandle.method === "add" ? (
+        <AdminDrawerCreate
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+          drawerDataToHandle={drawerDataToHandle}
+          resetDrawerDataToHandle={resetDrawerDataToHandle}
+          onPersistData={onAddTipificacion}
+        />
+      ) : (
+        <AdminDrawerUpdate
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+          drawerDataToHandle={drawerDataToHandle}
+          resetDrawerDataToHandle={resetDrawerDataToHandle}
+          onPersistData={onUpdateTipificacion}
+        />
+      )}
     </Stack>
-  );
-}
-
-function AdminDrawerEventos({
-  drawerVisibleMode,
-  onToggleDrawerVisibleMode,
-  drawerDataToHandle,
-  resetDrawerDataToHandle,
-  onUpdateEvento,
-  onUpdateSubtipo,
-  onAddTipificacion,
-  onUpdateTipificacion,
-  onUpdateDocumento,
-}) {
-  const { control, handleSubmit, resetField } = useForm();
-  const CloseDrawer = () => {
-    onToggleDrawerVisibleMode();
-    resetDrawerDataToHandle([]);
-  };
-
-  const onSubmit = (data) => {
-    switch (drawerDataToHandle[0].type) {
-      case "evento":
-        onUpdateEvento(data);
-        onToggleDrawerVisibleMode();
-        break;
-      case "subtipo":
-        onUpdateSubtipo(data);
-        onToggleDrawerVisibleMode();
-        break;
-      case "documento":
-        onUpdateDocumento(data);
-        onToggleDrawerVisibleMode();
-        break;
-      case "tipificacion":
-        if (drawerDataToHandle[0].method === "Add") {
-          onAddTipificacion(data);
-          resetField(drawerDataToHandle[0].inputName);
-          resetField(drawerDataToHandle[1].inputName);
-          resetField(drawerDataToHandle[2].inputName);
-          resetField(drawerDataToHandle[3].inputName);
-          resetField(drawerDataToHandle[4].inputName);
-          onToggleDrawerVisibleMode();
-        } else {
-          onUpdateTipificacion(data);
-          onToggleDrawerVisibleMode();
-        }
-
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  return (
-    <Drawer anchor={"right"} open={drawerVisibleMode}>
-      <Stack marginTop={10} width={{ xs: "300px", sm: "500px" }}>
-        <Button sx={{ alignSelf: "flex-end" }} onClick={CloseDrawer}>
-          X
-        </Button>
-
-        <Stack p={{ xs: 1, sm: 4 }}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container alignItems="center" textAlign="end" spacing={2}>
-              {drawerDataToHandle?.map((data) => (
-                <Grid key={data.id} item xs={12}>
-                  <TextImputControlSmall
-                    control={control}
-                    name={data.inputName}
-                    label={data.label}
-                    defaultValue={data.valueToUpdate}
-                    multiline={data.multiline ? true : false}
-                  />
-                </Grid>
-              ))}
-
-              <Grid item xs={12}>
-                <Button sx={{ alignSelf: "flex-end" }} variant="outlined" type="submit">
-                  Enviar
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Stack>
-      </Stack>
-    </Drawer>
   );
 }

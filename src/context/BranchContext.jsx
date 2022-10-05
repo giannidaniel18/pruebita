@@ -88,22 +88,22 @@ const BranchContextProvider = ({ children }) => {
     updateBranchesData(newBranch);
   };
   // Este metodo actualiza la verificacion segun el id y el tipo de verificacion
-  const updateVerificacionFromBranch = (verificacion, tipoVerificacion) => {
+  const updateVerificacionFromBranch = (idVerificacion, verificacion, tipoVerificacion) => {
+    console.log(verificacion, tipoVerificacion);
     const newBranch = currentBranch;
     if (tipoVerificacion === "Critica") {
       const index = currentBranch.verificaciones.verificaciones_Criticas.findIndex(
-        (verif) => verif._id === verificacion.id
+        (verif) => verif._id === idVerificacion
       );
 
-      newBranch.verificaciones.verificaciones_Criticas[index].titulo = verificacion.titulo_Verificacion_Critica;
-      newBranch.verificaciones.verificaciones_Criticas[index].descripcion =
-        verificacion.descripcion_Verificacion_Critica;
+      newBranch.verificaciones.verificaciones_Criticas[index].titulo = verificacion.title_verif;
+      newBranch.verificaciones.verificaciones_Criticas[index].descripcion = verificacion.descrip_verif;
     } else {
       const index = currentBranch.verificaciones.verificaciones_Extras.findIndex(
-        (verif) => verif._id === verificacion.id
+        (verif) => verif._id === idVerificacion
       );
-      newBranch.verificaciones.verificaciones_Extras[index].titulo = verificacion.titulo_Verificacion_Extra;
-      newBranch.verificaciones.verificaciones_Extras[index].descripcion = verificacion.descripcion_Verificacion_Extra;
+      newBranch.verificaciones.verificaciones_Extras[index].titulo = verificacion.title_verif;
+      newBranch.verificaciones.verificaciones_Extras[index].descripcion = verificacion.descrip_verif;
     }
 
     setCurrentBranch(newBranch);
@@ -171,7 +171,7 @@ const BranchContextProvider = ({ children }) => {
     const newBranch = currentBranch;
     const newTipificacion = { ...defaultTipificacion };
     newTipificacion._id = new Date().valueOf().toString();
-    newTipificacion.evento = tipificacion.situacion;
+    newTipificacion.evento = tipificacion.evento;
     newTipificacion.core = tipificacion.core;
     newTipificacion.accion = tipificacion.accion;
     newTipificacion.tipo_de_resultado = tipificacion.tipgesdesc;
@@ -210,7 +210,7 @@ const BranchContextProvider = ({ children }) => {
       (tipif) => tipif._id === tipificacionId
     );
     newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion[indexTipif].evento =
-      updatedTipificacion.situacion;
+      updatedTipificacion.evento;
     newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion[indexTipif].core =
       updatedTipificacion.core;
     newBranch.eventos[indexEvento].subtipos_Siniestro[indexSubtipo].tipificacion[indexTipif].accion =
@@ -221,7 +221,6 @@ const BranchContextProvider = ({ children }) => {
       updatedTipificacion.resgesdesc;
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
-    // console.log("index evento :", indexEvento, "\nIndexSubtipo : ", indexSubtipo, "\nindexTipificacion : ", indexTipif);
   };
   //ABM DE DOCUMENTOS
   const addDocumentoToSubtipo = (newDocumento, idSubtipo, idEvento) => {

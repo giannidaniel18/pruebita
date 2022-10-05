@@ -116,3 +116,10 @@ export const formsAndInfo = [
     info: "Observaciones / ¿siniestro dudoso? / ¿siniestro multiple?",
   },
 ];
+
+export const defaultDrawerDataToHandle = {
+  id: "",
+  type: "",
+  method: "",
+  data: [],
+};
