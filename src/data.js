@@ -727,9 +727,3 @@ export const branch = [
     modificado_por: "agianni@galiciaseguros.com.ar",
   },
 ];
-
-const objk = {
-  verificaciones: [
-    { id: "1", fechaCreacion: "", fechaUpdate: "", verificacionesCriticas: [], verificacionesExtras: [] },
-  ],
-};
