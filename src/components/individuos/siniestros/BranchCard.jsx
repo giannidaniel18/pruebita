@@ -25,20 +25,20 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 export default function BranchCard({ branch }) {
   const [selectedTutoria, setSelectedTutoria] = useState(null);
   const updateText = `Ultima actualizacion :  ${format(parseISO(branch.updatedAt), "dd/MM/yyyy")} por ${
-    branch.modificado_por
+    branch.updatedBy
   }`;
 
   const handleSelectedTutoria = (e) => {
-    e.target.getAttribute("id-tutoria") === selectedTutoria?._id
+    e.target.getAttribute("id-tutoria") === selectedTutoria?.id
       ? setSelectedTutoria(null)
-      : setSelectedTutoria(branch.tutorias.find((tutoria) => tutoria._id === e.target.getAttribute("id-tutoria")));
+      : setSelectedTutoria(branch.tutorias.find((tutoria) => tutoria.id === e.target.getAttribute("id-tutoria")));
   };
 
   return (
     <Stack spacing={6} mt={{ xs: 2, sm: 0 }} alignItems={{ xs: "center", sm: "flex-start" }}>
       <CustomAlert type={"info"}>{updateText}</CustomAlert>
       <Stack spacing={2} width="100%">
-        <Typography variant="h2">{branch.titulo_Ramo}</Typography>
+        <Typography variant="h2">{branch.titulo}</Typography>
 
         <Box>
           <VerificacionesInfo verificaciones={branch.verificaciones} />
@@ -63,9 +63,9 @@ export default function BranchCard({ branch }) {
             <Stack direction="row" spacing={2}>
               {branch.tutorias.map((tutoria) => (
                 <Button
-                  key={tutoria._id}
-                  variant={selectedTutoria?._id === tutoria._id ? "contained" : "text"}
-                  id-tutoria={tutoria._id}
+                  key={tutoria.id}
+                  variant={selectedTutoria?.id === tutoria.id ? "contained" : "text"}
+                  id-tutoria={tutoria.id}
                   onClick={handleSelectedTutoria}
                 >
                   Siniestro {tutoria.titulo}
@@ -92,14 +92,14 @@ export default function BranchCard({ branch }) {
 function VerificacionesInfo({ verificaciones }) {
   return (
     <Stack>
-      {verificaciones.verificaciones_Criticas.length ? (
+      {verificaciones.verificacionesCriticas.length ? (
         <CustomAlert type={"hint"}>
           <Typography variant="h4">Verificaciones criticas</Typography>
           <Typography variant="subtitle1">Corroborar con el cliente en linea la siguiente información.</Typography>
           <Divider />
           <List dense>
-            {verificaciones.verificaciones_Criticas.map((data) => (
-              <Stack key={data._id}>
+            {verificaciones.verificacionesCriticas.map((data) => (
+              <Stack key={data.id}>
                 <ListItem disablePadding>
                   <ListItemText
                     sx={{ marginY: 0 }}
@@ -122,16 +122,16 @@ function VerificacionesInfo({ verificaciones }) {
           </Typography>
         </DataNotFound>
       )}
-      {verificaciones.verificaciones_Extras.length ? (
+      {verificaciones.verificacionesExtras.length ? (
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
             <Typography variant="h4">Verificaciones extras</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <List dense>
-              {verificaciones.verificaciones_Extras.length > 0 ? (
-                verificaciones.verificaciones_Extras.map((data) => (
-                  <ListItem key={data._id} disablePadding>
+              {verificaciones.verificacionesExtras.length > 0 ? (
+                verificaciones.verificacionesExtras.map((data) => (
+                  <ListItem key={data.id} disablePadding>
                     <ListItemText
                       sx={{ marginY: 0 }}
                       primary={
@@ -167,7 +167,7 @@ function VerificacionesInfo({ verificaciones }) {
 function DocumentacionTipificacion({ eventos }) {
   const [selectedEventTab, setSelectedEventTab] = useState(eventos[0]);
   const handleChangeEvento = (idEvento) => {
-    setSelectedEventTab(eventos.find((evento) => evento._id === idEvento));
+    setSelectedEventTab(eventos.find((evento) => evento.id === idEvento));
   };
 
   return (
@@ -182,7 +182,16 @@ function DocumentacionTipificacion({ eventos }) {
 
       <Stack spacing={1}>
         <DocumentationTab eventos={eventos} handleChangeEvento={handleChangeEvento} />
-        <SubtipoCard subtipos={selectedEventTab.subtipos_Siniestro} />
+        {!selectedEventTab.subtiposSiniestro.length ? (
+          <DataNotFound>
+            <Typography px={2} variant="body">
+              No existen subtipos creados para el Evento actual, ponete en contacto con mejora continua para nutrir de
+              información esta sección
+            </Typography>
+          </DataNotFound>
+        ) : (
+          <SubtipoCard subtipos={selectedEventTab.subtiposSiniestro} />
+        )}
       </Stack>
     </Stack>
   );

@@ -13,7 +13,6 @@ export default function AdministracionTable({
   handleSelectedRow,
   updateFunction,
   deleteFunction,
-  type,
 }) {
   return (
     <TableContainer>
@@ -31,37 +30,27 @@ export default function AdministracionTable({
         </TableHead>
         <TableBody>
           {rows?.map((row, index) => (
-            <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+            <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
               <TableCell component="th" scope="row" wrapped="true">
-                {type === "eventos" ? row.siniestro : type === "subtipos" ? row.descripcion : row.titulo}
+                {row.titulo}
               </TableCell>
               {isContainer && (
-                <TableCell align="center" id={row._id} sx={{ width: "170px" }}>
+                <TableCell align="center" id={row.id} sx={{ width: "170px" }}>
                   <IconButton
                     size="small"
-                    id={row._id}
-                    color={row._id === selectedRow?._id ? "primary" : undefined}
+                    id={row.id}
+                    color={row.id === selectedRow?.id ? "primary" : undefined}
                     onClick={handleSelectedRow}
                   >
-                    {row._id === selectedRow?._id ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    {row.id === selectedRow?.id ? <VisibilityIcon /> : <VisibilityOffIcon />}
                   </IconButton>
                 </TableCell>
               )}
               <TableCell align="right" sx={{ width: "115px" }}>
-                <IconButton
-                  size="small"
-                  id={row._id}
-                  name={type === "eventos" ? row.siniestro : type === "subtipos" ? row.descripcion : row.titulo}
-                  onClick={updateFunction}
-                >
+                <IconButton size="small" id={row.id} name={row.titulo} onClick={updateFunction}>
                   <ModeEditIcon fontSize="small" />
                 </IconButton>
-                <IconButton
-                  size="small"
-                  id={row._id}
-                  name={type === "eventos" ? row.siniestro : type === "subtipos" ? row.descripcion : row.titulo}
-                  onClick={deleteFunction}
-                >
+                <IconButton size="small" id={row.id} name={row.titulo} onClick={deleteFunction}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>

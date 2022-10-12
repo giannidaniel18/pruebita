@@ -25,7 +25,7 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
   const { addVerificacionToBranch } = useBranchContext();
 
   const arrayVerificaciones =
-    tipoVerificacion === "Critica" ? verificaciones.verificaciones_Criticas : verificaciones.verificaciones_Extras;
+    tipoVerificacion === "Critica" ? verificaciones.verificacionesCriticas : verificaciones.verificacionesExtras;
 
   const onAddVerificacion = (data) => {
     resetField("titulo_Verificacion_" + tipoVerificacion);
@@ -145,19 +145,19 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
           </TableHead>
           <TableBody>
             {verificaciones.map((row) => (
-              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                 <TableCell scope="row">{row.titulo}</TableCell>
                 <TableCell align="left">{row.descripcion}</TableCell>
                 <TableCell align="right" sx={{ minWidth: "115px" }}>
                   <IconButton
                     onClick={onSettingDrawerDataToHandle}
-                    id={row._id}
+                    id={row.id}
                     title_verif={row.titulo}
                     descrip_verif={row.descripcion}
                   >
                     <ModeEditIcon />
                   </IconButton>
-                  <IconButton onClick={onDeleteVerificacion} id={row._id}>
+                  <IconButton onClick={onDeleteVerificacion} id={row.id}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

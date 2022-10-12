@@ -21,7 +21,7 @@ import TipificationTable from "./TipíficationTable";
 import { styled, useTheme } from "@mui/material/styles";
 import { ColorsPalette } from "../../../config/ColorsPalette";
 
-export default function DocumentationCard({ subtipos }) {
+export default function SubtipoCard({ subtipos }) {
   const [selectedSubtipo, setSelectedSubtipo] = useState(null);
 
   const handleSelectedSubtipo = (e) => {
@@ -33,16 +33,16 @@ export default function DocumentationCard({ subtipos }) {
       <CardContent>
         <Stack spacing={0.5}>
           {subtipos.map((subtipo) => (
-            <Stack key={subtipo._id} sx={{ boxShadow: 2, borderRadius: 2 }}>
+            <Stack key={subtipo.id} sx={{ boxShadow: 2, borderRadius: 2 }}>
               <Stack direction={"row"} justifyContent="space-between" alignItems={"center"} py={0.5} px={1}>
                 <Typography variant="overline" fontSize={14}>
-                  Evento {subtipo.descripcion}
+                  Evento {subtipo.titulo}
                 </Typography>
-                <IconButton size="small" id={subtipo._id} onClick={handleSelectedSubtipo}>
-                  {subtipo._id === selectedSubtipo ? <VisibilityIcon color="primary" /> : <VisibilityOffIcon />}
+                <IconButton size="small" id={subtipo.id} onClick={handleSelectedSubtipo}>
+                  {subtipo.id === selectedSubtipo ? <VisibilityIcon color="primary" /> : <VisibilityOffIcon />}
                 </IconButton>
               </Stack>
-              {subtipo._id === selectedSubtipo && <DocAndTipCard subtipo={subtipo} />}
+              {subtipo.id === selectedSubtipo && <DocAndTipCard subtipo={subtipo} />}
             </Stack>
           ))}
         </Stack>
@@ -73,7 +73,7 @@ function DocAndTipCard({ subtipo }) {
         <CardContent>
           <List>
             {subtipo.documentacion.map((doc) => (
-              <ListItemText key={doc._id}>
+              <ListItemText key={doc.id}>
                 <Box display="flex" spacing={2}>
                   <NoiseControlOffIcon color="primary" fontSize="small" />
                   <Typography variant="body2">{doc.titulo}</Typography>

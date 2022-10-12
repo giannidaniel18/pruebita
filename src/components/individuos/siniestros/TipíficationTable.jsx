@@ -50,31 +50,33 @@ export default function TipificationTable({
         <TableBody>
           {tipificaciones &&
             tipificaciones.map((row, index) => (
-              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                 <TableCell component="th" wrapped="true">
-                  {row.evento}
+                  {row.titulo}
                 </TableCell>
                 <TableCell align="right">{row.core ? row.core : "sin info"}</TableCell>
                 <TableCell align="right">{row.accion ? row.accion : "sin info"}</TableCell>
-                <TableCell align="right">{row.tipo_de_resultado ? row.tipo_de_resultado : "sin info"}</TableCell>
-                <TableCell align="right">{row.resultado_de_gestion ? row.resultado_de_gestion : "sin info"}</TableCell>
+                <TableCell align="right">{row.tipo_De_Resultado ? row.tipo_De_Resultado : "sin info"}</TableCell>
+                <TableCell align="right">
+                  {row.resultado_De_La_Gestion ? row.resultado_De_La_Gestion : "sin info"}
+                </TableCell>
 
                 {updateMode && (
                   <TableCell align="right" sx={{ width: "115px" }}>
                     <IconButton
                       size="small"
-                      id={row._id}
+                      id={row.id}
                       name={"update"}
-                      data-evento={row.evento}
+                      data-titulo={row.titulo}
                       data-core={row.core}
                       data-accion={row.accion}
-                      data-resgesdesc={row.resultado_de_gestion}
-                      data-tipgesdesc={row.tipo_de_resultado}
+                      data-resgesdesc={row.resultado_De_La_Gestion}
+                      data-tipgesdesc={row.tipo_De_Resultado}
                       onClick={onUpdate}
                     >
                       <ModeEditIcon fontSize="small" />
                     </IconButton>
-                    <IconButton size="small" id={row._id} onClick={onDelete}>
+                    <IconButton size="small" id={row.id} onClick={onDelete}>
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </TableCell>

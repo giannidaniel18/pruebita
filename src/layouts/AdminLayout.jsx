@@ -28,7 +28,7 @@ function AdminLayout(props) {
     // { text: "Empresas", path: "empresas" },
     // { text: "Pymes", path: "pymes" },
     // { text: "Especialistas", path: "especialistas" },
-    { text: "Usuarios", path: "usuarios" },
+    // { text: "Usuarios", path: "usuarios" },
   ];
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

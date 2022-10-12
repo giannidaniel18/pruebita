@@ -41,15 +41,15 @@ export default function SinesterLayout() {
         {branches
           .filter((ramoActivo) => ramoActivo.estado)
           .map((ramo) => (
-            <ListItem key={ramo._id} disablePadding>
+            <ListItem key={ramo.id} disablePadding>
               <ListItemButton
                 component={ReactLink}
-                to={`${ramo._id}`}
-                selected={selectedBranch === ramo._id}
-                id={ramo._id}
+                to={`${ramo.id}`}
+                selected={selectedBranch === ramo.id}
+                id={ramo.id}
                 onClick={handleSelectedBranch}
               >
-                <ListItemText value={ramo._id} primary={ramo.titulo_Ramo} />
+                <ListItemText value={ramo.id} primary={ramo.titulo} />
               </ListItemButton>
             </ListItem>
           ))}

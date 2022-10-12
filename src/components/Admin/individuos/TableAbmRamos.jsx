@@ -80,9 +80,9 @@ const headCells = [
     label: "Estado",
   },
 ];
-function createData(_id, titulo_Ramo, fechaCreacion, fechaModificacion, editar, estado) {
+function createData(id, titulo_Ramo, fechaCreacion, fechaModificacion, editar, estado) {
   return {
-    _id,
+    id,
     titulo_Ramo,
     fechaCreacion,
     fechaModificacion,
@@ -138,14 +138,14 @@ export default function TableAbmRamos({ branches }) {
 
   const rows = branches.map((ramo) =>
     createData(
-      ramo._id,
-      ramo.titulo_Ramo,
+      ramo.id,
+      ramo.titulo,
       ramo.createdAt,
       ramo.updatedAt,
-      <IconButton component={ReactLink} to={`${ramo._id}`} aria-label="Editar">
+      <IconButton component={ReactLink} to={`${ramo.id}`} aria-label="Editar">
         <BorderColorIcon />
       </IconButton>,
-      <Switch id={ramo._id} checked={ramo.estado} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+      <Switch id={ramo.id} checked={ramo.estado} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
     )
   );
 
@@ -186,7 +186,7 @@ export default function TableAbmRamos({ branches }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell component="th" scope="row">
                       {row.titulo_Ramo}
                     </TableCell>

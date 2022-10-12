@@ -18,11 +18,11 @@ export default function UpdateEventos({ eventos }) {
   const [currentSubtipo, setCurrentSubtipo] = useState(null);
 
   const handleCurrentEvent = (e) => {
-    if (e.currentTarget.id === currentEvento?._id) {
+    if (e.currentTarget.id === currentEvento?.id) {
       setCurrentEvento(null);
       setCurrentSubtipo(null);
     } else {
-      setCurrentEvento(eventos.find((ev) => ev._id === e.currentTarget.id));
+      setCurrentEvento(eventos.find((ev) => ev.id === e.currentTarget.id));
       setCurrentSubtipo(null);
     }
   };
@@ -30,9 +30,9 @@ export default function UpdateEventos({ eventos }) {
     setCurrentEvento(null);
   };
   const handleCurrentSubtipo = (e) => {
-    e.currentTarget.id === currentSubtipo?._id
+    e.currentTarget.id === currentSubtipo?.id
       ? setCurrentSubtipo(null)
-      : setCurrentSubtipo(currentEvento.subtipos_Siniestro.find((ev) => ev._id === e.currentTarget.id));
+      : setCurrentSubtipo(currentEvento.subtiposSiniestro.find((ev) => ev.id === e.currentTarget.id));
   };
   const resetCurrentSubtipo = () => {
     setCurrentSubtipo(null);
@@ -130,7 +130,6 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
           handleSelectedRow={handleCurrentEvent}
           updateFunction={onSettingDrawerDataToHandle}
           deleteFunction={onDeleteEvento}
-          type="eventos"
         />
       )}
 
@@ -184,21 +183,21 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
   };
 
   const onAddSubtipo = (newSubtipo) => {
-    addSubtipoToEvento(newSubtipo, currentEvento._id);
+    addSubtipoToEvento(newSubtipo, currentEvento.id);
     resetField("tituloSubtipo");
   };
   const onDeleteSubtipo = (e) => {
-    deleteSubtipoFromEvento(e.currentTarget.id, currentEvento._id);
+    deleteSubtipoFromEvento(e.currentTarget.id, currentEvento.id);
     resetCurrentSubtipo();
   };
   const onUpdateSubtipo = (updatedSubtipo) => {
-    updateSubtipoFromEvento(drawerDataToHandle.id, updatedSubtipo.subtipo, currentEvento._id);
+    updateSubtipoFromEvento(drawerDataToHandle.id, updatedSubtipo.subtipo, currentEvento.id);
   };
 
   return (
     <Stack spacing={4}>
       <Divider />
-      {!currentEvento.subtipos_Siniestro.length ? (
+      {!currentEvento.subtiposSiniestro.length ? (
         <DataNotFound>
           <Stack>
             <Typography px={2} variant="h5">
@@ -218,13 +217,12 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
           </Typography>
           <AdministracionTable
             headers={SUBTIPOS_HEADERS}
-            rows={currentEvento.subtipos_Siniestro}
+            rows={currentEvento.subtiposSiniestro}
             isContainer={true}
             selectedRow={currentSubtipo}
             handleSelectedRow={handleCurrentSubtipo}
             updateFunction={onSettingDrawerDataToHandle}
             deleteFunction={onDeleteSubtipo}
-            type="subtipos"
           />
         </Stack>
       )}
@@ -266,13 +264,13 @@ function DocAndTip({ currentEvento, currentSubtipo }) {
     <Stack spacing={4}>
       <DocumentosPanel
         documentos={currentSubtipo.documentacion}
-        currentEventoId={currentEvento._id}
-        currentSubtipoId={currentSubtipo._id}
+        currentEventoId={currentEvento.id}
+        currentSubtipoId={currentSubtipo.id}
       />
       <TipificacionPanel
         tipificaciones={currentSubtipo.tipificacion}
-        currentEventoId={currentEvento._id}
-        currentSubtipoId={currentSubtipo._id}
+        currentEventoId={currentEvento.id}
+        currentSubtipoId={currentSubtipo.id}
       />
     </Stack>
   );
@@ -381,7 +379,7 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
         method: "add",
         data: [
           {
-            inputName: "evento",
+            inputName: "titulo",
             label: "situation",
             multiline: true,
           },
@@ -414,8 +412,8 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
         method: "update",
         data: [
           {
-            inputName: "evento",
-            valueToUpdate: e.currentTarget.dataset.evento,
+            inputName: "titulo",
+            valueToUpdate: e.currentTarget.dataset.titulo,
             label: "situation",
             multiline: true,
           },
