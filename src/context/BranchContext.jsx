@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { branch, branchesArray } from "../data";
+import { branchesArray } from "../data";
 import {
   defaultBranch,
   defaultVerificacion_Critica,

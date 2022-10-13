@@ -32,7 +32,7 @@ export default function UpdateBranchCard({ branch }) {
   ) : (
     <Stack spacing={2}>
       <Stack direction={"row"} alignItems="center" spacing={2}>
-        <Typography variant="h4">Actualizando el ramo {branch.titulo_Ramo}</Typography>
+        <Typography variant="h3">Actualizando el ramo {branch.titulo}</Typography>
         <FeedIcon fontSize="large" />
       </Stack>
       <Divider />

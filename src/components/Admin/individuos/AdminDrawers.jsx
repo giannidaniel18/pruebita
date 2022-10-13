@@ -1,6 +1,7 @@
-import { Button, Drawer, Grid, Stack } from "@mui/material";
-import React from "react";
+import { Button, Drawer, Grid, Stack, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import TextEditor from "../../common/RichTextEditor/TextEditor";
 import TextImputControlSmall from "../../common/TextImputControlSmall";
 
 export function AdminDrawerUpdate({
@@ -109,6 +110,28 @@ export function AdminDrawerCreate({
               </Grid>
             </Grid>
           </form>
+        </Stack>
+      </Stack>
+    </Drawer>
+  );
+}
+
+export function AdminDrawerPlantilla({ drawerVisibleMode, onToggleDrawerVisibleMode, rawContent }) {
+  const [content, setContent] = useState({});
+  const CloseDrawer = () => {
+    onToggleDrawerVisibleMode();
+  };
+
+  return (
+    <Drawer anchor={"bottom"} open={drawerVisibleMode}>
+      <Stack width={"100%"} height="70vh">
+        <Button sx={{ alignSelf: "flex-end" }} onClick={CloseDrawer}>
+          X
+        </Button>
+
+        <Stack>
+          <Typography p={2}>Editar plantilla de mail</Typography>
+          <TextEditor setContent={setContent} rawContent={rawContent && rawContent} />
         </Stack>
       </Stack>
     </Drawer>

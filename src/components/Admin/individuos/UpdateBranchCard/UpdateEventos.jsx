@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useBranchContext } from "../../../../context/BranchContext";
-import { Button, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Button, Card, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
 import TipificationTable from "../../../individuos/siniestros/TipíficationTable";
 import TextImputControlSmall from "../../../common/TextImputControlSmall";
 import DataNotFound from "../../../common/DataNotFound";
 import AdministracionTable from "../../../common/AdministracionTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { AdminDrawerUpdate, AdminDrawerCreate } from "../AdminDrawers";
+import EmailIcon from "@mui/icons-material/Email";
+import { AdminDrawerUpdate, AdminDrawerCreate, AdminDrawerPlantilla } from "../AdminDrawers";
 
 const EVENTOS_HEADERS = [{ id: "event", titulo: "Eventos", cabecera: true }];
 const SUBTIPOS_HEADERS = [{ id: "subtipo", titulo: "Subtipos", cabecera: true }];
@@ -45,7 +46,7 @@ export default function UpdateEventos({ eventos }) {
       </Stack>
       <Typography variant="subtitle1">
         Para ver la información de cada evento y poder actualizarla pulsa el botón{" "}
-        <VisibilityIcon sx={{ verticalAlign: "top" }} /> de cada evento en la columna "Administrar subtipos".
+        <VisibilityIcon sx={{ verticalAlign: "top" }} /> de cada evento en la columna "Administrar".
       </Typography>
 
       <Stack spacing={4}>
@@ -260,19 +261,123 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
 }
 
 function DocAndTip({ currentEvento, currentSubtipo }) {
+  const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
+
+  const rawContent = {
+    blocks: [
+      {
+        key: "1ft1a",
+        text: 'This is an "immutable" entity: Superman. Deleting any characters will delete the entire entity. Adding characters will remove the entity from the range.',
+        type: "unstyled",
+        depth: 0,
+        inlineStyleRanges: [
+          {
+            offset: 0,
+            length: 152,
+            style: "ITALIC",
+          },
+        ],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: "4mph4",
+        text: "",
+        type: "unstyled",
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: "6naic",
+        text: 'This is a "mutable" entity: Batman. Characters may be added  and removed.',
+        type: "header-one",
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: "658ic",
+        text: "Hola xxx (indicar nombre del cliente)",
+        type: "unordered-list-item",
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: "162lh",
+        text: "lo que ocurrió en tu Hogar ",
+        type: "unordered-list-item",
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: "84bd3",
+        text: "poder iniciar el análisis de tu siniestro y gestionarlo lo más rápido posible, necesitamos contar con\ntoda la info de lo que te pasó.",
+        type: "unordered-list-item",
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: "8vk2k",
+        text: "Por eso te pedimos que completes todas las secciones del formulario que\npodes descargar desde el siguiente link:",
+        type: "unordered-list-item",
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: "9d48",
+        text: 'This is a "segmented" entity: Green Lantern. Deleting any characters will delete the current "segment" from the range. Adding characters will remove the entire entity from the range.',
+        type: "header-two",
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+    ],
+    entityMap: {},
+  };
+
+  const onToggleDrawerVisibleMode = () => {
+    setDrawerVisibleMode(!drawerVisibleMode);
+  };
   return (
-    <Stack spacing={4}>
-      <DocumentosPanel
-        documentos={currentSubtipo.documentacion}
-        currentEventoId={currentEvento.id}
-        currentSubtipoId={currentSubtipo.id}
-      />
-      <TipificacionPanel
-        tipificaciones={currentSubtipo.tipificacion}
-        currentEventoId={currentEvento.id}
-        currentSubtipoId={currentSubtipo.id}
-      />
-    </Stack>
+    <Card sx={{ padding: 3, borderRadius: 3, boxShadow: 5 }}>
+      <Stack spacing={2}>
+        <Stack direction="row" justifyContent={"space-between"}>
+          <Typography variant="h4">Subtipo {currentSubtipo.titulo}</Typography>
+          <Button variant="outlined" startIcon={<EmailIcon />} onClick={onToggleDrawerVisibleMode}>
+            Editar plantilla de mail
+          </Button>
+        </Stack>
+        <DocumentosPanel
+          documentos={currentSubtipo.documentacion}
+          currentEventoId={currentEvento.id}
+          currentSubtipoId={currentSubtipo.id}
+        />
+        <TipificacionPanel
+          tipificaciones={currentSubtipo.tipificacion}
+          currentEventoId={currentEvento.id}
+          currentSubtipoId={currentSubtipo.id}
+        />
+      </Stack>
+      {drawerVisibleMode && (
+        <AdminDrawerPlantilla
+          rawContent={rawContent ? rawContent : null}
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+        />
+      )}
+    </Card>
   );
 }
 
@@ -313,6 +418,7 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
     <Stack spacing={4}>
       <Divider />
       <>
+        <Typography variant="h6">ADMINISTRAR DOCUMENTACION A PRESENTAR</Typography>
         {!documentos.length ? (
           <DataNotFound>
             <Stack>
@@ -460,6 +566,7 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
   return (
     <Stack spacing={4}>
       <Divider />
+      <Typography variant="h6">ADMINISTRAR TIPIFICACIONES</Typography>
       {!tipificaciones.length ? (
         <DataNotFound>
           <Stack>

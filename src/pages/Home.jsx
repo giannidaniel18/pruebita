@@ -1,9 +1,9 @@
 import { Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 export default function Home() {
   return (
-    <Stack alignItems={"center"} justifyContent={"center"} height="80vh">
+    <Stack alignItems={"center"} justifyContent={"center"} height="80vh" marginTop={20}>
       <Typography variant="h1" color="primary">
         Scripting CAC
       </Typography>

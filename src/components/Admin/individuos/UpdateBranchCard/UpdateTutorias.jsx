@@ -81,21 +81,29 @@ export default function UpdateTutorias({ tutorias }) {
               No existen Tutorias creadas para el ramo actual.
             </Typography>
             <Typography px={2} py={1} variant="h6">
-              Crea la primera aqui!
+              Crea la primera aquí!
             </Typography>
           </Stack>
         </DataNotFound>
       ) : (
-        <AdministracionTable
-          headers={TUTORIA_HEADERS}
-          rows={tutorias}
-          isContainer={true}
-          selectedRow={currentTutoria}
-          handleSelectedRow={handleCurrentTutoria}
-          updateFunction={onSettingDrawerDataToHandle}
-          deleteFunction={onDeleteTutoriaFromBranch}
-          type="tutorias"
-        />
+        <>
+          <Typography variant="h5">Bienvenido a la administración Tutorias </Typography>
+          <Typography variant="subtitle1">
+            En esta sección podrás crear las tutorías necesarias para la toma de denuncia de cada Ramo! para lograr una
+            estructura homogénea recomendamos utilizar los mismos nombres para las tutorías. Por ejemplo : "Siniestro
+            standard" - "Siniestro express"
+          </Typography>
+          <AdministracionTable
+            headers={TUTORIA_HEADERS}
+            rows={tutorias}
+            isContainer={true}
+            selectedRow={currentTutoria}
+            handleSelectedRow={handleCurrentTutoria}
+            updateFunction={onSettingDrawerDataToHandle}
+            deleteFunction={onDeleteTutoriaFromBranch}
+            type="tutorias"
+          />
+        </>
       )}
       <form onSubmit={handleSubmit(onAddTutoriaToBranch)}>
         <Grid container>
@@ -129,7 +137,12 @@ function TutoriaTable({ tutoria }) {
   };
   return (
     <Stack spacing={2}>
-      <Typography>{tutoria.titulo}</Typography>
+      <Typography variant="h4">{tutoria.titulo}</Typography>
+      <Typography>
+        Activa o desactiva el formulario que quieres incluir en la tutoria {tutoria.titulo} de esta manera el asesor
+        vera reflejado en la sección de siniestros los datos a solicitarle al cliente. En caso de no encontrar un
+        formulario que solicite la información requerida, ponte en contacto con el area desarrolladora del scripting
+      </Typography>
       <TableContainer sx={{ borderRadius: 50 }}>
         <Table size="small">
           <TableHead>
