@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import ConfirmationAlert from "../../common/ConfirmationAlert";
 
 const HEADERS = [
   { id: "event", titulo: "Situación", cabecera: true },
@@ -21,9 +22,26 @@ export default function TipificationTable({
   updateMode = false,
   onSettingDrawerDataToHandle,
   onDeleteTipificacion,
+  dataType,
 }) {
-  const onDelete = (e) => {
-    onDeleteTipificacion(e.currentTarget.id);
+  const [confirmationState, setConfirmationState] = useState({});
+
+  const handleConfirmationToDelete = (e) => {
+    setConfirmationState({
+      onOpen: true,
+      typeConfirm: "Eliminar",
+      title: dataType,
+      id: e.currentTarget.id,
+    });
+  };
+
+  const getConfirmation = (confirmation) => {
+    if (confirmation) onDelete(confirmationState.id);
+    setConfirmationState({});
+  };
+
+  const onDelete = (tipificacionId) => {
+    onDeleteTipificacion(tipificacionId);
   };
   const onUpdate = (e) => {
     onSettingDrawerDataToHandle(e);
@@ -76,7 +94,7 @@ export default function TipificationTable({
                     >
                       <ModeEditIcon fontSize="small" />
                     </IconButton>
-                    <IconButton size="small" id={row.id} onClick={onDelete}>
+                    <IconButton size="small" id={row.id} onClick={handleConfirmationToDelete}>
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </TableCell>
@@ -85,6 +103,15 @@ export default function TipificationTable({
             ))}
         </TableBody>
       </Table>
+      {confirmationState.onOpen && (
+        <ConfirmationAlert
+          onOpen={confirmationState.onOpen}
+          typeConfirm={confirmationState.typeConfirm}
+          title={confirmationState.title}
+          desc={confirmationState.desc}
+          confirmation={getConfirmation}
+        />
+      )}
     </TableContainer>
   );
 }

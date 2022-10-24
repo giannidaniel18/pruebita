@@ -319,6 +319,21 @@ const BranchContextProvider = ({ children }) => {
     updateBranchesData(newBranch);
   };
 
+  const updatePlantillaFromSubtipo = (updatedPlantilla, idEvento, idSubtipo) => {
+    console.log(updatedPlantilla, idEvento, idSubtipo);
+
+    const newBranch = currentBranch;
+    const indexEvento = currentBranch.eventos.findIndex((evento) => evento.id === idEvento);
+    const indexSubtipo = currentBranch.eventos[indexEvento].subtiposSiniestro.findIndex(
+      (subtipo) => subtipo.id === idSubtipo
+    );
+    newBranch.eventos[indexEvento].subtiposSiniestro[indexSubtipo].plantilla = updatedPlantilla;
+    newBranch.eventos[indexEvento].subtiposSiniestro[indexSubtipo].updatedAt = new Date().toISOString();
+
+    setCurrentBranch(newBranch);
+    updateBranchesData(newBranch);
+  };
+
   return (
     <BranchContext.Provider
       value={{
@@ -346,6 +361,7 @@ const BranchContextProvider = ({ children }) => {
         deleteTutoriaFromBranch,
         updateTutoriaFromBranch,
         updateFormulariosFromTutoria,
+        updatePlantillaFromSubtipo,
       }}
     >
       {children}

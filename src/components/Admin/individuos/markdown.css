@@ -1,0 +1,29 @@
+.markdownContainer table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.markdownContainer th,
+.markdownContainer td,
+.markdownContainer pre {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+.markdownContainer a {
+  color: #fa6400;
+}
+
+.markdownContainer blockquote {
+  margin: 50px auto;
+  padding: 2px 10px 2px 50px;
+  border-left: 5px solid #fa6400;
+  position: relative;
+}
+
+.markdownContainer blockquote::before {
+  content: "\201C";
+  color: #fa6400;
+  font-size: 4em;
+  position: absolute;
+  left: 10px;
+  top: -10px;
+}

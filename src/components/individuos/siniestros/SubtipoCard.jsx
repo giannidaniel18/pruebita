@@ -20,6 +20,10 @@ import DownloadIcon from "@mui/icons-material/Download";
 import TipificationTable from "./TipíficationTable";
 import { styled, useTheme } from "@mui/material/styles";
 import { ColorsPalette } from "../../../config/ColorsPalette";
+import ReactMarkdown from "react-markdown";
+import DataNotFound from "../../common/DataNotFound";
+import remarkGfm from "remark-gfm";
+import { ViewerDrawerMarkDown } from "../../Admin/individuos/AdminDrawers";
 
 export default function SubtipoCard({ subtipos }) {
   const [selectedSubtipo, setSelectedSubtipo] = useState(null);
@@ -53,6 +57,8 @@ export default function SubtipoCard({ subtipos }) {
 
 function DocAndTipCard({ subtipo }) {
   const theme = useTheme();
+  const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
+
   const CustomCardHeader = styled(CardHeader)({
     backgroundColor: theme.palette.mode === "dark" ? ColorsPalette.bg_dark.dark : theme.palette.secondary.dark[100],
     color: theme.palette.mode === "dark" ? undefined : "white",
@@ -65,37 +71,74 @@ function DocAndTipCard({ subtipo }) {
     }
   );
 
+  const onToggleDrawerVisibleMode = () => {
+    setDrawerVisibleMode(!drawerVisibleMode);
+  };
+
   return (
     <Stack p={1} spacing={2}>
       <Divider />
-      <CustomCard>
-        <CustomCardHeader title="Documentacion a presentar" titleTypographyProps={{ variant: "h6" }} />
-        <CardContent>
-          <List>
-            {subtipo.documentacion.map((doc) => (
-              <ListItemText key={doc.id}>
-                <Box display="flex" spacing={2}>
-                  <NoiseControlOffIcon color="primary" fontSize="small" />
-                  <Typography variant="body2">{doc.titulo}</Typography>
-                </Box>
-              </ListItemText>
-            ))}
-          </List>
-        </CardContent>
-        <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button size="small">
-            Plantilla eMail
-            <DownloadIcon fontSize="small" />
-          </Button>
-        </CardActions>
-      </CustomCard>
 
-      <CustomCard>
-        <CustomCardHeader title="Tipificaciones" titleTypographyProps={{ variant: "h6" }} />
-        <CardContent>
-          <TipificationTable tipificaciones={subtipo.tipificacion} />
-        </CardContent>
-      </CustomCard>
+      {!subtipo.documentacion.length ? (
+        <DataNotFound>
+          <Stack>
+            <Typography px={2} variant="h5">
+              No existe documentación para el subtipo actual
+            </Typography>
+          </Stack>
+        </DataNotFound>
+      ) : (
+        <CustomCard>
+          <CustomCardHeader title="Documentacion a presentar" titleTypographyProps={{ variant: "h6" }} />
+          <CardContent>
+            <List>
+              {subtipo.documentacion.map((doc) => (
+                <ListItemText key={doc.id}>
+                  <Box display="flex" spacing={2}>
+                    <NoiseControlOffIcon color="primary" fontSize="small" />
+                    <Typography variant="body2">{doc.titulo}</Typography>
+                  </Box>
+                </ListItemText>
+              ))}
+            </List>
+          </CardContent>
+          <CardActions sx={{ justifyContent: "flex-end" }}>
+            <Button size="small" onClick={onToggleDrawerVisibleMode}>
+              Plantilla eMail
+              <DownloadIcon fontSize="small" />
+            </Button>
+          </CardActions>
+        </CustomCard>
+      )}
+      {!subtipo.tipificacion.length ? (
+        <DataNotFound>
+          <Stack>
+            <Typography px={2} variant="h5">
+              No existen tipificaciones para el subtipo actual
+            </Typography>
+          </Stack>
+        </DataNotFound>
+      ) : (
+        <CustomCard>
+          <CustomCardHeader title="Tipificaciones" titleTypographyProps={{ variant: "h6" }} />
+          <CardContent>
+            <TipificationTable tipificaciones={subtipo.tipificacion} />
+          </CardContent>
+        </CustomCard>
+      )}
+
+      {drawerVisibleMode && (
+        <ViewerDrawerMarkDown
+          markdownText={subtipo.plantilla}
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+        />
+        // <TextViewerDrawer
+        //   rawContent={subtipo.plantilla.contenido}
+        //   drawerVisibleMode={drawerVisibleMode}
+        //   onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+        // />
+      )}
     </Stack>
   );
 }

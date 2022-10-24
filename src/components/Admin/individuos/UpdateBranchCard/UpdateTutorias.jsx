@@ -125,6 +125,7 @@ export default function UpdateTutorias({ tutorias }) {
         drawerDataToHandle={drawerDataToHandle}
         resetDrawerDataToHandle={resetDrawerDataToHandle}
         onPersistData={onUpdateTutoriaFromBranch}
+        dataType="Tutoria"
       />
     </Stack>
   );
@@ -193,22 +194,5 @@ function FormSwitch({ status, idform, handleUpdateTutoria }) {
     handleUpdateTutoria(idform, e.target.checked);
   };
 
-  return (
-    <Switch checked={checked} onChange={handleChange} />
-    // <form>
-    //   <Controller
-    //     control={control}
-    //     name={idform}
-    //     defaultValue={checked}
-    //     render={({ field: { onChange, onBlur, value, name, ref } }) => (
-    //       <Switch
-    //         onBlur={onBlur} // notify when input is touched
-    //         onChange={(value) => onChange(value, handleChange(value.target.value))} // send value to hook form
-    //         checked={value}
-    //         inputRef={ref}
-    //       />
-    //     )}
-    //   />
-    // </form>
-  );
+  return <Switch checked={checked} onChange={handleChange} />;
 }

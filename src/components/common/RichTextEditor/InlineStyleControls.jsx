@@ -8,9 +8,9 @@ import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import { Stack } from "@mui/material";
 
 const INLINE_STYLES = [
-  { id: "bold", label: <FormatBoldIcon fontSize="small" />, style: "BOLD" },
-  { id: "italic", label: <FormatItalicIcon fontSize="small" />, style: "ITALIC" },
-  { id: "underline", label: <FormatUnderlinedIcon fontSize="small" />, style: "UNDERLINE" },
+  { id: "bold", icon: <FormatBoldIcon fontSize="small" />, style: "BOLD" },
+  { id: "italic", icon: <FormatItalicIcon fontSize="small" />, style: "ITALIC" },
+  { id: "underline", icon: <FormatUnderlinedIcon fontSize="small" />, style: "UNDERLINE" },
 ];
 
 const InlineStyleControls = ({ editorState, onToggle }) => {
@@ -22,7 +22,7 @@ const InlineStyleControls = ({ editorState, onToggle }) => {
         <StyleButton
           key={type.id}
           active={currentStyle.has(type.style)}
-          label={type.label}
+          icon={type.icon}
           onToggle={onToggle}
           style={type.style}
         />

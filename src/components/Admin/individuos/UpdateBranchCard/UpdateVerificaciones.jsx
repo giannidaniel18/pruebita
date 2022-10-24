@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { useBranchContext } from "../../../../context/BranchContext";
 import DataNotFound from "../../../common/DataNotFound";
 import { AdminDrawerUpdate } from "../AdminDrawers";
+import ConfirmationAlert from "../../../common/ConfirmationAlert";
 
 export default function UpdateVerificaciones({ verificaciones, tipoVerificacion, title }) {
   const { control, handleSubmit, resetField } = useForm();
@@ -39,7 +40,11 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
         {arrayVerificaciones.length ? (
           <>
             <Typography variant="h6">{title}</Typography>
-            <TableVerificaciones verificaciones={arrayVerificaciones} tipoVerificacion={tipoVerificacion} />
+            <TableVerificaciones
+              verificaciones={arrayVerificaciones}
+              tipoVerificacion={tipoVerificacion}
+              dataType={"Verificacion"}
+            />
           </>
         ) : (
           <DataNotFound>
@@ -89,12 +94,27 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
   );
 }
 
-function TableVerificaciones({ verificaciones, tipoVerificacion }) {
+function TableVerificaciones({ verificaciones, tipoVerificacion, dataType }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
   const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
-  // const [verifToUpdate, setVerifToUpdate] = useState({});
+  const [confirmationState, setConfirmationState] = useState({});
   const { deleteVerificacionFromBranch, updateVerificacionFromBranch } = useBranchContext();
 
+  // fragmento utilizado para confirmar la eliminación{start}
+  const handleConfirmationToDelete = (e) => {
+    setConfirmationState({
+      onOpen: true,
+      typeConfirm: "Eliminar",
+      title: dataType + " " + tipoVerificacion,
+      id: e.currentTarget.id,
+    });
+  };
+  const getConfirmation = (confirmation) => {
+    if (confirmation) onDeleteVerificacion(confirmationState.id, tipoVerificacion);
+    setConfirmationState({});
+  };
+  //fragmento utilizado para confirmar la eliminación{end}
+  //funciones para manejar la información a actualizar{start}
   const onToggleDrawerVisibleMode = () => {
     setDrawerVisibleMode(!drawerVisibleMode);
   };
@@ -103,7 +123,6 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
   };
   const onSettingDrawerDataToHandle = (e) => {
     onToggleDrawerVisibleMode();
-
     setDrawerDataToHandle({
       id: e.currentTarget.id,
       type: "verificacion",
@@ -124,14 +143,15 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
       ],
     });
   };
-
+  //funciones para manejar la información a actualizar{end}
+  //funciones del context para el crud{start}
   const onUpdateVerificacion = (updatedVerif) => {
     updateVerificacionFromBranch(drawerDataToHandle.id, updatedVerif, tipoVerificacion);
   };
-  const onDeleteVerificacion = (e) => {
-    deleteVerificacionFromBranch(e.currentTarget.id, tipoVerificacion);
+  const onDeleteVerificacion = (verifId) => {
+    deleteVerificacionFromBranch(verifId, tipoVerificacion);
   };
-
+  //funciones del context para el crud{end}
   return (
     <Stack>
       <TableContainer>
@@ -157,7 +177,7 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
                   >
                     <ModeEditIcon />
                   </IconButton>
-                  <IconButton onClick={onDeleteVerificacion} id={row.id}>
+                  <IconButton onClick={handleConfirmationToDelete} id={row.id}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -165,6 +185,15 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
             ))}
           </TableBody>
         </Table>
+        {confirmationState.onOpen && (
+          <ConfirmationAlert
+            onOpen={confirmationState.onOpen}
+            typeConfirm={confirmationState.typeConfirm}
+            title={confirmationState.title}
+            desc={confirmationState.desc}
+            confirmation={getConfirmation}
+          />
+        )}
       </TableContainer>
       {drawerVisibleMode && (
         <AdminDrawerUpdate
@@ -173,6 +202,7 @@ function TableVerificaciones({ verificaciones, tipoVerificacion }) {
           drawerDataToHandle={drawerDataToHandle}
           resetDrawerDataToHandle={resetDrawerDataToHandle}
           onPersistData={onUpdateVerificacion}
+          dataType={"Verificacion " + tipoVerificacion}
         />
       )}
     </Stack>

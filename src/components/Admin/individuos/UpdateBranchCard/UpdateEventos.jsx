@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useBranchContext } from "../../../../context/BranchContext";
-import { Button, Card, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
+import { Button, Card, Divider, Grid, Stack, Typography } from "@mui/material";
 import TipificationTable from "../../../individuos/siniestros/TipíficationTable";
 import TextImputControlSmall from "../../../common/TextImputControlSmall";
 import DataNotFound from "../../../common/DataNotFound";
 import AdministracionTable from "../../../common/AdministracionTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EmailIcon from "@mui/icons-material/Email";
-import { AdminDrawerUpdate, AdminDrawerCreate, AdminDrawerPlantilla } from "../AdminDrawers";
+import { AdminDrawerUpdate, AdminDrawerCreate, AdminDrawerPlantilla, AdminDrawerMarkDown } from "../AdminDrawers";
 
 const EVENTOS_HEADERS = [{ id: "event", titulo: "Eventos", cabecera: true }];
 const SUBTIPOS_HEADERS = [{ id: "subtipo", titulo: "Subtipos", cabecera: true }];
@@ -102,8 +102,8 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
     addEventoToBranch(newEvento);
     resetField("tituloEvento");
   };
-  const onDeleteEvento = (e) => {
-    deleteEventoFromBranch(e.currentTarget.id);
+  const onDeleteEvento = (EventoId) => {
+    deleteEventoFromBranch(EventoId);
     resetCurrentEvent();
   };
   const onUpdateEvento = (updatedEvento) => {
@@ -131,6 +131,7 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
           handleSelectedRow={handleCurrentEvent}
           updateFunction={onSettingDrawerDataToHandle}
           deleteFunction={onDeleteEvento}
+          dataType={"Evento"}
         />
       )}
 
@@ -154,6 +155,7 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
           drawerDataToHandle={drawerDataToHandle}
           resetDrawerDataToHandle={resetDrawerDataToHandle}
           onPersistData={onUpdateEvento}
+          dataType="Evento"
         />
       )}
     </>
@@ -187,8 +189,8 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
     addSubtipoToEvento(newSubtipo, currentEvento.id);
     resetField("tituloSubtipo");
   };
-  const onDeleteSubtipo = (e) => {
-    deleteSubtipoFromEvento(e.currentTarget.id, currentEvento.id);
+  const onDeleteSubtipo = (subtipoId) => {
+    deleteSubtipoFromEvento(subtipoId, currentEvento.id);
     resetCurrentSubtipo();
   };
   const onUpdateSubtipo = (updatedSubtipo) => {
@@ -224,6 +226,7 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
             handleSelectedRow={handleCurrentSubtipo}
             updateFunction={onSettingDrawerDataToHandle}
             deleteFunction={onDeleteSubtipo}
+            dataType={"Subtipo"}
           />
         </Stack>
       )}
@@ -254,6 +257,7 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
           drawerDataToHandle={drawerDataToHandle}
           resetDrawerDataToHandle={resetDrawerDataToHandle}
           onPersistData={onUpdateSubtipo}
+          dataType="Subtipo"
         />
       )}
     </Stack>
@@ -262,94 +266,17 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
 
 function DocAndTip({ currentEvento, currentSubtipo }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-
-  const rawContent = {
-    blocks: [
-      {
-        key: "1ft1a",
-        text: 'This is an "immutable" entity: Superman. Deleting any characters will delete the entire entity. Adding characters will remove the entity from the range.',
-        type: "unstyled",
-        depth: 0,
-        inlineStyleRanges: [
-          {
-            offset: 0,
-            length: 152,
-            style: "ITALIC",
-          },
-        ],
-        entityRanges: [],
-        data: {},
-      },
-      {
-        key: "4mph4",
-        text: "",
-        type: "unstyled",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      },
-      {
-        key: "6naic",
-        text: 'This is a "mutable" entity: Batman. Characters may be added  and removed.',
-        type: "header-one",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      },
-      {
-        key: "658ic",
-        text: "Hola xxx (indicar nombre del cliente)",
-        type: "unordered-list-item",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      },
-      {
-        key: "162lh",
-        text: "lo que ocurrió en tu Hogar ",
-        type: "unordered-list-item",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      },
-      {
-        key: "84bd3",
-        text: "poder iniciar el análisis de tu siniestro y gestionarlo lo más rápido posible, necesitamos contar con\ntoda la info de lo que te pasó.",
-        type: "unordered-list-item",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      },
-      {
-        key: "8vk2k",
-        text: "Por eso te pedimos que completes todas las secciones del formulario que\npodes descargar desde el siguiente link:",
-        type: "unordered-list-item",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      },
-      {
-        key: "9d48",
-        text: 'This is a "segmented" entity: Green Lantern. Deleting any characters will delete the current "segment" from the range. Adding characters will remove the entire entity from the range.',
-        type: "header-two",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      },
-    ],
-    entityMap: {},
-  };
+  const { updatePlantillaFromSubtipo } = useBranchContext();
 
   const onToggleDrawerVisibleMode = () => {
     setDrawerVisibleMode(!drawerVisibleMode);
   };
+
+  const onUpdateTemplate = (updatedPlantilla) => {
+    updatePlantillaFromSubtipo(updatedPlantilla, currentEvento.id, currentSubtipo.id);
+    onToggleDrawerVisibleMode();
+  };
+
   return (
     <Card sx={{ padding: 3, borderRadius: 3, boxShadow: 5 }}>
       <Stack spacing={2}>
@@ -371,10 +298,11 @@ function DocAndTip({ currentEvento, currentSubtipo }) {
         />
       </Stack>
       {drawerVisibleMode && (
-        <AdminDrawerPlantilla
-          rawContent={rawContent ? rawContent : null}
+        <AdminDrawerMarkDown
+          plantilla={currentSubtipo.plantilla}
           drawerVisibleMode={drawerVisibleMode}
           onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+          updateFn={onUpdateTemplate}
         />
       )}
     </Card>
@@ -407,8 +335,8 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
     resetField("documento");
     addDocumentoToSubtipo(newDoc.documento, currentSubtipoId, currentEventoId);
   };
-  const onDeleteDocumento = (e) => {
-    deleteDocumentoFromSubtipo(e.currentTarget.id, currentSubtipoId, currentEventoId);
+  const onDeleteDocumento = (documentId) => {
+    deleteDocumentoFromSubtipo(documentId, currentSubtipoId, currentEventoId);
   };
   const onUpdateDocumento = (updatedDoc) => {
     updateDocumentoFromSubtipo(drawerDataToHandle.id, updatedDoc.documento, currentSubtipoId, currentEventoId);
@@ -436,7 +364,7 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
             rows={documentos}
             updateFunction={onSettingDrawerDataToHandle}
             deleteFunction={onDeleteDocumento}
-            type="documentos"
+            dataType={"Documento"}
           />
         )}
       </>
@@ -459,6 +387,7 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
           drawerDataToHandle={drawerDataToHandle}
           resetDrawerDataToHandle={resetDrawerDataToHandle}
           onPersistData={onUpdateDocumento}
+          dataType="Documento"
         />
       )}
     </Stack>
@@ -584,13 +513,14 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
           updateMode={true}
           onDeleteTipificacion={onDeleteTipificacion}
           onSettingDrawerDataToHandle={onSettingDrawerDataToHandle}
+          dataType="Tipificación"
         />
       )}
 
       <Grid container>
         <Grid item xs={12} md={12} textAlign="right">
           <Button variant="contained" name="AddTipificacion" onClick={onSettingDrawerDataToHandle}>
-            Tipificacion +
+            Tipificación +
           </Button>
         </Grid>
       </Grid>
@@ -610,6 +540,7 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
           drawerDataToHandle={drawerDataToHandle}
           resetDrawerDataToHandle={resetDrawerDataToHandle}
           onPersistData={onUpdateTipificacion}
+          dataType="Tipificación"
         />
       )}
     </Stack>

@@ -1,16 +1,16 @@
-import { Button } from "@mui/material";
-import React, { useState } from "react";
+import { IconButton } from "@mui/material";
+import React from "react";
 
-const StyleButton = ({ active, style, label, onToggle }) => {
+const StyleButton = ({ active, style, icon, onToggle }) => {
   const _onToggle = (e) => {
     e.preventDefault();
     onToggle(style);
   };
 
   return (
-    <Button size="small" variant={active ? "contained" : "outlined"} onClick={_onToggle}>
-      {label}
-    </Button>
+    <IconButton size="small" color={active ? "primary" : undefined} onClick={_onToggle}>
+      {icon}
+    </IconButton>
   );
 };
 

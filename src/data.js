@@ -669,7 +669,7 @@ export const branch = [
             "Una vez que confirmamos el mail del asegurado debemos hacer la pregunta de ¿Aceptas recibir las notificaciones del siniestro en este correo?",
           _id: "630d1419ad9e40e3f0d6645a",
           createdAt: "2022-08-29T19:31:37.954Z",
-          updatedAt: "2022-08-29T19:31:37.954Z",
+          updatedAt: "2022-11-05T19:31:37.954Z",
         },
       ],
       verificaciones_Extras: [
@@ -878,7 +878,7 @@ export const branchesArray = [
             titulo: "incendio edificio",
             createdAt: "2022-10-11T18:38:31.593Z",
             updatedAt: "",
-            plantilla: "",
+            plantilla: "## _The Last Markdown Editor, Ever_",
             documentacion: [
               {
                 id: "1665513536022",
@@ -950,7 +950,7 @@ export const branchesArray = [
           titulo: "Domicilio",
           descripcion: "Verificar que el domicilio denunciado sea el mismo que el asegurado",
           createdAt: "2022-10-11T18:37:18.133Z",
-          updatedAt: "",
+          updatedAt: "2022-11-19T19:31:37.954Z",
         },
         {
           id: "1665513446255",
@@ -958,7 +958,7 @@ export const branchesArray = [
           descripcion:
             "Verifica que la póliza por la cual se comunica el cliente este o haya estado vigente al momento del hecho",
           createdAt: "2022-10-11T18:37:26.255Z",
-          updatedAt: "",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
         {
           id: "1665513454004",
@@ -966,7 +966,7 @@ export const branchesArray = [
           descripcion:
             "Si la poliza presenta Rechazos en los cobros, vamos a proceder a Tomar la denuncia de siniestro, pero debemos indicar al cliente que “Hubo irregularidades en los pagos” o “aún no se verifican los débitos” motivo por el cual,el análisis “Quedara a consideración de la Cia”. Esta información deberá quedar detallada en las observaciones.",
           createdAt: "2022-10-11T18:37:34.004Z",
-          updatedAt: "",
+          updatedAt: "2022-08-29T19:31:37.954Z",
         },
       ],
       verificacionesExtras: [

@@ -9,12 +9,12 @@ import CodeIcon from "@mui/icons-material/Code";
 import { Stack } from "@mui/material";
 
 const BLOCK_TYPES = [
-  { id: "h1", label: <TitleIcon fontSize="small" />, style: "header-one" },
-  { id: "h2", label: <TextFieldsIcon fontSize="small" />, style: "header-two" },
-  { id: "text", label: <AbcIcon fontSize="small" />, style: "header-three" },
-  { id: "ul", label: <FormatListBulletedIcon fontSize="small" />, style: "unordered-list-item" },
-  { id: "ol", label: <FormatListNumberedIcon fontSize="small" />, style: "ordered-list-item" },
-  { id: "code", label: <CodeIcon fontSize="small" />, style: "code-block" },
+  { id: "h1", icon: <TitleIcon fontSize="small" />, style: "header-one" },
+  { id: "h2", icon: <TextFieldsIcon fontSize="small" />, style: "header-two" },
+  { id: "text", icon: <AbcIcon fontSize="small" />, style: "header-three" },
+  { id: "ul", icon: <FormatListBulletedIcon fontSize="small" />, style: "unordered-list-item" },
+  { id: "ol", icon: <FormatListNumberedIcon fontSize="small" />, style: "ordered-list-item" },
+  { id: "code", icon: <CodeIcon fontSize="small" />, style: "code-block" },
 ];
 
 const BlockStyleControls = ({ editorState, onToggle }) => {
@@ -27,7 +27,7 @@ const BlockStyleControls = ({ editorState, onToggle }) => {
         <StyleButton
           key={type.id}
           active={type.style === blockType}
-          label={type.label}
+          icon={type.icon}
           onToggle={onToggle}
           style={type.style}
         />

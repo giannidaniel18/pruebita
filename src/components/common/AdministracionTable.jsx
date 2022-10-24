@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import ConfirmationAlert from "./ConfirmationAlert";
 
 export default function AdministracionTable({
   headers,
@@ -13,7 +14,24 @@ export default function AdministracionTable({
   handleSelectedRow,
   updateFunction,
   deleteFunction,
+  dataType,
 }) {
+  const [confirmationState, setConfirmationState] = useState({});
+
+  const handleConfirmationToDelete = (e) => {
+    setConfirmationState({
+      onOpen: true,
+      typeConfirm: "Eliminar",
+      title: dataType,
+      id: e.currentTarget.id,
+    });
+  };
+
+  const getConfirmation = (confirmation) => {
+    if (confirmation) deleteFunction(confirmationState.id);
+    setConfirmationState({});
+  };
+
   return (
     <TableContainer>
       <Table size="small">
@@ -50,7 +68,7 @@ export default function AdministracionTable({
                 <IconButton size="small" id={row.id} name={row.titulo} onClick={updateFunction}>
                   <ModeEditIcon fontSize="small" />
                 </IconButton>
-                <IconButton size="small" id={row.id} name={row.titulo} onClick={deleteFunction}>
+                <IconButton size="small" id={row.id} name={row.titulo} onClick={handleConfirmationToDelete}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -58,6 +76,15 @@ export default function AdministracionTable({
           ))}
         </TableBody>
       </Table>
+      {confirmationState.onOpen && (
+        <ConfirmationAlert
+          onOpen={confirmationState.onOpen}
+          typeConfirm={confirmationState.typeConfirm}
+          title={confirmationState.title}
+          desc={confirmationState.desc}
+          confirmation={getConfirmation}
+        />
+      )}
     </TableContainer>
   );
 }

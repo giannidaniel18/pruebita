@@ -67,6 +67,7 @@ export const defaultTutoria = {
   createdAt: "",
   updatedAt: "",
 };
+
 // ----------------------------------------------------
 
 export const welcomePagesData = [

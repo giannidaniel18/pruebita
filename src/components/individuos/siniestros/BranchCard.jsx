@@ -11,6 +11,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Box,
+  Chip,
 } from "@mui/material";
 import { format, parseISO } from "date-fns";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -21,6 +22,8 @@ import CustomAlert from "../../common/CustomAlert.";
 import SubtipoCard from "./SubtipoCard";
 import DataNotFound from "../../common/DataNotFound";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import NewInfoBadge from "../../common/NewInfoChip";
+import NewInfoChip from "../../common/NewInfoChip";
 
 export default function BranchCard({ branch }) {
   const [selectedTutoria, setSelectedTutoria] = useState(null);
@@ -94,7 +97,10 @@ function VerificacionesInfo({ verificaciones }) {
     <Stack>
       {verificaciones.verificacionesCriticas.length ? (
         <CustomAlert type={"hint"}>
-          <Typography variant="h4">Verificaciones criticas</Typography>
+          <Typography variant="h4">
+            Verificaciones criticas <NewInfoChip array={verificaciones.verificacionesCriticas} />
+          </Typography>
+
           <Typography variant="subtitle1">Corroborar con el cliente en linea la siguiente información.</Typography>
           <Divider />
           <List dense>

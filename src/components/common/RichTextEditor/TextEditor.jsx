@@ -5,14 +5,12 @@ import BlockStyleControls from "./BlockStyleControls";
 import InlineStyleControls from "./InlineStyleControls";
 import { Stack } from "@mui/material";
 
+//https://rajaraodv.medium.com/how-draft-js-represents-rich-text-data-eeabb5f25cf2#9260
+
 const TextEditor = ({ setContent, rawContent = {} }) => {
   const editorRef = useRef(null);
-  console.log(rawContent.blocks ? "true" : "false");
-
-  const blocks = rawContent.blocks ? convertFromRaw(rawContent) : null;
-
   const [editorState, setEditorState] = useState(
-    rawContent.blocks ? EditorState.createWithContent(blocks) : EditorState.createEmpty()
+    rawContent.blocks ? EditorState.createWithContent(convertFromRaw(rawContent)) : EditorState.createEmpty()
   );
 
   const getBlockStyle = (block) => {
@@ -58,8 +56,8 @@ const TextEditor = ({ setContent, rawContent = {} }) => {
   };
 
   return (
-    <Stack spacing={2} sx={{ padding: 2, borderRadius: 2 }}>
-      <Stack direction="row" spacing={2}>
+    <Stack spacing={2} sx={{ borderRadius: 2 }}>
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
         <BlockStyleControls editorState={editorState} onToggle={toggleBlockType} />
         <InlineStyleControls editorState={editorState} onToggle={toggleInlineStyle} />
       </Stack>
@@ -79,7 +77,7 @@ const TextEditor = ({ setContent, rawContent = {} }) => {
           editorState={editorState}
           placeholder="Sin plantilla"
           blockStyleFn={(block) => getBlockStyle(block)}
-          keyBindingFn={(e) => mapKeyToEditorCommand(e)}
+          keyBindingFn={(e) => mapKeyToEditorCommand(e)} // no se que hace
           onChange={onChange}
           spellCheck={true}
           handleKeyCommand={handleKeyCommand}

@@ -15,8 +15,9 @@ export default function NavBar() {
   const colorMode = React.useContext(ColorModeContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [selectedNavItem, setSelectedNavItem] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
-
+  console.log(selectedNavItem);
   //Esto se deberia reemplazar por el contexto del usuario
   useEffect(() => {
     usuario.rol === "admin" ? setIsAdmin(null) : setIsAdmin("none");
@@ -37,7 +38,9 @@ export default function NavBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (e) => {
+    console.log(e.target.text);
+    setSelectedNavItem(e.target.text);
     setAnchorElNav(null);
   };
 
@@ -52,6 +55,7 @@ export default function NavBar() {
             variant="h5"
             noWrap
             component={ReactLink}
+            onClick={() => setSelectedNavItem(null)}
             to="/"
             sx={{
               mr: 2,
@@ -128,8 +132,15 @@ export default function NavBar() {
                 key={page.text}
                 component={ReactLink}
                 to={page.path}
+                name={page.text}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: page.display }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: page.display,
+                  textDecoration: selectedNavItem === page.text && "underline",
+                  textUnderlinePosition: "under",
+                }}
               >
                 {page.text}
               </Button>
