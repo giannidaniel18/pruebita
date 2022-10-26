@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Typography,
@@ -11,9 +11,8 @@ import {
   AccordionSummary,
   AccordionDetails,
   Box,
-  Chip,
 } from "@mui/material";
-import { format, parseISO } from "date-fns";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import DocumentationTab from "./DocumentationTab";
@@ -22,14 +21,10 @@ import CustomAlert from "../../common/CustomAlert.";
 import SubtipoCard from "./SubtipoCard";
 import DataNotFound from "../../common/DataNotFound";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import NewInfoBadge from "../../common/NewInfoChip";
-import NewInfoChip from "../../common/NewInfoChip";
+import NewInfoBadge from "../../common/NewInfoBadge";
 
 export default function BranchCard({ branch }) {
   const [selectedTutoria, setSelectedTutoria] = useState(null);
-  const updateText = `Ultima actualizacion :  ${format(parseISO(branch.updatedAt), "dd/MM/yyyy")} por ${
-    branch.updatedBy
-  }`;
 
   const handleSelectedTutoria = (e) => {
     e.target.getAttribute("id-tutoria") === selectedTutoria?.id
@@ -39,7 +34,6 @@ export default function BranchCard({ branch }) {
 
   return (
     <Stack spacing={6} mt={{ xs: 2, sm: 0 }} alignItems={{ xs: "center", sm: "flex-start" }}>
-      <CustomAlert type={"info"}>{updateText}</CustomAlert>
       <Stack spacing={2} width="100%">
         <Typography variant="h2">{branch.titulo}</Typography>
 
@@ -98,7 +92,7 @@ function VerificacionesInfo({ verificaciones }) {
       {verificaciones.verificacionesCriticas.length ? (
         <CustomAlert type={"hint"}>
           <Typography variant="h4">
-            Verificaciones criticas <NewInfoChip array={verificaciones.verificacionesCriticas} />
+            <NewInfoBadge array={verificaciones.verificacionesCriticas}>Verificaciones criticas</NewInfoBadge>
           </Typography>
 
           <Typography variant="subtitle1">Corroborar con el cliente en linea la siguiente información.</Typography>
@@ -131,7 +125,9 @@ function VerificacionesInfo({ verificaciones }) {
       {verificaciones.verificacionesExtras.length ? (
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-            <Typography variant="h4">Verificaciones extras</Typography>
+            <Typography variant="h4">
+              <NewInfoBadge array={verificaciones.verificacionesExtras}>Verificaciones extras</NewInfoBadge>
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <List dense>
@@ -171,7 +167,14 @@ function VerificacionesInfo({ verificaciones }) {
 }
 
 function DocumentacionTipificacion({ eventos }) {
-  const [selectedEventTab, setSelectedEventTab] = useState(eventos[0]);
+  const [selectedEventTab, setSelectedEventTab] = useState([]);
+  const [initialValue, setInitialValue] = useState(0);
+
+  useEffect(() => {
+    setSelectedEventTab(eventos[0]);
+    setInitialValue(0);
+  }, [eventos]);
+
   const handleChangeEvento = (idEvento) => {
     setSelectedEventTab(eventos.find((evento) => evento.id === idEvento));
   };
@@ -187,8 +190,8 @@ function DocumentacionTipificacion({ eventos }) {
       </Typography>
 
       <Stack spacing={1}>
-        <DocumentationTab eventos={eventos} handleChangeEvento={handleChangeEvento} />
-        {!selectedEventTab.subtiposSiniestro.length ? (
+        <DocumentationTab eventos={eventos} handleChangeEvento={handleChangeEvento} initialValue={initialValue} />
+        {!selectedEventTab.subtiposSiniestro?.length ? (
           <DataNotFound>
             <Typography px={2} variant="body">
               No existen subtipos creados para el Evento actual, ponete en contacto con mejora continua para nutrir de

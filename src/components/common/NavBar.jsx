@@ -17,7 +17,7 @@ export default function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [selectedNavItem, setSelectedNavItem] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
-  console.log(selectedNavItem);
+
   //Esto se deberia reemplazar por el contexto del usuario
   useEffect(() => {
     usuario.rol === "admin" ? setIsAdmin(null) : setIsAdmin("none");
@@ -39,7 +39,6 @@ export default function NavBar() {
   };
 
   const handleCloseNavMenu = (e) => {
-    console.log(e.target.text);
     setSelectedNavItem(e.target.text);
     setAnchorElNav(null);
   };

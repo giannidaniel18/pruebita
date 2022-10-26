@@ -86,7 +86,7 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
     setDrawerVisibleMode(!drawerVisibleMode);
   };
   const resetDrawerDataToHandle = () => {
-    setDrawerDataToHandle([]);
+    setDrawerDataToHandle({});
   };
   const onSettingDrawerDataToHandle = (e) => {
     onToggleDrawerVisibleMode();

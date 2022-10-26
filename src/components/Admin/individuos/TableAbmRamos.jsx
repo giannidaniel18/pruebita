@@ -14,11 +14,15 @@ import {
   IconButton,
   Switch,
 } from "@mui/material";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { visuallyHidden } from "@mui/utils";
 import { format, parseISO } from "date-fns";
 import { useBranchContext } from "../../../context/BranchContext";
 import { Link as ReactLink } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { AdminDrawerUpdate } from "./AdminDrawers";
+import ConfirmationAlert from "../../common/ConfirmationAlert";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -53,31 +57,41 @@ const headCells = [
     id: "titulo_Ramo",
     numeric: false,
     disablePadding: true,
+    filter: true,
+    align: "left",
     label: "Ramo",
   },
   {
     id: "fechaCreacion",
     numeric: true,
     disablePadding: false,
+    filter: true,
+    align: "left",
     label: "Creado el",
   },
   {
     id: "fechaModificacion",
     numeric: false,
     disablePadding: false,
+    filter: true,
+    align: "left",
     label: "Ultima modificación",
   },
   {
-    id: "editar",
+    id: "configurar",
     numeric: false,
     disablePadding: false,
-    label: "Editar",
+    filter: false,
+    align: "center",
+    label: "Configurar",
   },
   {
     id: "estado",
     numeric: false,
     disablePadding: false,
-    label: "Estado",
+    filter: false,
+    align: "center",
+    label: "Admministrar",
   },
 ];
 function createData(id, titulo_Ramo, fechaCreacion, fechaModificacion, editar, estado) {
@@ -100,19 +114,23 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell key={headCell.id} align={"left"} sortDirection={orderBy === headCell.id ? order : false}>
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+          <TableCell key={headCell.id} align={headCell.align} sortDirection={orderBy === headCell.id ? order : false}>
+            {headCell.filter ? (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            ) : (
+              headCell.label
+            )}
           </TableCell>
         ))}
       </TableRow>
@@ -126,16 +144,54 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function TableAbmRamos({ branches }) {
+  const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
+  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
+  const [confirmationState, setConfirmationState] = useState({});
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("titulo_Ramo");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { updateStatusBranch } = useBranchContext();
+  const { updateStatusBranch, updateBranch, deleteBranch } = useBranchContext();
 
+  const onToggleDrawerVisibleMode = () => {
+    setDrawerVisibleMode(!drawerVisibleMode);
+  };
+  const resetDrawerDataToHandle = () => {
+    setDrawerDataToHandle({});
+  };
+  const onSettingDrawerDataToHandle = (e) => {
+    onToggleDrawerVisibleMode();
+
+    setDrawerDataToHandle({
+      id: e.currentTarget.id,
+      type: "ramo",
+      method: "update",
+      data: [{ inputName: "ramo", label: "Ramo", multiline: false, valueToUpdate: e.currentTarget.name }],
+    });
+  };
+
+  const handleConfirmationToDelete = (e) => {
+    setConfirmationState({
+      onOpen: true,
+      typeConfirm: "Eliminar",
+      title: "Ramo",
+      id: e.currentTarget.id,
+    });
+  };
+
+  const getConfirmation = (confirmation) => {
+    if (confirmation) handleDeleteBranch(confirmationState.id);
+    setConfirmationState({});
+  };
+  const onUpdateBranch = (updatedBranch) => {
+    updateBranch(drawerDataToHandle.id, updatedBranch.ramo);
+  };
   const handleChange = (event) => {
     updateStatusBranch(event.target.id, event.target.checked);
   };
-
+  const handleDeleteBranch = (idBranch) => {
+    deleteBranch(idBranch);
+  };
   const rows = branches.map((ramo) =>
     createData(
       ramo.id,
@@ -143,23 +199,33 @@ export default function TableAbmRamos({ branches }) {
       ramo.createdAt,
       ramo.updatedAt,
       <IconButton component={ReactLink} to={`${ramo.id}`} aria-label="Editar">
-        <BorderColorIcon />
+        <SettingsIcon />
       </IconButton>,
-      <Switch id={ramo.id} checked={ramo.estado} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+      <Box>
+        <IconButton size="small" id={ramo.id} name={ramo.titulo} onClick={onSettingDrawerDataToHandle}>
+          <ModeEditIcon fontSize="small" />
+        </IconButton>
+        <IconButton size="small" id={ramo.id} name={ramo.titulo} onClick={handleConfirmationToDelete}>
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+        <Switch
+          id={ramo.id}
+          checked={ramo.estado}
+          onChange={handleChange}
+          inputProps={{ "aria-label": "controlled" }}
+        />
+      </Box>
     )
   );
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
     console.log(property);
   };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -192,8 +258,10 @@ export default function TableAbmRamos({ branches }) {
                     </TableCell>
                     <TableCell align="left">{format(parseISO(row.fechaCreacion), "dd/MM/yyyy")}</TableCell>
                     <TableCell align="left">{format(parseISO(row.fechaModificacion), "dd/MM/yyyy")}</TableCell>
-                    <TableCell align="left">{row.editar}</TableCell>
-                    <TableCell align="left">{row.estado}</TableCell>
+                    <TableCell align="center" width={5}>
+                      {row.editar}
+                    </TableCell>
+                    <TableCell align="center">{row.estado}</TableCell>
                   </TableRow>
                 );
               })}
@@ -214,6 +282,25 @@ export default function TableAbmRamos({ branches }) {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      {drawerVisibleMode && (
+        <AdminDrawerUpdate
+          drawerVisibleMode={drawerVisibleMode}
+          onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
+          drawerDataToHandle={drawerDataToHandle}
+          resetDrawerDataToHandle={resetDrawerDataToHandle}
+          onPersistData={onUpdateBranch}
+          dataType="Ramo"
+        />
+      )}
+      {confirmationState.onOpen && (
+        <ConfirmationAlert
+          onOpen={confirmationState.onOpen}
+          typeConfirm={confirmationState.typeConfirm}
+          title={confirmationState.title}
+          desc={confirmationState.desc}
+          confirmation={getConfirmation}
+        />
+      )}
     </Box>
   );
 }

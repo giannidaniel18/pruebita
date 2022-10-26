@@ -37,6 +37,19 @@ const BranchContextProvider = ({ children }) => {
     newBranch.estado = status; //le cambio la propiedad estado
     updateBranchesData(newBranch);
   };
+
+  const deleteBranch = (idBranch) => {
+    const newBranches = branches.filter((branch) => branch.id !== idBranch);
+    setBranches(newBranches);
+  };
+
+  const updateBranch = (idBranch, updatedBranch) => {
+    console.log(idBranch, updatedBranch);
+    const newBranches = branches;
+    const index = branches.findIndex((branch) => branch.id === idBranch);
+    newBranches[index].titulo = updatedBranch;
+    setBranches(newBranches);
+  };
   //con este metodo agrego un branch a branches // fixed
   const addBranchToBranches = (titulo_branch) => {
     const newBranch = { ...defaultBranch };
@@ -362,6 +375,8 @@ const BranchContextProvider = ({ children }) => {
         updateTutoriaFromBranch,
         updateFormulariosFromTutoria,
         updatePlantillaFromSubtipo,
+        deleteBranch,
+        updateBranch,
       }}
     >
       {children}

@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  IconButton,
   List,
   ListItemText,
   Stack,
@@ -20,10 +19,11 @@ import DownloadIcon from "@mui/icons-material/Download";
 import TipificationTable from "./TipíficationTable";
 import { styled, useTheme } from "@mui/material/styles";
 import { ColorsPalette } from "../../../config/ColorsPalette";
-import ReactMarkdown from "react-markdown";
+
 import DataNotFound from "../../common/DataNotFound";
-import remarkGfm from "remark-gfm";
+
 import { ViewerDrawerMarkDown } from "../../Admin/individuos/AdminDrawers";
+import NewInfoBadge from "../../common/NewInfoBadge";
 
 export default function SubtipoCard({ subtipos }) {
   const [selectedSubtipo, setSelectedSubtipo] = useState(null);
@@ -33,25 +33,29 @@ export default function SubtipoCard({ subtipos }) {
   };
 
   return (
-    <Card>
-      <CardContent>
-        <Stack spacing={0.5}>
-          {subtipos.map((subtipo) => (
-            <Stack key={subtipo.id} sx={{ boxShadow: 2, borderRadius: 2 }}>
-              <Stack direction={"row"} justifyContent="space-between" alignItems={"center"} py={0.5} px={1}>
-                <Typography variant="overline" fontSize={14}>
-                  Evento {subtipo.titulo}
-                </Typography>
-                <IconButton size="small" id={subtipo.id} onClick={handleSelectedSubtipo}>
-                  {subtipo.id === selectedSubtipo ? <VisibilityIcon color="primary" /> : <VisibilityOffIcon />}
-                </IconButton>
-              </Stack>
-              {subtipo.id === selectedSubtipo && <DocAndTipCard subtipo={subtipo} />}
-            </Stack>
-          ))}
-        </Stack>
-      </CardContent>
-    </Card>
+    <Stack spacing={1}>
+      {subtipos.map((subtipo) => (
+        <Card key={subtipo.id} sx={{ boxShadow: 2, borderRadius: 2 }}>
+          <Button
+            color={subtipo.id === selectedSubtipo ? "primary" : "inherit"}
+            size="small"
+            id={subtipo.id}
+            onClick={handleSelectedSubtipo}
+            fullWidth
+            sx={{ justifyContent: "space-between", alignItems: "end", borderRadius: 2, padding: 1.5 }}
+          >
+            <Typography variant="overline" fontSize={14}>
+              <NewInfoBadge array={[...subtipo.documentacion, ...subtipo.tipificacion]}>
+                Evento {subtipo.titulo}
+              </NewInfoBadge>
+            </Typography>
+            <Box>{subtipo.id === selectedSubtipo ? <VisibilityIcon /> : <VisibilityOffIcon />}</Box>
+          </Button>
+
+          {subtipo.id === selectedSubtipo && <DocAndTipCard subtipo={subtipo} />}
+        </Card>
+      ))}
+    </Stack>
   );
 }
 
@@ -90,6 +94,7 @@ function DocAndTipCard({ subtipo }) {
       ) : (
         <CustomCard>
           <CustomCardHeader title="Documentacion a presentar" titleTypographyProps={{ variant: "h6" }} />
+
           <CardContent>
             <List>
               {subtipo.documentacion.map((doc) => (

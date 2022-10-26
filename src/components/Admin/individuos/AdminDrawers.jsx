@@ -1,5 +1,17 @@
 import React, { useState } from "react";
-import { Button, Drawer, Grid, Stack, TextField, Card, Typography, IconButton, Tooltip, Box } from "@mui/material";
+import {
+  Button,
+  Drawer,
+  Grid,
+  Stack,
+  TextField,
+  Card,
+  Typography,
+  IconButton,
+  Tooltip,
+  Box,
+  Link,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
@@ -8,9 +20,9 @@ import remarkGfm from "remark-gfm";
 
 import TextImputControlSmall from "../../common/TextImputControlSmall";
 import ConfirmationAlert from "../../common/ConfirmationAlert";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import "./markdown.css";
-import { useEffect } from "react";
 
 export function AdminDrawerUpdate({
   drawerVisibleMode,
@@ -202,11 +214,6 @@ export function AdminDrawerCreate({
 
 export function AdminDrawerMarkDown({ drawerVisibleMode, onToggleDrawerVisibleMode, updateFn, plantilla }) {
   const [markdownText, setMarkdownText] = useState(plantilla);
-  const [rows, setRows] = useState();
-
-  useEffect(() => {
-    window.innerWidth > 600 ? setRows(15) : setRows(4);
-  }, []);
 
   const CloseDrawer = () => {
     onToggleDrawerVisibleMode();
@@ -220,8 +227,16 @@ export function AdminDrawerMarkDown({ drawerVisibleMode, onToggleDrawerVisibleMo
   };
   return (
     <Drawer anchor={"bottom"} open={drawerVisibleMode}>
-      <Stack width={"100%"} height="80vh" p={2} spacing={2} direction="row" justifyContent={"center"}>
-        <Stack direction="column" spacing={2}>
+      <Stack
+        width={"100%"}
+        height="80vh"
+        p={2}
+        spacing={5}
+        direction={{ xs: "column", md: "row" }}
+        alignItems={{ xs: "center", md: "start" }}
+        justifyContent={{ xs: undefined, md: "center" }}
+      >
+        <Stack direction={{ xs: "row", md: "column" }} alignSelf={{ xs: "end", md: "start" }} spacing={2}>
           <Tooltip title="Cerrar">
             <IconButton color="primary" onClick={CloseDrawer}>
               <CloseIcon />
@@ -230,6 +245,16 @@ export function AdminDrawerMarkDown({ drawerVisibleMode, onToggleDrawerVisibleMo
           <Tooltip title="Guardar">
             <IconButton color="primary" onClick={handleUpdateTemplate}>
               <SaveIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Guia MarckDown">
+            <IconButton
+              href="https://www.markdownguide.org/cheat-sheet"
+              target="_blank"
+              rel="noreferrer"
+              color="primary"
+            >
+              <MenuBookIcon />
             </IconButton>
           </Tooltip>
         </Stack>
@@ -241,9 +266,9 @@ export function AdminDrawerMarkDown({ drawerVisibleMode, onToggleDrawerVisibleMo
               label="Creador de plantilla"
               placeholder="Comienza a escribir."
               value={markdownText}
-              rows={rows}
+              rows={15}
               multiline
-              sx={{ width: { sm: "300px", md: "400px", xl: "600px" } }}
+              sx={{ minWidth: { xs: "300px", sm: "400px", md: "400px", xl: "600px" } }}
               onChange={handleChange}
             />
           </Stack>
@@ -253,10 +278,14 @@ export function AdminDrawerMarkDown({ drawerVisibleMode, onToggleDrawerVisibleMo
               <Card
                 sx={{
                   paddingX: 2,
-                  minHeight: { xs: "200px", md: "380px" },
+                  maxHeight: { xs: "400px", md: "600px" },
+                  minHeight: { md: "380px" },
                   display: "inline-block",
                   overflowWrap: "break-word",
-                  width: { sm: "300px", md: "400px", xl: "600px" },
+                  minWidth: { xs: "300px", sm: "400px", md: "400px", xl: "600px" },
+                  maxWidth: { xs: "300px", sm: "400px", md: "400px", xl: "600px" },
+                  overflowX: { xs: "scroll", md: "auto" },
+                  overflowY: { xs: "scroll", md: "auto" },
                 }}
               >
                 <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} />

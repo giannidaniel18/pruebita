@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 
 export default function DocumentationTab({ eventos, handleChangeEvento }) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    setValue(0);
+  }, [eventos]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
