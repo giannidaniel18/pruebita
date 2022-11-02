@@ -16,6 +16,7 @@ import {
   LineaSiniestradaBasic,
 } from "./FormulariosDeSiniestros";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { memo } from "react";
 
 export default function Tutoria({ formularios = ["PolizaBasic"], tituloTutoria = "XXX" }) {
   const { control, handleSubmit } = useForm();

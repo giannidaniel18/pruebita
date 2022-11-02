@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, Typography, Grid, Container, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { TextField, Typography, Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { Controller } from "react-hook-form";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -7,8 +7,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { format } from "date-fns";
 import { TimePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
+import { memo } from "react";
 
-export function LineaSiniestradaBasic({ control }) {
+export const LineaSiniestradaBasic = memo(({ control }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -35,8 +36,8 @@ export function LineaSiniestradaBasic({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function PolizaBasic({ control }) {
+});
+export const PolizaBasic = memo(({ control }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -63,8 +64,8 @@ export function PolizaBasic({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function DatosPersonalesBasic({ control }) {
+});
+export const DatosPersonalesBasic = memo(({ control }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -151,8 +152,8 @@ export function DatosPersonalesBasic({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function DatosPersonalesExtended({ control }) {
+});
+export const DatosPersonalesExtended = memo(({ control }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -293,8 +294,8 @@ export function DatosPersonalesExtended({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function DescripcionDelHechoBasic({ control }) {
+});
+export const DescripcionDelHechoBasic = memo(({ control }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -339,8 +340,8 @@ export function DescripcionDelHechoBasic({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function DescripcionDelHechoExtended({ control, tiposDeSiniestros = ["sin datos", "sin datos"] }) {
+});
+export const DescripcionDelHechoExtended = memo(({ control, tiposDeSiniestros = ["sin datos", "sin datos"] }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -431,10 +432,10 @@ export function DescripcionDelHechoExtended({ control, tiposDeSiniestros = ["sin
       </Grid>
     </Grid>
   );
-}
-export function FechaHoraLugarSiniestroBasic({ control }) {
-  const [hora, setHora] = useState(new Date());
-  const [date, setDate] = useState(new Date());
+});
+export const FechaHoraLugarSiniestroBasic = ({ control }) => {
+  const [hora, setHora] = useState(null);
+  const [date, setDate] = useState(null);
 
   return (
     <Grid container spacing={2}>
@@ -446,13 +447,13 @@ export function FechaHoraLugarSiniestroBasic({ control }) {
           <Controller
             name="fechaSiniestro"
             control={control}
-            defaultValue={format(date, "dd/MM/yyyy")}
+            defaultValue={date}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <DatePicker
                 {...fieldProps}
                 inputRef={ref}
                 name="fechaSiniestro"
-                label="dd/mm/yyyy"
+                inputFormat="dd-MM-yyyy"
                 value={date}
                 size="small"
                 onChange={(value) => onChange(format(value, "dd/MM/yyyy"), setDate(value))}
@@ -469,7 +470,7 @@ export function FechaHoraLugarSiniestroBasic({ control }) {
           <Controller
             name="horaSiniestro"
             control={control}
-            defaultValue={format(hora, "HH:mm aa")}
+            defaultValue={hora}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <TimePicker
                 {...fieldProps}
@@ -527,10 +528,10 @@ export function FechaHoraLugarSiniestroBasic({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function FechaHoraSiniestroBasic({ control }) {
-  const [hora, setHora] = useState(new Date());
-  const [date, setDate] = useState(new Date());
+};
+export const FechaHoraSiniestroBasic = ({ control }) => {
+  const [hora, setHora] = useState(null);
+  const [date, setDate] = useState(null);
 
   return (
     <Grid container spacing={2}>
@@ -542,13 +543,13 @@ export function FechaHoraSiniestroBasic({ control }) {
           <Controller
             name="fechaSiniestro"
             control={control}
-            defaultValue={format(date, "dd/MM/yyyy")}
+            defaultValue={date}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <DatePicker
                 {...fieldProps}
                 inputRef={ref}
                 name="fechaSiniestro"
-                label="dd/mm/yyyy"
+                inputFormat="dd-MM-yyyy"
                 value={date}
                 size="small"
                 onChange={(value) => onChange(format(value, "dd/MM/yyyy"), setDate(value))}
@@ -565,7 +566,7 @@ export function FechaHoraSiniestroBasic({ control }) {
           <Controller
             name="horaSiniestro"
             control={control}
-            defaultValue={format(hora, "HH:mm aa")}
+            defaultValue={hora}
             render={({ field: { onChange, ref, value, ...fieldProps } }) => (
               <TimePicker
                 {...fieldProps}
@@ -585,8 +586,8 @@ export function FechaHoraSiniestroBasic({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function ObservacionesFinalesBasic({ control }) {
+};
+export const ObservacionesFinalesBasic = memo(({ control }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -635,8 +636,8 @@ export function ObservacionesFinalesBasic({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function ObservacionesFinalesExtended({ control }) {
+});
+export const ObservacionesFinalesExtended = memo(({ control }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -708,8 +709,8 @@ export function ObservacionesFinalesExtended({ control }) {
       </Grid>
     </Grid>
   );
-}
-export function DatosLaboralesBasic({ control }) {
+});
+export const DatosLaboralesBasic = memo(({ control }) => {
   const [date, setDate] = useState(new Date());
   return (
     <Grid container spacing={2}>
@@ -818,4 +819,4 @@ export function DatosLaboralesBasic({ control }) {
       </Grid>
     </Grid>
   );
-}
+});
