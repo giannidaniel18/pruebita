@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Typography, Button, Grid, Divider, Card, Stack, Chip } from "@mui/material";
+import { Typography, Button, Grid, Divider, Card, Chip } from "@mui/material";
 import { useForm } from "react-hook-form";
 import {
   DescripcionDelHechoBasic,
@@ -16,7 +16,6 @@ import {
   LineaSiniestradaBasic,
 } from "./FormulariosDeSiniestros";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { memo } from "react";
 
 export default function Tutoria({ formularios = ["PolizaBasic"], tituloTutoria = "XXX" }) {
   const { control, handleSubmit } = useForm();

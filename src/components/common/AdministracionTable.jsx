@@ -24,11 +24,12 @@ export default function AdministracionTable({
       typeConfirm: "Eliminar",
       title: dataType,
       id: e.currentTarget.id,
+      name: e.currentTarget.name,
     });
   };
 
   const getConfirmation = (confirmation) => {
-    if (confirmation) deleteFunction(confirmationState.id);
+    if (confirmation) deleteFunction(confirmationState.id, confirmationState.name);
     setConfirmationState({});
   };
 

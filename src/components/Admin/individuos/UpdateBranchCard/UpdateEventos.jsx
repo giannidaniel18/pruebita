@@ -9,6 +9,7 @@ import AdministracionTable from "../../../common/AdministracionTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EmailIcon from "@mui/icons-material/Email";
 import { AdminDrawerUpdate, AdminDrawerCreate, AdminDrawerPlantilla, AdminDrawerMarkDown } from "../AdminDrawers";
+import SnackBar from "../../../common/SnackBar";
 
 const EVENTOS_HEADERS = [{ id: "event", titulo: "Eventos", cabecera: true }];
 const SUBTIPOS_HEADERS = [{ id: "subtipo", titulo: "Subtipos", cabecera: true }];
@@ -79,6 +80,7 @@ export default function UpdateEventos({ eventos }) {
 function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrentEvent }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
   const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
+  const [requestStatus, setRequestStatus] = useState({});
   const { control, handleSubmit, resetField } = useForm();
   const { addEventoToBranch, deleteEventoFromBranch, updateEventoFromBranch } = useBranchContext();
 
@@ -99,15 +101,19 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
     });
   };
   const onAddEvento = (newEvento) => {
-    addEventoToBranch(newEvento);
+    const result = addEventoToBranch(newEvento);
     resetField("tituloEvento");
+    setRequestStatus({ ...result, status: true });
   };
-  const onDeleteEvento = (EventoId) => {
-    deleteEventoFromBranch(EventoId);
+  const onDeleteEvento = (eventoId, eventoName) => {
+    const result = deleteEventoFromBranch(eventoId, eventoName);
     resetCurrentEvent();
+    setRequestStatus({ ...result, status: true });
   };
   const onUpdateEvento = (updatedEvento) => {
-    updateEventoFromBranch(drawerDataToHandle.id, updatedEvento.evento);
+    const result = updateEventoFromBranch(drawerDataToHandle.id, updatedEvento.evento);
+    setRequestStatus({ ...result, status: true });
+    console.log(result);
   };
   return (
     <>
@@ -158,6 +164,9 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
           dataType="Evento"
         />
       )}
+      {requestStatus.status && (
+        <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} status={requestStatus.status} />
+      )}
     </>
   );
 }
@@ -165,6 +174,7 @@ function EventosPanel({ eventos, handleCurrentEvent, currentEvento, resetCurrent
 function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, resetCurrentSubtipo }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
   const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
+  const [requestStatus, setRequestStatus] = useState({});
   const { control, handleSubmit, resetField } = useForm();
   const { addSubtipoToEvento, deleteSubtipoFromEvento, updateSubtipoFromEvento } = useBranchContext();
 
@@ -186,15 +196,19 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
   };
 
   const onAddSubtipo = (newSubtipo) => {
-    addSubtipoToEvento(newSubtipo, currentEvento.id);
+    const result = addSubtipoToEvento(newSubtipo, currentEvento.id);
     resetField("tituloSubtipo");
+    setRequestStatus({ ...result, status: true });
   };
-  const onDeleteSubtipo = (subtipoId) => {
-    deleteSubtipoFromEvento(subtipoId, currentEvento.id);
+  const onDeleteSubtipo = (subtipoId, subtipoName) => {
+    const result = deleteSubtipoFromEvento(subtipoId, currentEvento.id, subtipoName);
     resetCurrentSubtipo();
+    setRequestStatus({ ...result, status: true });
   };
   const onUpdateSubtipo = (updatedSubtipo) => {
-    updateSubtipoFromEvento(drawerDataToHandle.id, updatedSubtipo.subtipo, currentEvento.id);
+    const result = updateSubtipoFromEvento(drawerDataToHandle.id, updatedSubtipo.subtipo, currentEvento.id);
+
+    setRequestStatus({ ...result, status: true });
   };
 
   return (
@@ -259,6 +273,9 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
           onPersistData={onUpdateSubtipo}
           dataType="Subtipo"
         />
+      )}
+      {requestStatus.status && (
+        <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} status={requestStatus.status} />
       )}
     </Stack>
   );
@@ -484,7 +501,6 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
   const onAddTipificacion = (newTipificacion) => {
     addTipificacionToSubtipo(newTipificacion, currentSubtipoId, currentEventoId);
   };
-
   const onDeleteTipificacion = (tipificacionId) => {
     deleteTipificacionFromSubtipo(tipificacionId, currentSubtipoId, currentEventoId);
   };

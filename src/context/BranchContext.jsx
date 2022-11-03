@@ -137,21 +137,27 @@ const BranchContextProvider = ({ children }) => {
     newBranch.eventos = [...currentBranch.eventos, newEvento];
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
+    return { responseStatus: "success", text: `Has agregado exitosamente el evento : ${evento.tituloEvento} ` };
   };
-  const deleteEventoFromBranch = (idEvento) => {
+  const deleteEventoFromBranch = (idEvento, nameEvento) => {
     const newBranch = currentBranch;
     newBranch.eventos = currentBranch.eventos.filter((evento) => evento.id !== idEvento);
-
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
+    return { responseStatus: "success", text: `Has eliminado exitosamente el evento : ${nameEvento} ` };
   };
   const updateEventoFromBranch = (idEvento, updatedEvento) => {
     const newBranch = currentBranch;
     const indexEvento = currentBranch.eventos.findIndex((evento) => evento.id === idEvento);
+    const oldEventName = newBranch.eventos[indexEvento].titulo;
     newBranch.eventos[indexEvento].titulo = updatedEvento;
     newBranch.updatedAt = new Date().toISOString();
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
+    return {
+      responseStatus: "success",
+      text: `Has Actualizado exitosamente el Evento "${oldEventName}" a "${updatedEvento}" `,
+    };
   };
   //ABM DE SUBTIPOS
   const addSubtipoToEvento = (subtipo, idEvento) => {
@@ -167,8 +173,9 @@ const BranchContextProvider = ({ children }) => {
     ];
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
+    return { responseStatus: "success", text: `Has agregado exitosamente el subtipo : ${subtipo.tituloSubtipo} ` };
   };
-  const deleteSubtipoFromEvento = (idSubtipo, idEvento) => {
+  const deleteSubtipoFromEvento = (idSubtipo, idEvento, nameSubtipo) => {
     const newBranch = currentBranch;
     const indexEvento = currentBranch.eventos.findIndex((evento) => evento.id === idEvento); // tengo que encontrar la posicion del evento a la que le estoy agregando el subtipo
     newBranch.eventos[indexEvento].subtiposSiniestro = currentBranch.eventos[indexEvento].subtiposSiniestro.filter(
@@ -176,6 +183,7 @@ const BranchContextProvider = ({ children }) => {
     );
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
+    return { responseStatus: "success", text: `Has eliminado exitosamente el subtipo : ${nameSubtipo} ` };
   };
   const updateSubtipoFromEvento = (idSubtipo, updatedSubtipo, idEvento) => {
     const newBranch = currentBranch;
@@ -183,11 +191,16 @@ const BranchContextProvider = ({ children }) => {
     const indexSubtipo = currentBranch.eventos[indexEvento].subtiposSiniestro.findIndex(
       (subtipo) => subtipo.id === idSubtipo
     );
+    const oldSubtipoName = newBranch.eventos[indexEvento].subtiposSiniestro[indexSubtipo].titulo;
     newBranch.eventos[indexEvento].subtiposSiniestro[indexSubtipo].titulo = updatedSubtipo;
     newBranch.eventos[indexEvento].subtiposSiniestro[indexSubtipo].updatedAt = new Date().toISOString();
     console.log(newBranch.eventos[indexEvento].subtiposSiniestro[indexSubtipo]);
     setCurrentBranch(newBranch);
     updateBranchesData(newBranch);
+    return {
+      responseStatus: "success",
+      text: `Has Actualizado exitosamente el subtipo "${oldSubtipoName}" a "${updatedSubtipo}" `,
+    };
   };
   //ABM DE TIPIFICACIONES
   const addTipificacionToSubtipo = (tipificacion, idSubtipo, idEvento) => {
