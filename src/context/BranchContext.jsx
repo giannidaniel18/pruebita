@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { branchesArray } from "../data";
 import {
   defaultBranch,
@@ -10,13 +10,14 @@ import {
   defaultDocumento,
   defaultTutoria,
 } from "../constants/variablesGlobales";
+import { getRamos } from "../services/ramos/getRamos";
 
 const BranchContext = createContext(null);
 export const useBranchContext = () => useContext(BranchContext);
 
 const BranchContextProvider = ({ children }) => {
   const [currentBranch, setCurrentBranch] = useState(null);
-  const [branches, setBranches] = useState(branchesArray);
+  const [branches, setBranches] = useState([]);
 
   const setUpCurrentBranch = (id) => {
     const newbranch = branches.find((ramo) => ramo.id === id);

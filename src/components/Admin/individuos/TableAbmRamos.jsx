@@ -23,6 +23,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { AdminDrawerUpdate } from "./AdminDrawers";
 import ConfirmationAlert from "../../common/ConfirmationAlert";
+import { deleteRamo } from "../../../services/ramos/getRamos";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -143,7 +144,7 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
 };
 
-export default function TableAbmRamos({ branches }) {
+export default function TableAbmRamos({ branches, updateRamos }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
   const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const [confirmationState, setConfirmationState] = useState({});
@@ -190,8 +191,12 @@ export default function TableAbmRamos({ branches }) {
     updateStatusBranch(event.target.id, event.target.checked);
   };
   const handleDeleteBranch = (idBranch) => {
-    deleteBranch(idBranch);
+    deleteRamo(idBranch).then((resp) => {
+      console.log(resp.data.message);
+      updateRamos();
+    });
   };
+
   const rows = branches.map((ramo) =>
     createData(
       ramo.id,

@@ -4,9 +4,10 @@ import { Alert, Snackbar } from "@mui/material";
 export default function SnackBar({ title = "default title", severity = "info", status = false }) {
   const [open, setOpen] = React.useState(false);
 
+  //ver que onda esto, porque en realidad si yo le doy 2 veces seguidas al mismo elemento a eliminar el title y severity van a ser iguales
   useEffect(() => {
     setOpen(true);
-  }, [title]);
+  }, [title, severity]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -15,7 +16,7 @@ export default function SnackBar({ title = "default title", severity = "info", s
 
     setOpen(false);
   };
-  //error, warning, info ,successd
+  //error, warning, info ,success
   return (
     <div>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
