@@ -40,15 +40,13 @@ export const addRamo = ({ titulo }) => {
   //   return response;
 };
 
-export const deleteRamo = async (idRamo) => {
+export const deleteRamo = (idRamo) => {
   return axios
     .delete(`${URL}/api/ramos/${idRamo}`)
     .then((response) => {
-      console.log(response);
       return response;
     })
     .catch((error) => {
-      console.log(error);
       return error;
     });
 
@@ -65,4 +63,15 @@ export const deleteRamo = async (idRamo) => {
   //   }
 
   //   return response;
+};
+
+export const updateRamo = (idRamo, dataToUpdate) => {
+  return axios
+    .put(`${URL}/api/ramos/${idRamo}`, dataToUpdate)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
 };

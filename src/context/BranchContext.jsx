@@ -10,7 +10,7 @@ import {
   defaultDocumento,
   defaultTutoria,
 } from "../constants/variablesGlobales";
-import { getRamos } from "../services/ramos/getRamos";
+import { getRamos } from "../services/ramos";
 
 const BranchContext = createContext(null);
 export const useBranchContext = () => useContext(BranchContext);

@@ -13,6 +13,7 @@ import {
   Typography,
   IconButton,
   Switch,
+  Stack,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { format, parseISO } from "date-fns";
@@ -23,7 +24,9 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { AdminDrawerUpdate } from "./AdminDrawers";
 import ConfirmationAlert from "../../common/ConfirmationAlert";
-import { deleteRamo } from "../../../services/ramos/getRamos";
+import { deleteRamo, updateRamo } from "../../../services/ramos";
+import StatusSwitch from "../../common/StatusSwitch";
+import SnackBar from "../../common/SnackBar";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -148,11 +151,12 @@ export default function TableAbmRamos({ branches, updateRamos }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
   const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const [confirmationState, setConfirmationState] = useState({});
+  const [requestStatus, setRequestStatus] = useState({});
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("titulo_Ramo");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { updateStatusBranch, updateBranch, deleteBranch } = useBranchContext();
+  // const { updateStatusBranch, updateBranch, deleteBranch } = useBranchContext();
 
   const onToggleDrawerVisibleMode = () => {
     setDrawerVisibleMode(!drawerVisibleMode);
@@ -184,15 +188,34 @@ export default function TableAbmRamos({ branches, updateRamos }) {
     if (confirmation) handleDeleteBranch(confirmationState.id);
     setConfirmationState({});
   };
+
   const onUpdateBranch = (updatedBranch) => {
-    updateBranch(drawerDataToHandle.id, updatedBranch.ramo);
+    const newTitle = { titulo: updatedBranch.ramo };
+    updateRamo(drawerDataToHandle.id, newTitle).then((resp) => {
+      if (resp.data.statusCode === 200) {
+        setRequestStatus({ responseStatus: "success", text: resp.data.message, status: true });
+      } else {
+        setRequestStatus({ responseStatus: "error", text: "Error al actualizar el nombre del ramo", status: true });
+      }
+      updateRamos();
+    });
   };
-  const handleChange = (event) => {
-    updateStatusBranch(event.target.id, event.target.checked);
+
+  const handleChange = (branchId, newStatus) => {
+    const newState = { estado: newStatus };
+    const enpdointResponse = updateRamo(branchId, newState).then((resp) => {
+      if (resp.data.statusCode === 200) {
+        setRequestStatus({ responseStatus: "success", text: resp.data.message, status: true });
+      } else {
+        setRequestStatus({ responseStatus: "error", text: "Error al actualizar el estado del ramo", status: true });
+      }
+      updateRamos();
+    });
+    return enpdointResponse;
   };
   const handleDeleteBranch = (idBranch) => {
     deleteRamo(idBranch).then((resp) => {
-      console.log(resp.data.message);
+      // console.log(resp.data.message);
       updateRamos();
     });
   };
@@ -206,20 +229,21 @@ export default function TableAbmRamos({ branches, updateRamos }) {
       <IconButton component={ReactLink} to={`${ramo.id}`} aria-label="Editar">
         <SettingsIcon />
       </IconButton>,
-      <Box>
+      <Stack direction="row" justifyContent={"center"} alignItems="center" spacing={1}>
         <IconButton size="small" id={ramo.id} name={ramo.titulo} onClick={onSettingDrawerDataToHandle}>
           <ModeEditIcon fontSize="small" />
         </IconButton>
         <IconButton size="small" id={ramo.id} name={ramo.titulo} onClick={handleConfirmationToDelete}>
           <DeleteIcon fontSize="small" />
         </IconButton>
-        <Switch
+        <StatusSwitch ramoId={ramo.id} status={ramo.estado} onChange={handleChange} />
+        {/* <Switch
           id={ramo.id}
           checked={ramo.estado}
           onChange={handleChange}
           inputProps={{ "aria-label": "controlled" }}
-        />
-      </Box>
+        /> */}
+      </Stack>
     )
   );
   const handleRequestSort = (event, property) => {
@@ -263,7 +287,7 @@ export default function TableAbmRamos({ branches, updateRamos }) {
                     </TableCell>
                     <TableCell align="left">{format(parseISO(row.fechaCreacion), "dd/MM/yyyy")}</TableCell>
                     <TableCell align="left">{format(parseISO(row.fechaModificacion), "dd/MM/yyyy")}</TableCell>
-                    <TableCell align="center" width={5}>
+                    <TableCell align="right" width={5}>
                       {row.editar}
                     </TableCell>
                     <TableCell align="center">{row.estado}</TableCell>
@@ -304,6 +328,14 @@ export default function TableAbmRamos({ branches, updateRamos }) {
           title={confirmationState.title}
           desc={confirmationState.desc}
           confirmation={getConfirmation}
+        />
+      )}
+      {requestStatus.status && (
+        <SnackBar
+          title={requestStatus.text}
+          severity={requestStatus.responseStatus}
+          status={requestStatus.status}
+          time={new Date()}
         />
       )}
     </Box>

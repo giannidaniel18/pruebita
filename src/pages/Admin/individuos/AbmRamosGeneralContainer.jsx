@@ -1,17 +1,17 @@
 import { Button, Grid, Paper, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { getRamos, addRamo } from "../../../services/ramos";
 import TextImputControlSmall from "../../../components/common/TextImputControlSmall";
 import TableAbmRamos from "../../../components/Admin/individuos/TableAbmRamos";
-import { useForm } from "react-hook-form";
 import LoaderBasic from "../../../components/common/LoaderBasic";
-import { getRamos, addRamo } from "../../../services/ramos/getRamos";
 import SnackBar from "../../../components/common/SnackBar";
 
 export default function AbmRamosGeneralContainer() {
   const [ramos, setRamos] = useState([]);
   const [requestStatus, setRequestStatus] = useState({});
+  const [loading, setLoading] = useState(true);
   const { control, handleSubmit, resetField } = useForm();
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = (data) => {
     const newBranch = { titulo: data.titulo_ramo };
@@ -32,7 +32,6 @@ export default function AbmRamosGeneralContainer() {
   };
 
   const updateRamos = () => {
-    setLoading(true);
     getRamos().then((ramos) => {
       setRamos(ramos);
       setLoading(false);
@@ -70,7 +69,12 @@ export default function AbmRamosGeneralContainer() {
         </>
       )}
       {requestStatus.status && (
-        <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} status={requestStatus.status} />
+        <SnackBar
+          title={requestStatus.text}
+          severity={requestStatus.responseStatus}
+          status={requestStatus.status}
+          time={new Date()}
+        />
       )}
     </Stack>
   );
