@@ -1,7 +1,7 @@
 import axios from "axios";
 const URL = process.env.REACT_APP_API_URL;
 
-export const getRamos = () => {
+export const getBranches = () => {
   return axios
     .get(`${URL}/api/ramos`, {
       headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
@@ -15,7 +15,22 @@ export const getRamos = () => {
     });
 };
 
-export const addRamo = ({ titulo }) => {
+export const getBranch = (id) => {
+  const getCurrentBranchURL = `${URL}/api/ramos/${id}`;
+  return axios
+    .get(getCurrentBranchURL, {
+      headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
+    })
+    .then((response) => {
+      const { data } = response;
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
+export const addBranch = ({ titulo }) => {
   return axios
     .post(`${URL}/api/ramos`, {
       titulo,
@@ -40,7 +55,7 @@ export const addRamo = ({ titulo }) => {
   //   return response;
 };
 
-export const deleteRamo = (idRamo) => {
+export const deleteBranch = (idRamo) => {
   return axios
     .delete(`${URL}/api/ramos/${idRamo}`)
     .then((response) => {
@@ -49,23 +64,9 @@ export const deleteRamo = (idRamo) => {
     .catch((error) => {
       return error;
     });
-
-  //   const response = await fetch(`${URL}/api/ramos/${idRamo}`, {
-  //     mode: "cors",
-  //     method: "DELETE",
-  //     headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
-  //   });
-  //   if (response.status === 200) {
-  //     const data = await response.json();
-  //     console.log(data);
-
-  //     return data;
-  //   }
-
-  //   return response;
 };
 
-export const updateRamo = (idRamo, dataToUpdate) => {
+export const updateBranch = (idRamo, dataToUpdate) => {
   return axios
     .put(`${URL}/api/ramos/${idRamo}`, dataToUpdate)
     .then((response) => {
@@ -73,5 +74,54 @@ export const updateRamo = (idRamo, dataToUpdate) => {
     })
     .catch((error) => {
       return error;
+    });
+};
+
+export const addVerificacion = (tipoVerificacion, verificacion) => {
+  return axios
+    .post(`${URL}/api/verificaciones${tipoVerificacion}`, {
+      titulo: verificacion.titulo,
+      descripcion: verificacion.descripcion,
+      verificacion: verificacion.id,
+    })
+    .then((response) => {
+      const { data } = response;
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+
+export const deleteVerificacion = (tipoVerificacion, idVerificacion) => {
+  return axios
+    .delete(`${URL}/api/verificaciones${tipoVerificacion}/${idVerificacion}`, {})
+    .then((response) => {
+      const { data } = response;
+      return data;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+
+export const updateVerificacion = (tipoVerificacion, updatedVerif, idVerificacion, masterVerifId) => {
+  return axios
+    .put(`${URL}/api/verificaciones${tipoVerificacion}/${idVerificacion}`, {
+      titulo: updatedVerif.titulo,
+      descripcion: updatedVerif.descripcion,
+      verificacion: masterVerifId,
+    })
+    .then((response) => {
+      const { data } = response;
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
     });
 };

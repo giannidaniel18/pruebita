@@ -1,17 +1,26 @@
-import { useEffect, useState } from "react";
 import UpdateBranchCard from "../../../components/Admin/individuos/UpdateBranchCard";
 import { useParams } from "react-router-dom";
-import { useBranchContext } from "../../../context/BranchContext";
+
+import { useSelectedRamo } from "../../../hooks/useSelectedRamo";
+import { useEffect, useState } from "react";
+import { getBranch } from "../../../services/ramos";
+import { useCurrentBranchContext } from "../../../context/CurrentBranchContext";
+import LoaderBasic from "../../../components/common/LoaderBasic";
 
 export default function AbmRamoSeleccionadoContainer() {
-  const { currentBranch, setUpCurrentBranch } = useBranchContext();
-  const [loading, setLoading] = useState(true);
   const { selectedbranch } = useParams();
+  const [loading, setLoading] = useState(true);
+
+  const { currentBranch, setUpCurrentBranch } = useCurrentBranchContext();
 
   useEffect(() => {
-    setUpCurrentBranch(selectedbranch);
-    setLoading(false);
-  }, [currentBranch, selectedbranch, setUpCurrentBranch]);
+    const fetchData = async () => {
+      const apiResponse = await getBranch(selectedbranch);
+      setUpCurrentBranch(apiResponse);
+      setLoading(false);
+    };
+    fetchData();
+  }, [selectedbranch]);
 
-  return loading ? <div>cargando...</div> : <UpdateBranchCard branch={currentBranch} />;
+  return loading ? <LoaderBasic /> : <UpdateBranchCard branch={currentBranch} />;
 }

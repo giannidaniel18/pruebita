@@ -15,8 +15,6 @@ import AdminIndividuos from "../pages/Admin/individuos/AdminIndividuos";
 import AbmRamosGeneralContainer from "../pages/Admin/individuos/AbmRamosGeneralContainer";
 import AbmRamoSeleccionadoContainer from "../pages/Admin/individuos/AbmRamoSeleccionadoContainer";
 
-import AdminUsuarios from "../pages/Admin/usuarios/AdminUsuarios";
-
 import WelcomePage from "../pages/WelcomePage";
 
 export default function HomeRoutes() {
@@ -36,7 +34,7 @@ export default function HomeRoutes() {
         {/* para cada nested route genero una ruta vacia para renderizar un componente de bienvenida en el Layout */}
         <Route path="" element={<WelcomePage idWelcome="admin" />} />
         <Route path="individuos" element={<AdminIndividuos />} />
-        <Route path="usuarios" element={<AdminUsuarios />} />
+        {/* <Route path="usuarios" element={<AdminUsuarios />} /> */}
         <Route path="individuos/abmramos" element={<AbmRamosGeneralContainer />} />
         <Route path="individuos/abmramos/:selectedbranch" element={<AbmRamoSeleccionadoContainer />} />
       </Route>

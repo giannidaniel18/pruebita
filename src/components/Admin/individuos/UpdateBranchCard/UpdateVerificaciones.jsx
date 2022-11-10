@@ -16,31 +16,42 @@ import TextImputControlSmall from "../../../../components/common/TextImputContro
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useForm } from "react-hook-form";
-import { useBranchContext } from "../../../../context/BranchContext";
 import DataNotFound from "../../../common/DataNotFound";
 import { AdminDrawerUpdate } from "../AdminDrawers";
 import ConfirmationAlert from "../../../common/ConfirmationAlert";
+import { useManageRamo } from "../../../../hooks/useMangeRamo";
 
 export default function UpdateVerificaciones({ verificaciones, tipoVerificacion, title }) {
   const { control, handleSubmit, resetField } = useForm();
-  const { addVerificacionToBranch } = useBranchContext();
+  const { createVerificacion, removeVerificacion, modifyVerificacion } = useManageRamo();
 
   const arrayVerificaciones =
-    tipoVerificacion === "Critica" ? verificaciones.verificacionesCriticas : verificaciones.verificacionesExtras;
+    tipoVerificacion === "criticas" ? verificaciones?.verificacionesCriticas : verificaciones?.verificacionesExtras;
 
   const onAddVerificacion = (data) => {
     resetField("titulo_Verificacion_" + tipoVerificacion);
     resetField("descripcion_Verificacion_" + tipoVerificacion);
-    addVerificacionToBranch(data, tipoVerificacion);
+    // addVerificacionToBranch(data, tipoVerificacion);
+    createVerificacion(tipoVerificacion, data, verificaciones.id);
+  };
+
+  const onDeleteVerificacion = (verifId) => {
+    removeVerificacion(tipoVerificacion, verifId);
+  };
+
+  const onUpdateVerificacion = (verifId, updatedVerif) => {
+    modifyVerificacion(tipoVerificacion, updatedVerif, verifId, verificaciones.id);
   };
 
   return (
     <Stack spacing={2}>
       <Stack spacing={2}>
-        {arrayVerificaciones.length ? (
+        {arrayVerificaciones?.length ? (
           <>
             <Typography variant="h6">{title}</Typography>
             <TableVerificaciones
+              onUpdateVerificacion={onUpdateVerificacion}
+              onDeleteVerificacion={onDeleteVerificacion}
               verificaciones={arrayVerificaciones}
               tipoVerificacion={tipoVerificacion}
               dataType={"Verificacion"}
@@ -94,11 +105,16 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
   );
 }
 
-function TableVerificaciones({ verificaciones, tipoVerificacion, dataType }) {
+function TableVerificaciones({
+  onUpdateVerificacion,
+  onDeleteVerificacion,
+  verificaciones,
+  tipoVerificacion,
+  dataType,
+}) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
   const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const [confirmationState, setConfirmationState] = useState({});
-  const { deleteVerificacionFromBranch, updateVerificacionFromBranch } = useBranchContext();
 
   // fragmento utilizado para confirmar la eliminación{start}
   const handleConfirmationToDelete = (e) => {
@@ -110,7 +126,7 @@ function TableVerificaciones({ verificaciones, tipoVerificacion, dataType }) {
     });
   };
   const getConfirmation = (confirmation) => {
-    if (confirmation) onDeleteVerificacion(confirmationState.id, tipoVerificacion);
+    if (confirmation) handleDeleteVerificacion(confirmationState.id);
     setConfirmationState({});
   };
   //fragmento utilizado para confirmar la eliminación{end}
@@ -145,11 +161,12 @@ function TableVerificaciones({ verificaciones, tipoVerificacion, dataType }) {
   };
   //funciones para manejar la información a actualizar{end}
   //funciones del context para el crud{start}
-  const onUpdateVerificacion = (updatedVerif) => {
-    updateVerificacionFromBranch(drawerDataToHandle.id, updatedVerif, tipoVerificacion);
+  const handleUpdateVerificacion = (updatedVerif) => {
+    onUpdateVerificacion(drawerDataToHandle.id, updatedVerif);
   };
-  const onDeleteVerificacion = (verifId) => {
-    deleteVerificacionFromBranch(verifId, tipoVerificacion);
+  const handleDeleteVerificacion = (verifId) => {
+    onDeleteVerificacion(verifId);
+    // deleteVerificacionFromBranch(verifId, tipoVerificacion);
   };
   //funciones del context para el crud{end}
   return (
@@ -164,20 +181,20 @@ function TableVerificaciones({ verificaciones, tipoVerificacion, dataType }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {verificaciones.map((row) => (
-              <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell scope="row">{row.titulo}</TableCell>
-                <TableCell align="left">{row.descripcion}</TableCell>
+            {verificaciones?.map((row) => (
+              <TableRow key={row?.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableCell scope="row">{row?.titulo}</TableCell>
+                <TableCell align="left">{row?.descripcion}</TableCell>
                 <TableCell align="right" sx={{ minWidth: "115px" }}>
                   <IconButton
                     onClick={onSettingDrawerDataToHandle}
-                    id={row.id}
-                    title_verif={row.titulo}
-                    descrip_verif={row.descripcion}
+                    id={row?.id}
+                    title_verif={row?.titulo}
+                    descrip_verif={row?.descripcion}
                   >
                     <ModeEditIcon />
                   </IconButton>
-                  <IconButton onClick={handleConfirmationToDelete} id={row.id}>
+                  <IconButton onClick={handleConfirmationToDelete} id={row?.id}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -201,7 +218,7 @@ function TableVerificaciones({ verificaciones, tipoVerificacion, dataType }) {
           onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
           drawerDataToHandle={drawerDataToHandle}
           resetDrawerDataToHandle={resetDrawerDataToHandle}
-          onPersistData={onUpdateVerificacion}
+          onPersistData={handleUpdateVerificacion}
           dataType={"Verificacion " + tipoVerificacion}
         />
       )}

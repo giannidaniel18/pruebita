@@ -15,13 +15,11 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <ColorModeContextProvider>
       <BrowserRouter>
-        <ColorModeContextProvider>
-          <App />
-        </ColorModeContextProvider>
+        <App />
       </BrowserRouter>
-    </LocalizationProvider>
+    </ColorModeContextProvider>
   </React.StrictMode>
 );
 

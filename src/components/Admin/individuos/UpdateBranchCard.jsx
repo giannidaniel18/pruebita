@@ -46,12 +46,12 @@ export default function UpdateBranchCard({ branch }) {
         <>
           <UpdateVerificaciones
             verificaciones={branch.verificaciones}
-            tipoVerificacion="Critica"
+            tipoVerificacion="criticas"
             title="Administrar Verificaciones Criticas"
           />
           <UpdateVerificaciones
             verificaciones={branch.verificaciones}
-            tipoVerificacion="Extra"
+            tipoVerificacion="extras"
             title="Administrar Verificaciones Extras"
           />
         </>
