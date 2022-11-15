@@ -7,7 +7,6 @@ const CurrentBranchProvider = ({ children }) => {
   const [currentBranch, setCurrentBranch] = useState({});
 
   const setUpCurrentBranch = (branch) => {
-    console.log(branch);
     setCurrentBranch(branch);
   };
 

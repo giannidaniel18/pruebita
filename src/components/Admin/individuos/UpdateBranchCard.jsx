@@ -56,7 +56,7 @@ export default function UpdateBranchCard({ branch }) {
           />
         </>
       ) : propiedadAmodificar === TABARRAY[1].position ? (
-        <UpdateEventos eventos={branch.eventos} />
+        <UpdateEventos eventos={branch.eventos} idBranch={branch.id} />
       ) : (
         <UpdateTutorias tutorias={branch.tutorias} />
       )}

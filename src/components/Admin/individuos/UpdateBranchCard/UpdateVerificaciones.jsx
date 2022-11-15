@@ -19,11 +19,15 @@ import { useForm } from "react-hook-form";
 import DataNotFound from "../../../common/DataNotFound";
 import { AdminDrawerUpdate } from "../AdminDrawers";
 import ConfirmationAlert from "../../../common/ConfirmationAlert";
-import { useManageRamo } from "../../../../hooks/useMangeRamo";
+import { useVerificaciones } from "../../../../hooks/useMangeRamo";
+import SnackBar from "../../../common/SnackBar";
+import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
+import useConfirmation from "../../../../hooks/useConfirmation";
 
 export default function UpdateVerificaciones({ verificaciones, tipoVerificacion, title }) {
+  // console.log(verificaciones, tipoVerificacion, title);
   const { control, handleSubmit, resetField } = useForm();
-  const { createVerificacion, removeVerificacion, modifyVerificacion } = useManageRamo();
+  const { createVerificacion, removeVerificacion, modifyVerificacion, requestStatus } = useVerificaciones();
 
   const arrayVerificaciones =
     tipoVerificacion === "criticas" ? verificaciones?.verificacionesCriticas : verificaciones?.verificacionesExtras;
@@ -101,6 +105,7 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
           </Grid>
         </form>
       </Stack>
+      {requestStatus.status && <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} />}
     </Stack>
   );
 }
@@ -112,13 +117,17 @@ function TableVerificaciones({
   tipoVerificacion,
   dataType,
 }) {
-  const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
-  const [confirmationState, setConfirmationState] = useState({});
+  const { dataToConfirm, handleConfirmation, resetDataToConfirm } = useConfirmation();
+  const {
+    drawerDataToHandle,
+    drawerVisibleMode,
+    onToggleDrawerVisibleMode,
+    resetDrawerDataToHandle,
+    onSettingDrawerDataToHandle,
+  } = useDrawerHandler();
 
-  // fragmento utilizado para confirmar la eliminación{start}
-  const handleConfirmationToDelete = (e) => {
-    setConfirmationState({
+  const onSetConfirmation = (e) => {
+    handleConfirmation({
       onOpen: true,
       typeConfirm: "Eliminar",
       title: dataType + " " + tipoVerificacion,
@@ -126,20 +135,12 @@ function TableVerificaciones({
     });
   };
   const getConfirmation = (confirmation) => {
-    if (confirmation) handleDeleteVerificacion(confirmationState.id);
-    setConfirmationState({});
+    if (confirmation) handleDeleteVerificacion(dataToConfirm.id);
+    resetDataToConfirm();
   };
-  //fragmento utilizado para confirmar la eliminación{end}
-  //funciones para manejar la información a actualizar{start}
-  const onToggleDrawerVisibleMode = () => {
-    setDrawerVisibleMode(!drawerVisibleMode);
-  };
-  const resetDrawerDataToHandle = () => {
-    setDrawerDataToHandle([]);
-  };
-  const onSettingDrawerDataToHandle = (e) => {
-    onToggleDrawerVisibleMode();
-    setDrawerDataToHandle({
+
+  const onSetData = (e) => {
+    onSettingDrawerDataToHandle({
       id: e.currentTarget.id,
       type: "verificacion",
       method: "update",
@@ -159,16 +160,14 @@ function TableVerificaciones({
       ],
     });
   };
-  //funciones para manejar la información a actualizar{end}
-  //funciones del context para el crud{start}
+
   const handleUpdateVerificacion = (updatedVerif) => {
     onUpdateVerificacion(drawerDataToHandle.id, updatedVerif);
   };
   const handleDeleteVerificacion = (verifId) => {
     onDeleteVerificacion(verifId);
-    // deleteVerificacionFromBranch(verifId, tipoVerificacion);
   };
-  //funciones del context para el crud{end}
+
   return (
     <Stack>
       <TableContainer>
@@ -187,14 +186,14 @@ function TableVerificaciones({
                 <TableCell align="left">{row?.descripcion}</TableCell>
                 <TableCell align="right" sx={{ minWidth: "115px" }}>
                   <IconButton
-                    onClick={onSettingDrawerDataToHandle}
+                    onClick={onSetData}
                     id={row?.id}
                     title_verif={row?.titulo}
                     descrip_verif={row?.descripcion}
                   >
                     <ModeEditIcon />
                   </IconButton>
-                  <IconButton onClick={handleConfirmationToDelete} id={row?.id}>
+                  <IconButton onClick={onSetConfirmation} id={row?.id}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -202,15 +201,7 @@ function TableVerificaciones({
             ))}
           </TableBody>
         </Table>
-        {confirmationState.onOpen && (
-          <ConfirmationAlert
-            onOpen={confirmationState.onOpen}
-            typeConfirm={confirmationState.typeConfirm}
-            title={confirmationState.title}
-            desc={confirmationState.desc}
-            confirmation={getConfirmation}
-          />
-        )}
+        {dataToConfirm.onOpen && <ConfirmationAlert {...dataToConfirm} confirmation={getConfirmation} />}
       </TableContainer>
       {drawerVisibleMode && (
         <AdminDrawerUpdate

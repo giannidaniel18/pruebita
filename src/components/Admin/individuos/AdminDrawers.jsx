@@ -11,6 +11,7 @@ import ConfirmationAlert from "../../common/ConfirmationAlert";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import "./markdown.css";
+import useConfirmation from "../../../hooks/useConfirmation";
 
 export function AdminDrawerUpdate({
   drawerVisibleMode,
@@ -21,7 +22,7 @@ export function AdminDrawerUpdate({
   dataType,
 }) {
   const { control, handleSubmit, reset } = useForm({});
-  const [confirmationState, setConfirmationState] = useState({});
+  const { dataToConfirm, handleConfirmation, resetDataToConfirm } = useConfirmation();
 
   const CloseDrawer = () => {
     onToggleDrawerVisibleMode();
@@ -29,18 +30,18 @@ export function AdminDrawerUpdate({
     reset();
   };
 
-  const handleConfirmationToUpdate = (data) => {
-    setConfirmationState({
+  const onSetConfirmation = (data) => {
+    handleConfirmation({
       onOpen: true,
       typeConfirm: "Actualizar",
       title: dataType,
-      dataToUpdate: data,
+      data: data,
     });
   };
 
   const getConfirmation = (confirmation) => {
-    if (confirmation) onSubmit(confirmationState.dataToUpdate);
-    setConfirmationState({});
+    if (confirmation) onSubmit(dataToConfirm.data);
+    resetDataToConfirm({});
   };
 
   const onSubmit = (data) => {
@@ -58,7 +59,7 @@ export function AdminDrawerUpdate({
         </Button>
 
         <Stack p={{ xs: 1, sm: 4 }}>
-          <form onSubmit={handleSubmit(handleConfirmationToUpdate)}>
+          <form onSubmit={handleSubmit(onSetConfirmation)}>
             <Grid container alignItems="center" textAlign="end" spacing={2}>
               {drawerDataToHandle.data?.map((dato) => (
                 <Grid key={dato.inputName} item xs={12}>
@@ -81,15 +82,7 @@ export function AdminDrawerUpdate({
           </form>
         </Stack>
       </Stack>
-      {confirmationState.onOpen && (
-        <ConfirmationAlert
-          onOpen={confirmationState.onOpen}
-          typeConfirm={confirmationState.typeConfirm}
-          title={confirmationState.title}
-          desc={confirmationState.desc}
-          confirmation={getConfirmation}
-        />
-      )}
+      {dataToConfirm.onOpen && <ConfirmationAlert {...dataToConfirm} confirmation={getConfirmation} />}
     </Drawer>
   );
 }

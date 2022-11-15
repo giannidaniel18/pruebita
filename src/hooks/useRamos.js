@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
-import { addBranch, deleteBranch, getBranches, updateBranch } from "../services/ramos";
+import { useEffect, useState } from "react";
+import { addBranch, deleteBranch, getBranches, updateBranch, startUpVerificacion } from "../services/ramosService";
 import { useBranchContext } from "../context/BranchContext";
-import { branchesArray } from "../data";
 
 export function useRamos() {
   const [requestStatus, setRequestStatus] = useState({});
@@ -24,20 +23,23 @@ export function useRamos() {
     fetchData();
   }, []);
 
-  const createRamo = (newRamo) => {
+  const createRamo = async (newRamo) => {
     setRequestStatus({});
-    addBranch(newRamo).then((nuevoRamo) => {
-      if (nuevoRamo.status === 201) {
+    const addRamoRespone = await addBranch(newRamo);
+
+    if (addRamoRespone.status === 201) {
+      const setUpVerif = await startUpVerificacion(addRamoRespone.data.id);
+      if (setUpVerif.status === 201) {
         setRequestStatus({
           responseStatus: "success",
-          text: `Agregado exitosamente el Ramo : ${nuevoRamo.data.titulo}`,
+          text: `Agregado exitosamente el Ramo : ${addRamoRespone.data.titulo}`,
           status: true,
         });
         getRamos();
-      } else {
-        setRequestStatus({ responseStatus: "error", text: nuevoRamo.data.message, status: true });
       }
-    });
+    } else {
+      setRequestStatus({ responseStatus: "error", text: addRamoRespone.data.message, status: true });
+    }
   };
 
   const updateRamo = (idRamo, updatedRamo) => {

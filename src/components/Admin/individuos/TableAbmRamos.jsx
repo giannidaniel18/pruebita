@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { visuallyHidden } from "@mui/utils";
 import { format, parseISO } from "date-fns";
 import { Link as ReactLink } from "react-router-dom";
-import { useRamos } from "../../../hooks/useRamos";
 import { useDrawerHandler } from "../../../hooks/useDrawerHandler";
 import {
   Box,
@@ -26,6 +25,7 @@ import { AdminDrawerUpdate } from "./AdminDrawers";
 import StatusSwitch from "../../common/StatusSwitch";
 import SnackBar from "../../common/SnackBar";
 import ConfirmationAlert from "../../common/ConfirmationAlert";
+import useConfirmation from "../../../hooks/useConfirmation";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -147,12 +147,12 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function TableAbmRamos({ branches, onUpdateRamo, onUpdateRamoStatus, onDeleteRamo, requestStatus }) {
-  const [confirmationState, setConfirmationState] = useState({});
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("titulo_Ramo");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  // const { branches, updateRamo, requestStatus, deleteRamo, updateStatusRamo } = useRamos();
+  const { dataToConfirm, handleConfirmation, resetDataToConfirm } = useConfirmation();
+
   const {
     drawerDataToHandle,
     drawerVisibleMode,
@@ -160,7 +160,7 @@ export default function TableAbmRamos({ branches, onUpdateRamo, onUpdateRamoStat
     resetDrawerDataToHandle,
     onSettingDrawerDataToHandle,
   } = useDrawerHandler();
-
+  //SETEO DE DATOS A MODIFICAR
   const onSetData = (e) => {
     onSettingDrawerDataToHandle({
       id: e.currentTarget.id,
@@ -169,36 +169,33 @@ export default function TableAbmRamos({ branches, onUpdateRamo, onUpdateRamoStat
       data: [{ inputName: "ramo", label: "Ramo", multiline: false, valueToUpdate: e.currentTarget.name }],
     });
   };
-
-  const handleConfirmationToDelete = (e) => {
-    setConfirmationState({
+  //CONFIRMACION DE LA ELIMINACION DE UN RAMO
+  const onSetConfirmation = (e) => {
+    handleConfirmation({
       onOpen: true,
       typeConfirm: "Eliminar",
       title: "Ramo",
       id: e.currentTarget.id,
     });
   };
-
   const getConfirmation = (confirmation) => {
-    if (confirmation) handleDeleteBranch(confirmationState.id);
-    setConfirmationState({});
+    if (confirmation) handleDeleteBranch(dataToConfirm.id);
+    resetDataToConfirm({});
   };
-
+  //CRUD
   const onUpdateBranch = (updatedBranch) => {
     const UpdatedBranch = { titulo: updatedBranch.ramo };
     onUpdateRamo(drawerDataToHandle.id, UpdatedBranch);
   };
-
   const handleChangeStatusBranch = (branchId, newStatus) => {
     const newState = { estado: newStatus };
     const enpdointResponse = onUpdateRamoStatus(branchId, newState);
     return enpdointResponse;
   };
-
   const handleDeleteBranch = (idBranch) => {
     onDeleteRamo(idBranch);
   };
-
+  //ROWS
   const rows = branches.map((ramo) =>
     createData(
       ramo.id,
@@ -212,19 +209,14 @@ export default function TableAbmRamos({ branches, onUpdateRamo, onUpdateRamoStat
         <IconButton size="small" id={ramo.id} name={ramo.titulo} onClick={onSetData}>
           <ModeEditIcon fontSize="small" />
         </IconButton>
-        <IconButton size="small" id={ramo.id} name={ramo.titulo} onClick={handleConfirmationToDelete}>
+        <IconButton size="small" id={ramo.id} name={ramo.titulo} onClick={onSetConfirmation}>
           <DeleteIcon fontSize="small" />
         </IconButton>
         <StatusSwitch ramoId={ramo.id} status={ramo.estado} onChange={handleChangeStatusBranch} />
-        {/* <Switch
-          id={ramo.id}
-          checked={ramo.estado}
-          onChange={handleChange}
-          inputProps={{ "aria-label": "controlled" }}
-        /> */}
       </Stack>
     )
   );
+  //FILTERING
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -300,15 +292,7 @@ export default function TableAbmRamos({ branches, onUpdateRamo, onUpdateRamoStat
           dataType="Ramo"
         />
       )}
-      {confirmationState.onOpen && (
-        <ConfirmationAlert
-          onOpen={confirmationState.onOpen}
-          typeConfirm={confirmationState.typeConfirm}
-          title={confirmationState.title}
-          desc={confirmationState.desc}
-          confirmation={getConfirmation}
-        />
-      )}
+      {dataToConfirm.onOpen && <ConfirmationAlert {...dataToConfirm} confirmation={getConfirmation} />}
       {requestStatus.status && <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} />}
     </Box>
   );

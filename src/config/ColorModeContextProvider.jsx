@@ -107,6 +107,7 @@ export default function ToggleColorMode({ children }) {
       }),
     [mode]
   );
+
   theme = responsiveFontSizes(theme);
 
   return (

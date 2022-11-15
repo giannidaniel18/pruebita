@@ -1,9 +1,7 @@
 import UpdateBranchCard from "../../../components/Admin/individuos/UpdateBranchCard";
 import { useParams } from "react-router-dom";
-
-import { useSelectedRamo } from "../../../hooks/useSelectedRamo";
 import { useEffect, useState } from "react";
-import { getBranch } from "../../../services/ramos";
+import { getBranch } from "../../../services/ramosService";
 import { useCurrentBranchContext } from "../../../context/CurrentBranchContext";
 import LoaderBasic from "../../../components/common/LoaderBasic";
 
