@@ -2,7 +2,7 @@ import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link as ReactLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { useBranchContext } from "../context/BranchContext";
+
 import {
   AppBar,
   Box,
@@ -17,11 +17,12 @@ import {
   Typography,
   ListItemText,
 } from "@mui/material";
+import { useRamos } from "../hooks/useRamos";
 
-const drawerWidth = 180;
+const drawerWidth = 230;
 
 export default function SinesterLayout() {
-  const { branches } = useBranchContext();
+  const { branches } = useRamos();
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 

@@ -16,15 +16,16 @@ import AbmRamosGeneralContainer from "../pages/Admin/individuos/AbmRamosGeneralC
 import AbmRamoSeleccionadoContainer from "../pages/Admin/individuos/AbmRamoSeleccionadoContainer";
 
 import WelcomePage from "../pages/WelcomePage";
+import BuildingPage from "../pages/BuildingPage";
 
 export default function HomeRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/individuos" element={<Individuos />} />
-      <Route path="/empresas" element={<Empresas />} />
-      <Route path="/pymes" element={<Pymes />} />
-      <Route path="/especialistas" element={<Especialistas />} />
+      <Route path="/empresas" element={<BuildingPage />} />
+      <Route path="/pymes" element={<BuildingPage />} />
+      <Route path="/especialistas" element={<BuildingPage />} />
       <Route path="/siniestros" element={<SinesterLayout />}>
         {/* para cada nested route genero una ruta vacia para renderizar un componente de bienvenida en el Layout */}
         <Route path="" element={<WelcomePage idWelcome="individuosSiniestros" />} />

@@ -10,7 +10,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EmailIcon from "@mui/icons-material/Email";
 import { AdminDrawerUpdate, AdminDrawerCreate, AdminDrawerMarkDown } from "../AdminDrawers";
 import SnackBar from "../../../common/SnackBar";
-import { useEventos, useSubtipos } from "../../../../hooks/useMangeRamo";
+import { useDocumentacion, useEventos, useSubtipos, useTipificaciones } from "../../../../hooks/useMangeRamo";
 import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
 import LoaderBasic from "../../../common/LoaderBasic";
 
@@ -116,18 +116,7 @@ function EventosPanel({ idBranch, handleCurrentEvent, currentEvento, resetCurren
   };
   return (
     <>
-      {!eventos.length ? (
-        <DataNotFound>
-          <Stack>
-            <Typography px={2} variant="h5">
-              No existen Eventos creados para el ramo actual.
-            </Typography>
-            <Typography px={2} py={1} variant="h6">
-              Crea el primero aqui!
-            </Typography>
-          </Stack>
-        </DataNotFound>
-      ) : loading ? (
+      {loading ? (
         <LoaderBasic />
       ) : (
         <AdministracionTable
@@ -174,9 +163,9 @@ function EventosPanel({ idBranch, handleCurrentEvent, currentEvento, resetCurren
 
 function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, resetCurrentSubtipo }) {
   const { control, handleSubmit, resetField } = useForm();
-  const { subtipos, loading, createSubtipo, modifySubtipo, removeSubtipo, requestStatus } = useSubtipos(
-    currentEvento.id
-  );
+  const { subtipos, loading, createSubtipo, modifySubtipo, modifyPlantillaSubtipo, removeSubtipo, requestStatus } =
+    useSubtipos(currentEvento.id);
+
   const {
     drawerDataToHandle,
     drawerVisibleMode,
@@ -200,10 +189,10 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
   };
 
   const onAddSubtipo = (newSubtipo) => {
+    resetField("tituloSubtipo");
     createSubtipo(newSubtipo, currentEvento.id);
     // const result = addSubtipoToEvento(newSubtipo, currentEvento.id);
     // setRequestStatus({ ...result, status: true });
-    resetField("tituloSubtipo");
   };
   const onDeleteSubtipo = (subtipoId) => {
     removeSubtipo(subtipoId);
@@ -212,21 +201,15 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
   const onUpdateSubtipo = (updatedSubtipo) => {
     modifySubtipo(updatedSubtipo.subtipo, drawerDataToHandle.id, currentEvento.id);
   };
+  const onUpdatePlantilla = (updatedPlantilla) => {
+    modifyPlantillaSubtipo(updatedPlantilla, currentSubtipo.id, currentEvento.id);
+  };
 
   return (
     <Stack spacing={4}>
       <Divider />
-      {!subtipos.length ? (
-        <DataNotFound>
-          <Stack>
-            <Typography px={2} variant="h5">
-              No existen Subtipos creados para el evento actual.
-            </Typography>
-            <Typography px={2} py={1} variant="h6">
-              Crea el primero aqui!
-            </Typography>
-          </Stack>
-        </DataNotFound>
+      {loading ? (
+        <LoaderBasic />
       ) : (
         <Stack spacing={2}>
           <Typography variant="subtitle1">
@@ -234,20 +217,16 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
             la tipificacion y documentación de cada subtipo pulsá el botón{" "}
             <VisibilityIcon sx={{ verticalAlign: "top" }} /> de cada subtipo
           </Typography>
-          {loading ? (
-            <LoaderBasic />
-          ) : (
-            <AdministracionTable
-              headers={SUBTIPOS_HEADERS}
-              rows={subtipos}
-              isContainer={true}
-              selectedRow={currentSubtipo}
-              handleSelectedRow={onSetCurrentSubtipo}
-              updateFunction={onSetData}
-              deleteFunction={onDeleteSubtipo}
-              dataType={"Subtipo"}
-            />
-          )}
+          <AdministracionTable
+            headers={SUBTIPOS_HEADERS}
+            rows={subtipos}
+            isContainer={true}
+            selectedRow={currentSubtipo}
+            handleSelectedRow={onSetCurrentSubtipo}
+            updateFunction={onSetData}
+            deleteFunction={onDeleteSubtipo}
+            dataType={"Subtipo"}
+          />
         </Stack>
       )}
 
@@ -265,7 +244,11 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
       </form>
       <Stack>
         {currentSubtipo ? (
-          <DocAndTip currentEvento={currentEvento} currentSubtipo={currentSubtipo} />
+          <DocAndTip
+            currentEvento={currentEvento}
+            currentSubtipo={currentSubtipo}
+            onUpdatePlantilla={onUpdatePlantilla}
+          />
         ) : (
           <Typography variant="h5"> Por favor selecciona un Subtipo en la tabla superior</Typography>
         )}
@@ -287,17 +270,15 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
   );
 }
 // falta a partir de aca
-function DocAndTip({ currentEvento, currentSubtipo }) {
+function DocAndTip({ currentSubtipo, onUpdatePlantilla }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  const { updatePlantillaFromSubtipo } = useBranchContext();
 
   const onToggleDrawerVisibleMode = () => {
     setDrawerVisibleMode(!drawerVisibleMode);
   };
 
   const onUpdateTemplate = (updatedPlantilla) => {
-    updatePlantillaFromSubtipo(updatedPlantilla, currentEvento.id, currentSubtipo.id);
-    onToggleDrawerVisibleMode();
+    onUpdatePlantilla(updatedPlantilla);
   };
 
   return (
@@ -309,16 +290,8 @@ function DocAndTip({ currentEvento, currentSubtipo }) {
             Editar plantilla de mail
           </Button>
         </Stack>
-        <DocumentosPanel
-          documentos={currentSubtipo.documentacion}
-          currentEventoId={currentEvento.id}
-          currentSubtipoId={currentSubtipo.id}
-        />
-        <TipificacionPanel
-          tipificaciones={currentSubtipo.tipificacion}
-          currentEventoId={currentEvento.id}
-          currentSubtipoId={currentSubtipo.id}
-        />
+        <DocumentosPanel currentSubtipoId={currentSubtipo.id} />
+        <TipificacionPanel currentSubtipoId={currentSubtipo.id} />
       </Stack>
       {drawerVisibleMode && (
         <AdminDrawerMarkDown
@@ -332,11 +305,8 @@ function DocAndTip({ currentEvento, currentSubtipo }) {
   );
 }
 
-function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
-  // const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  // const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
+function DocumentosPanel({ currentSubtipoId }) {
   const { control, handleSubmit, resetField } = useForm();
-  const { addDocumentoToSubtipo, deleteDocumentoFromSubtipo, updateDocumentoFromSubtipo } = useBranchContext();
   const {
     drawerDataToHandle,
     drawerVisibleMode,
@@ -344,13 +314,9 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
     resetDrawerDataToHandle,
     onSettingDrawerDataToHandle,
   } = useDrawerHandler();
+  const { documentacion, loading, requestStatus, createDocumentacion, removeDocumentacion, modifyDocumentacion } =
+    useDocumentacion(currentSubtipoId);
 
-  // const resetDrawerDataToHandle = () => {
-  //   setDrawerDataToHandle([]);
-  // };
-  // const onToggleDrawerVisibleMode = () => {
-  //   setDrawerVisibleMode(!drawerVisibleMode);
-  // };
   const onSetData = (e) => {
     onSettingDrawerDataToHandle({
       id: e.currentTarget.id,
@@ -362,13 +328,13 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
 
   const onAddDocumento = (newDoc) => {
     resetField("documento");
-    addDocumentoToSubtipo(newDoc.documento, currentSubtipoId, currentEventoId);
+    createDocumentacion(newDoc.documento, currentSubtipoId);
   };
   const onDeleteDocumento = (documentId) => {
-    deleteDocumentoFromSubtipo(documentId, currentSubtipoId, currentEventoId);
+    removeDocumentacion(documentId);
   };
   const onUpdateDocumento = (updatedDoc) => {
-    updateDocumentoFromSubtipo(drawerDataToHandle.id, updatedDoc.documento, currentSubtipoId, currentEventoId);
+    modifyDocumentacion(updatedDoc.documento, drawerDataToHandle.id, currentSubtipoId);
   };
 
   return (
@@ -376,21 +342,12 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
       <Divider />
       <>
         <Typography variant="h6">ADMINISTRAR DOCUMENTACION A PRESENTAR</Typography>
-        {!documentos.length ? (
-          <DataNotFound>
-            <Stack>
-              <Typography px={2} variant="h6">
-                Todavía no hay documentos
-              </Typography>
-              <Typography px={2} variant="h6">
-                Crea el primero aquí!
-              </Typography>
-            </Stack>
-          </DataNotFound>
+        {loading ? (
+          <LoaderBasic />
         ) : (
           <AdministracionTable
             headers={DOCUMENTOS_HEADERS}
-            rows={documentos}
+            rows={documentacion}
             updateFunction={onSetData}
             deleteFunction={onDeleteDocumento}
             dataType={"Documento"}
@@ -419,14 +376,14 @@ function DocumentosPanel({ documentos, currentEventoId, currentSubtipoId }) {
           dataType="Documento"
         />
       )}
+      {requestStatus.status && (
+        <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} status={requestStatus.status} />
+      )}
     </Stack>
   );
 }
 
-function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }) {
-  // const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  // const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
-  const { addTipificacionToSubtipo, updateTipificacionFromSubtipo, deleteTipificacionFromSubtipo } = useBranchContext();
+function TipificacionPanel({ currentSubtipoId }) {
   const {
     drawerDataToHandle,
     drawerVisibleMode,
@@ -435,12 +392,8 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
     onSettingDrawerDataToHandle,
   } = useDrawerHandler();
 
-  // const resetDrawerDataToHandle = () => {
-  //   setDrawerDataToHandle({});
-  // };
-  // const onToggleDrawerVisibleMode = () => {
-  //   setDrawerVisibleMode(!drawerVisibleMode);
-  // };
+  const { tipificaciones, createTipificacion, loading, modifyTipificacion, removeTipificacion, requestStatus } =
+    useTipificaciones(currentSubtipoId);
 
   const onSetData = (e) => {
     onToggleDrawerVisibleMode();
@@ -519,30 +472,21 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
   };
 
   const onAddTipificacion = (newTipificacion) => {
-    addTipificacionToSubtipo(newTipificacion, currentSubtipoId, currentEventoId);
+    createTipificacion(newTipificacion, currentSubtipoId);
   };
   const onDeleteTipificacion = (tipificacionId) => {
-    deleteTipificacionFromSubtipo(tipificacionId, currentSubtipoId, currentEventoId);
+    removeTipificacion(tipificacionId, currentSubtipoId);
   };
   const onUpdateTipificacion = (updatedTipificacion) => {
-    updateTipificacionFromSubtipo(drawerDataToHandle.id, updatedTipificacion, currentSubtipoId, currentEventoId);
+    modifyTipificacion(drawerDataToHandle.id, updatedTipificacion, currentSubtipoId);
   };
 
   return (
     <Stack spacing={4}>
       <Divider />
       <Typography variant="h6">ADMINISTRAR TIPIFICACIONES</Typography>
-      {!tipificaciones.length ? (
-        <DataNotFound>
-          <Stack>
-            <Typography px={2} variant="h6">
-              Todavía no hay tipificaciones
-            </Typography>
-            <Typography px={2} variant="h6">
-              crea la primera aqui!
-            </Typography>
-          </Stack>
-        </DataNotFound>
+      {loading ? (
+        <LoaderBasic />
       ) : (
         <TipificationTable
           tipificaciones={tipificaciones}
@@ -578,6 +522,9 @@ function TipificacionPanel({ tipificaciones, currentEventoId, currentSubtipoId }
           onPersistData={onUpdateTipificacion}
           dataType="Tipificación"
         />
+      )}
+      {requestStatus.status && (
+        <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} status={requestStatus.status} />
       )}
     </Stack>
   );

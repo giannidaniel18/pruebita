@@ -5,8 +5,13 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";
 import { ColorModeContext } from "../../config/ColorModeContextProvider";
-import { Link as ReactLink } from "react-router-dom";
-
+import { Link, Link as ReactLink } from "react-router-dom";
+import PersonIcon from "@mui/icons-material/Person";
+import StoreIcon from "@mui/icons-material/Store";
+import BusinessIcon from "@mui/icons-material/Business";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 const usuario = { nombreUsuario: "admin", rol: "admin" };
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -24,11 +29,11 @@ export default function NavBar() {
   }, []);
 
   const pages = [
-    { text: "Individuos", path: "/individuos", display: null },
-    { text: "Empresas", path: "/empresas", display: null },
-    { text: "Pymes", path: "/pymes", display: null },
-    { text: "Especialistas", path: "/especialistas", display: null },
-    { text: "Administracion", path: "/admin", display: isAdmin },
+    { text: "Individuos", path: "/individuos", display: null, icon: <PersonIcon /> },
+    { text: "Empresas", path: "/empresas", display: null, icon: <BusinessIcon /> },
+    { text: "Pymes", path: "/pymes", display: null, icon: <StoreIcon /> },
+    { text: "Especialistas", path: "/especialistas", display: null, icon: <SupportAgentIcon /> },
+    { text: "Administracion", path: "/admin", display: isAdmin, icon: <SettingsSuggestIcon /> },
   ];
 
   const handleOpenNavMenu = (event) => {
@@ -133,6 +138,7 @@ export default function NavBar() {
                 to={page.path}
                 name={page.text}
                 onClick={handleCloseNavMenu}
+                startIcon={page.icon}
                 sx={{
                   my: 2,
                   color: "white",
@@ -145,6 +151,17 @@ export default function NavBar() {
               </Button>
             ))}
           </Box>
+          <Button
+            href="https://cacscripting.azurewebsites.net/"
+            target="_blank"
+            endIcon={<OpenInNewIcon />}
+            rel="noreferrer"
+            sx={{
+              color: "white",
+            }}
+          >
+            Legacy
+          </Button>
 
           <Box sx={{ flexGrow: 0 }}>
             <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">

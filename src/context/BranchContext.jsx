@@ -5,7 +5,6 @@ export const useBranchContext = () => useContext(BranchContext);
 
 const BranchContextProvider = ({ children }) => {
   const [branches, setBranches] = useState([]);
-  console.log(branches);
 
   return (
     <BranchContext.Provider

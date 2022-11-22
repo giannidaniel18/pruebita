@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BranchCard from "../../../components/individuos/siniestros/BranchCard";
-import { useBranchContext } from "../../../context/BranchContext";
+import { useCurrentBranchContext } from "../../../context/CurrentBranchContext";
+import { getBranch } from "../../../services/ramosService";
 
 export default function BranchContainer() {
-  const { currentBranch, setUpCurrentBranch } = useBranchContext();
   const [loading, setLoading] = useState(true);
   const { selectedbranch } = useParams();
+  const { currentBranch, setUpCurrentBranch } = useCurrentBranchContext();
 
   useEffect(() => {
-    setUpCurrentBranch(selectedbranch);
-    setLoading(false);
-  }, [selectedbranch, setUpCurrentBranch, currentBranch]);
+    const fetchData = async () => {
+      const apiResponse = await getBranch(selectedbranch);
+      setUpCurrentBranch(apiResponse);
+      setLoading(false);
+    };
+    fetchData();
+  }, [selectedbranch]);
 
   return !loading ? <BranchCard branch={currentBranch} /> : <div>cargando...</div>;
 }

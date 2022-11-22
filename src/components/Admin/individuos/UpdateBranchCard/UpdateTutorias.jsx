@@ -21,6 +21,10 @@ import AdministracionTable from "../../../common/AdministracionTable";
 import TextImputControlSmall from "../../../common/TextImputControlSmall";
 import { AdminDrawerUpdate } from "../AdminDrawers";
 import DataNotFound from "../../../common/DataNotFound";
+import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
+import { useTutorias } from "../../../../hooks/useMangeRamo";
+import LoaderBasic from "../../../common/LoaderBasic";
+import SnackBar from "../../../common/SnackBar";
 
 const FORMULARIOS_HEADERS = [
   { id: "form", titulo: "Formulario", cabecera: true },
@@ -28,31 +32,35 @@ const FORMULARIOS_HEADERS = [
 ];
 const TUTORIA_HEADERS = [{ id: "tutoria", titulo: "tutorias", cabecera: true }];
 
-export default function UpdateTutorias({ tutorias }) {
+export default function UpdateTutorias({ idRamo }) {
   const [currentTutoria, setCurrentTutoria] = useState(null);
-  const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
-  const [drawerDataToHandle, setDrawerDataToHandle] = useState({});
   const { control, handleSubmit, resetField } = useForm();
-  const { addTutoriaToBranch, deleteTutoriaFromBranch, updateTutoriaFromBranch } = useBranchContext();
+  const { tutorias, createTutoria, loading, modifyTutoria, removeTutoria, requestStatus, updateFormularios } =
+    useTutorias(idRamo);
 
-  const onToggleDrawerVisibleMode = () => {
-    setDrawerVisibleMode(!drawerVisibleMode);
-  };
-  const resetDrawerDataToHandle = () => {
-    setDrawerDataToHandle({});
-  };
+  const {
+    drawerDataToHandle,
+    drawerVisibleMode,
+    onToggleDrawerVisibleMode,
+    resetDrawerDataToHandle,
+    onSettingDrawerDataToHandle,
+  } = useDrawerHandler();
 
   const onAddTutoriaToBranch = (newTutoria) => {
     resetField("titulo");
-    addTutoriaToBranch(newTutoria);
+    createTutoria(newTutoria);
   };
-  const onDeleteTutoriaFromBranch = (e) => {
-    deleteTutoriaFromBranch(e.currentTarget.id);
+  const onDeleteTutoriaFromBranch = (idTutoria) => {
+    removeTutoria(idTutoria);
     setCurrentTutoria(null);
   };
   const onUpdateTutoriaFromBranch = (updatedTutoria) => {
-    updateTutoriaFromBranch(drawerDataToHandle.id, updatedTutoria.tutoria);
+    modifyTutoria(drawerDataToHandle.id, updatedTutoria.tutoria);
   };
+  const onUpdateFormsTutorias = (idTutoria, idForm, status) => {
+    updateFormularios(idTutoria, idForm, status);
+  };
+
   const handleCurrentTutoria = (e) => {
     if (e.currentTarget.id === currentTutoria?.id) {
       setCurrentTutoria(null);
@@ -60,11 +68,8 @@ export default function UpdateTutorias({ tutorias }) {
       setCurrentTutoria(tutorias.find((tutoria) => tutoria.id === e.currentTarget.id));
     }
   };
-
-  const onSettingDrawerDataToHandle = (e) => {
-    onToggleDrawerVisibleMode();
-
-    setDrawerDataToHandle({
+  const onSetData = (e) => {
+    onSettingDrawerDataToHandle({
       id: e.currentTarget.id,
       type: "tutoria",
       method: "update",
@@ -74,17 +79,8 @@ export default function UpdateTutorias({ tutorias }) {
 
   return (
     <Stack spacing={2}>
-      {!tutorias.length ? (
-        <DataNotFound>
-          <Stack>
-            <Typography px={2} variant="h5">
-              No existen Tutorias creadas para el ramo actual.
-            </Typography>
-            <Typography px={2} py={1} variant="h6">
-              Crea la primera aquí!
-            </Typography>
-          </Stack>
-        </DataNotFound>
+      {loading ? (
+        <LoaderBasic />
       ) : (
         <>
           <Typography variant="h5">Bienvenido a la administración Tutorias </Typography>
@@ -99,7 +95,7 @@ export default function UpdateTutorias({ tutorias }) {
             isContainer={true}
             selectedRow={currentTutoria}
             handleSelectedRow={handleCurrentTutoria}
-            updateFunction={onSettingDrawerDataToHandle}
+            updateFunction={onSetData}
             deleteFunction={onDeleteTutoriaFromBranch}
             type="tutorias"
           />
@@ -117,8 +113,7 @@ export default function UpdateTutorias({ tutorias }) {
           </Grid>
         </Grid>
       </form>
-      {currentTutoria && <TutoriaTable tutoria={currentTutoria} />}
-
+      {currentTutoria && <TutoriaTable tutoria={currentTutoria} updateFormsFunc={onUpdateFormsTutorias} />}
       <AdminDrawerUpdate
         drawerVisibleMode={drawerVisibleMode}
         onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
@@ -127,14 +122,16 @@ export default function UpdateTutorias({ tutorias }) {
         onPersistData={onUpdateTutoriaFromBranch}
         dataType="Tutoria"
       />
+      {requestStatus.status && (
+        <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} status={requestStatus.status} />
+      )}
     </Stack>
   );
 }
 
-function TutoriaTable({ tutoria }) {
-  const { updateFormulariosFromTutoria } = useBranchContext();
+function TutoriaTable({ tutoria, updateFormsFunc }) {
   const onUpdateFormulariosFromTutoria = (idform, status) => {
-    updateFormulariosFromTutoria(tutoria.id, idform, status);
+    updateFormsFunc(tutoria.id, idform, status);
   };
   return (
     <Stack spacing={2}>

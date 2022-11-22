@@ -73,6 +73,7 @@ export const updateBranch = (idRamo, dataToUpdate) => {
       return response;
     })
     .catch((error) => {
+      console.log(error);
       return error;
     });
 };
@@ -265,4 +266,156 @@ export const updateSubtipo = (updatedSubtipo, idSubtipo) => {
 };
 
 // ---------------------------------- Documentos ------------------------------------------
+
+export const getDocumentacionBySubtipo = (idSubtipo) => {
+  const getDocumentacionURL = `${URL}/api/documentacion/subtipo/${idSubtipo}`;
+  return axios
+    .get(getDocumentacionURL, {
+      headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
+    })
+    .then((response) => {
+      const { data } = response;
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+export const addDocumento = (newDocumento, idSubtipo) => {
+  return axios
+    .post(`${URL}/api/documentacion`, {
+      titulo: newDocumento,
+      subtipoSiniestro: idSubtipo,
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+export const deleteDocumento = (idDocumento) => {
+  return axios
+    .delete(`${URL}/api/documentacion/${idDocumento}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+export const updateDocumento = (updatedDocumento, idDocumento) => {
+  return axios
+    .put(`${URL}/api/documentacion/${idDocumento}`, updatedDocumento)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
 // ---------------------------------- Tipificaciones ------------------------------------------
+
+export const getTipificacionesBySubtipo = (idSubtipo) => {
+  const getTipificacionesURL = `${URL}/api/tipificacion/subtipo/${idSubtipo}`;
+  return axios
+    .get(getTipificacionesURL, {
+      headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
+    })
+    .then((response) => {
+      const { data } = response;
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
+export const addTipificacion = (newTipificacion) => {
+  return axios
+    .post(`${URL}/api/tipificacion`, newTipificacion)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+
+export const deleteTipificacion = (idTipificacion) => {
+  return axios
+    .delete(`${URL}/api/tipificacion/${idTipificacion}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+
+export const updateTipificacion = (updatedTipificacion, idTipificacion) => {
+  return axios
+    .put(`${URL}/api/tipificacion/${idTipificacion}`, updatedTipificacion)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+
+// ---------------------------------- Tutorias ------------------------------------------
+
+export const getTutoriasByRamo = (idRamo) => {
+  const getTutoriasURL = `${URL}/api/tutoria/ramo/${idRamo}`;
+  return axios
+    .get(getTutoriasURL, {
+      headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
+    })
+    .then((response) => {
+      const { data } = response;
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+export const addTutoria = (newTutoria) => {
+  return axios
+    .post(`${URL}/api/tutoria`, newTutoria)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+export const deleteTutoria = (idTutoria) => {
+  return axios
+    .delete(`${URL}/api/tutoria/${idTutoria}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};
+export const updateTutoria = (updatedTutoria, idTutoria) => {
+  return axios
+    .put(`${URL}/api/tutoria/${idTutoria}`, updatedTutoria)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      const { response } = error;
+      return response;
+    });
+};

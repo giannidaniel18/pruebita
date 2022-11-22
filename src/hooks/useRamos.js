@@ -45,7 +45,7 @@ export function useRamos() {
   const updateRamo = (idRamo, updatedRamo) => {
     setRequestStatus({});
     updateBranch(idRamo, updatedRamo).then((resp) => {
-      if (resp.data.statusCode === 200) {
+      if (resp.status === 200) {
         setRequestStatus({ responseStatus: "success", text: resp.data.message, status: true });
         getRamos();
       } else {

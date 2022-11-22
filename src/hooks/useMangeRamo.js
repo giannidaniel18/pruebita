@@ -12,6 +12,18 @@ import {
   getEventosByRamo,
   getSubtiposByEvento,
   updateSubtipo,
+  getDocumentacionBySubtipo,
+  addDocumento,
+  deleteDocumento,
+  updateDocumento,
+  getTipificacionesBySubtipo,
+  addTipificacion,
+  deleteTipificacion,
+  updateTipificacion,
+  getTutoriasByRamo,
+  addTutoria,
+  deleteTutoria,
+  updateTutoria,
 } from "../services/ramosService";
 import { useCurrentBranchContext } from "../context/CurrentBranchContext";
 //------------------------------------VERIFICACIONES------------------------------------
@@ -124,11 +136,10 @@ export function useVerificaciones() {
 export function useEventos(idRamo) {
   const [requestStatus, setRequestStatus] = useState({});
   const [eventos, setEventos] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const apiResponse = await getEventosByRamo(idRamo);
       await setEventos(apiResponse);
       setLoading(false);
@@ -204,11 +215,10 @@ export function useEventos(idRamo) {
 export function useSubtipos(idEvento) {
   const [requestStatus, setRequestStatus] = useState({});
   const [subtipos, setSubtipos] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const apiResponse = await getSubtiposByEvento(idEvento);
       await setSubtipos(apiResponse);
       setLoading(false);
@@ -276,23 +286,309 @@ export function useSubtipos(idEvento) {
       });
     }
   };
+  const modifyPlantillaSubtipo = async (updatedSubtipo, idSubtipo, idEvento) => {
+    setRequestStatus({});
+    const subtipoToUpdate = { plantilla: updatedSubtipo, evento: idEvento };
+    const apiResponse = await updateSubtipo(subtipoToUpdate, idSubtipo);
+    console.log(apiResponse);
+    if (apiResponse.status === 200) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: apiResponse.data.message,
+        status: true,
+      });
+      const newSubtipos = subtipos;
+      const indexSubtipo = subtipos.findIndex((subtipo) => subtipo.id === idSubtipo);
+      newSubtipos[indexSubtipo].plantilla = updatedSubtipo;
+      setSubtipos(newSubtipos);
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: apiResponse.data.message,
+        status: true,
+      });
+    }
+  };
 
-  return { createSubtipo, modifySubtipo, removeSubtipo, requestStatus, subtipos, loading };
+  return { createSubtipo, modifySubtipo, removeSubtipo, requestStatus, subtipos, loading, modifyPlantillaSubtipo };
 }
+//------------------------------------DOCUMENTOS------------------------------------------
+export function useDocumentacion(idSubtipo) {
+  const [requestStatus, setRequestStatus] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [documentacion, setDocumentacion] = useState([]);
 
-export function useDocumentacion() {
-  const [requestStatus, setRequestStatus] = useState({});
-  const { currentBranch, setUpCurrentBranch } = useCurrentBranchContext();
-  //   const createDocumentacion = () => {};
-  //   const updateDocumentacion = () => {};
-  //   const deleteDocumentacion = () => {};
-  return {};
+  useEffect(() => {
+    const fetchData = async () => {
+      const apiResponse = await getDocumentacionBySubtipo(idSubtipo);
+
+      await setDocumentacion(apiResponse);
+      setLoading(false);
+    };
+    fetchData();
+  }, [idSubtipo]);
+
+  const createDocumentacion = async (newDocumento, idSubtipo) => {
+    setRequestStatus({});
+    const apiResponse = await addDocumento(newDocumento, idSubtipo);
+    if (apiResponse.status === 201) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: `documento ${apiResponse.data.titulo} creado Satisfactoriamente`,
+        status: true,
+      });
+      setDocumentacion([...documentacion, apiResponse.data]);
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: `Error al intentar crear el documento : ${apiResponse.data.titulo}  `,
+        status: true,
+      });
+    }
+  };
+  const removeDocumentacion = async (idDocumento) => {
+    setRequestStatus({});
+    const apiResponse = await deleteDocumento(idDocumento);
+    if (apiResponse.status === 200) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: apiResponse.data,
+        status: true,
+      });
+      setDocumentacion(documentacion.filter((documento) => documento.id !== idDocumento));
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: apiResponse.data,
+        status: true,
+      });
+    }
+  };
+  const modifyDocumentacion = async (updatedDocumento, idDocumento, idSubtipo) => {
+    setRequestStatus({});
+    const documentToUpdate = { titulo: updatedDocumento, subtipoSiniestro: idSubtipo };
+    const apiResponse = await updateDocumento(documentToUpdate, idDocumento);
+    if (apiResponse.status === 200) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: apiResponse.data.message,
+        status: true,
+      });
+      const newDocumentacion = documentacion;
+      const indexDocumento = documentacion.findIndex((documento) => documento.id === idDocumento);
+      newDocumentacion[indexDocumento].titulo = updatedDocumento;
+      setDocumentacion(newDocumentacion);
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: apiResponse.data.message,
+        status: true,
+      });
+    }
+  };
+
+  return { requestStatus, loading, documentacion, createDocumentacion, removeDocumentacion, modifyDocumentacion };
 }
-export function useTipificaciones() {
+//------------------------------------TIPIFICAIONES------------------------------------------
+export function useTipificaciones(idSubtipo) {
   const [requestStatus, setRequestStatus] = useState({});
-  const { currentBranch, setUpCurrentBranch } = useCurrentBranchContext();
-  //   const createTipificacion = () => {};
-  //   const updateTipificacion = () => {};
-  //   const deleteTipificacion = () => {};
-  return {};
+  const [loading, setLoading] = useState(true);
+  const [tipificaciones, setTipificaciones] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const apiResponse = await getTipificacionesBySubtipo(idSubtipo);
+      await setTipificaciones(apiResponse);
+
+      setLoading(false);
+    };
+    fetchData();
+  }, [idSubtipo]);
+
+  const createTipificacion = async (newTipificacion, currentSubtipoId) => {
+    setRequestStatus({});
+    const tipificacionToAdd = {
+      titulo: newTipificacion.titulo,
+      core: newTipificacion.core,
+      accion: newTipificacion.accion,
+      tipo_De_Resultado: newTipificacion.tipgesdesc,
+      resultado_De_La_Gestion: newTipificacion.resgesdesc,
+      subtipoSiniestro: currentSubtipoId,
+    };
+    const apiResponse = await addTipificacion(tipificacionToAdd);
+    if (apiResponse.status === 201) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: `Tipificación ${apiResponse.data.titulo} creada Satisfactoriamente`,
+        status: true,
+      });
+      setTipificaciones([...tipificaciones, apiResponse.data]);
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: `Error al intentar crear la tipificación : ${apiResponse.data.titulo}  `,
+        status: true,
+      });
+    }
+  };
+  const removeTipificacion = async (tipificacionId) => {
+    setRequestStatus({});
+    const apiResponse = await deleteTipificacion(tipificacionId);
+    if (apiResponse.status === 200) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: apiResponse.data,
+        status: true,
+      });
+      setTipificaciones(tipificaciones.filter((tipificacion) => tipificacion.id !== tipificacionId));
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: apiResponse.data,
+        status: true,
+      });
+    }
+  };
+  const modifyTipificacion = async (tipificacionID, updatedTipificacion, currentSubtipoId) => {
+    setRequestStatus({});
+    const tipificacionToUpdate = {
+      titulo: updatedTipificacion.titulo,
+      core: updatedTipificacion.core,
+      accion: updatedTipificacion.accion,
+      tipo_De_Resultado: updatedTipificacion.tipgesdesc,
+      resultado_De_La_Gestion: updatedTipificacion.resgesdesc,
+      subtipoSiniestro: currentSubtipoId,
+    };
+
+    const apiResponse = await updateTipificacion(tipificacionToUpdate, tipificacionID);
+    if (apiResponse.status === 200) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: apiResponse.data.message,
+        status: true,
+      });
+      const newTipificaciones = tipificaciones;
+      const indexTipificacion = tipificaciones.findIndex((tipificaion) => tipificaion.id === tipificacionID);
+      newTipificaciones[indexTipificacion].titulo = updatedTipificacion.titulo;
+      newTipificaciones[indexTipificacion].core = updatedTipificacion.core;
+      newTipificaciones[indexTipificacion].accion = updatedTipificacion.accion;
+      newTipificaciones[indexTipificacion].tipo_De_Resultado = updatedTipificacion.tipgesdesc;
+      newTipificaciones[indexTipificacion].subtipoSiniestro = updatedTipificacion.resgesdesc;
+      setTipificaciones(newTipificaciones);
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: apiResponse.data.message,
+        status: true,
+      });
+    }
+  };
+
+  return { requestStatus, loading, tipificaciones, createTipificacion, removeTipificacion, modifyTipificacion };
+}
+//------------------------------------TUTORIAS------------------------------------------
+export function useTutorias(idRamo) {
+  const [requestStatus, setRequestStatus] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [tutorias, setTutorias] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const apiResponse = await getTutoriasByRamo(idRamo);
+      await setTutorias(apiResponse);
+      setLoading(false);
+    };
+    fetchData();
+  }, [idRamo]);
+
+  const createTutoria = async (newTutoria) => {
+    setRequestStatus({});
+    const tutoriaToAdd = { ...newTutoria, formularios: [], ramo: idRamo };
+    const apiResponse = await addTutoria(tutoriaToAdd);
+    if (apiResponse.status === 201) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: `Tututoria ${apiResponse.data.titulo} creada Satisfactoriamente`,
+        status: true,
+      });
+      setTutorias([...tutorias, apiResponse.data]);
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: `Error al intentar crear la Tututoria : ${apiResponse.data.titulo}  `,
+        status: true,
+      });
+    }
+  };
+  const removeTutoria = async (idTutoria) => {
+    setRequestStatus({});
+    const apiResponse = await deleteTutoria(idTutoria);
+    if (apiResponse.status === 200) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: apiResponse.data,
+        status: true,
+      });
+      setTutorias(tutorias.filter((tutoria) => tutoria.id !== idTutoria));
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: apiResponse.data,
+        status: true,
+      });
+    }
+  };
+  const modifyTutoria = async (idTutoria, updatedTuotria) => {
+    setRequestStatus({});
+    const tutoriaToUpdate = { titulo: updatedTuotria, ramo: idRamo };
+    const apiResponse = await updateTutoria(tutoriaToUpdate, idTutoria);
+
+    if (apiResponse.status === 200) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: apiResponse.data.message,
+        status: true,
+      });
+      const newTutorias = tutorias;
+      const indexTutoria = tutorias.findIndex((tutoria) => tutoria.id === idTutoria);
+      newTutorias[indexTutoria].titulo = updatedTuotria;
+      setTutorias(newTutorias);
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: apiResponse.data.message,
+        status: true,
+      });
+    }
+  };
+  const updateFormularios = async (idTutoria, idForm) => {
+    setRequestStatus({});
+    const indexTutoria = tutorias.findIndex((tutoria) => tutoria.id === idTutoria);
+    if (tutorias[indexTutoria].formularios.includes(idForm)) {
+      tutorias[indexTutoria].formularios = tutorias[indexTutoria].formularios.filter((form) => form !== idForm);
+    } else {
+      tutorias[indexTutoria].formularios = [...tutorias[indexTutoria].formularios, idForm];
+    }
+    const formsToUpdate = tutorias[indexTutoria].formularios;
+    const tutoriaToUpdate = { formularios: formsToUpdate, ramo: idRamo };
+    const apiResponse = await updateTutoria(tutoriaToUpdate, idTutoria);
+    if (apiResponse.status === 200) {
+      setRequestStatus({
+        responseStatus: "success",
+        text: apiResponse.data.message,
+        status: true,
+      });
+      const newTutorias = tutorias;
+      newTutorias[indexTutoria].formularios = formsToUpdate;
+      setTutorias(newTutorias);
+    } else {
+      setRequestStatus({
+        responseStatus: "error",
+        text: apiResponse.data.message,
+        status: true,
+      });
+    }
+  };
+
+  return { requestStatus, loading, tutorias, createTutoria, removeTutoria, modifyTutoria, updateFormularios };
 }
