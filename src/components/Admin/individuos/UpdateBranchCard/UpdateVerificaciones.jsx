@@ -24,10 +24,10 @@ import SnackBar from "../../../common/SnackBar";
 import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
 import useConfirmation from "../../../../hooks/useConfirmation";
 
-export default function UpdateVerificaciones({ verificaciones, tipoVerificacion, title }) {
-  // console.log(verificaciones, tipoVerificacion, title);
+export default function UpdateVerificaciones({ idBranch, tipoVerificacion, title }) {
   const { control, handleSubmit, resetField } = useForm();
-  const { createVerificacion, removeVerificacion, modifyVerificacion, requestStatus } = useVerificaciones();
+  const { verificaciones, createVerificacion, removeVerificacion, modifyVerificacion, requestStatus } =
+    useVerificaciones(idBranch);
 
   const arrayVerificaciones =
     tipoVerificacion === "criticas" ? verificaciones?.verificacionesCriticas : verificaciones?.verificacionesExtras;
@@ -56,7 +56,11 @@ export default function UpdateVerificaciones({ verificaciones, tipoVerificacion,
             <TableVerificaciones
               onUpdateVerificacion={onUpdateVerificacion}
               onDeleteVerificacion={onDeleteVerificacion}
-              verificaciones={arrayVerificaciones}
+              verificaciones={
+                tipoVerificacion === "criticas"
+                  ? verificaciones.verificacionesCriticas
+                  : verificaciones.verificacionesExtras
+              }
               tipoVerificacion={tipoVerificacion}
               dataType={"Verificacion"}
             />

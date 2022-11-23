@@ -93,6 +93,22 @@ export const startUpVerificacion = (idRamo) => {
 };
 
 // ---------------------------------- Verificaciones -----------------------------------
+
+export const getVerificacionesByRamo = (idRamo) => {
+  const getVerificacionesURL = `${URL}/api/verificacion/ramo/${idRamo}`;
+  return axios
+    .get(getVerificacionesURL, {
+      headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
+    })
+    .then((response) => {
+      const { data } = response;
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
 export const addVerificacion = (tipoVerificacion, verificacion) => {
   return axios
     .post(`${URL}/api/verificaciones${tipoVerificacion}`, {

@@ -24,17 +24,24 @@ import {
   addTutoria,
   deleteTutoria,
   updateTutoria,
+  getVerificacionesByRamo,
 } from "../services/ramosService";
-import { useCurrentBranchContext } from "../context/CurrentBranchContext";
-//------------------------------------VERIFICACIONES------------------------------------
-export function useVerificaciones() {
-  const [requestStatus, setRequestStatus] = useState({});
-  const { currentBranch, setUpCurrentBranch } = useCurrentBranchContext();
 
-  const loadramo = async () => {
-    const apiResponse = await getBranch(currentBranch.id);
-    setUpCurrentBranch(apiResponse);
-  };
+//------------------------------------VERIFICACIONES------------------------------------
+export function useVerificaciones(idRamo) {
+  const [requestStatus, setRequestStatus] = useState({});
+
+  const [verificaciones, setVerificaciones] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const apiResponse = await getVerificacionesByRamo(idRamo);
+      await setVerificaciones(apiResponse[0]);
+      setLoading(false);
+    };
+    fetchData();
+  }, [idRamo]);
 
   const createVerificacion = async (tipoVerificacion, verificacion, idVerificacion) => {
     setRequestStatus({});
@@ -51,6 +58,10 @@ export function useVerificaciones() {
           text: `verificacion ${apiResponse.data.titulo} agregada a verificaciones ${tipoVerificacion} `,
           status: true,
         });
+        const { verificacion, ...newVerificacion } = apiResponse.data;
+        const newVerificaciones = verificaciones;
+        newVerificaciones.verificacionesCriticas = [...verificaciones.verificacionesCriticas, newVerificacion];
+        setVerificaciones(newVerificaciones);
       } else {
         setRequestStatus({
           responseStatus: "error",
@@ -71,6 +82,10 @@ export function useVerificaciones() {
           text: `verificacion ${apiResponse.data.titulo} agregada a verificaciones ${tipoVerificacion} `,
           status: true,
         });
+        const { verificacion, ...newVerificacion } = apiResponse.data;
+        const newVerificaciones = verificaciones;
+        newVerificaciones.verificacionesExtras = [...verificaciones.verificacionesExtras, newVerificacion];
+        setVerificaciones(newVerificaciones);
       } else {
         setRequestStatus({
           responseStatus: "error",
@@ -79,20 +94,30 @@ export function useVerificaciones() {
         });
       }
     }
-
-    loadramo();
   };
 
   const removeVerificacion = async (tipoVerificacion, idVerificacion) => {
     setRequestStatus({});
     const apiResponse = await deleteVerificacion(tipoVerificacion, idVerificacion);
-
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
         text: apiResponse.data,
         status: true,
       });
+      if (tipoVerificacion === "criticas") {
+        const newVerificaciones = verificaciones;
+        newVerificaciones.verificacionesCriticas = verificaciones.verificacionesCriticas.filter(
+          (verif) => verif.id !== idVerificacion
+        );
+        setVerificaciones(newVerificaciones);
+      } else {
+        const newVerificaciones = verificaciones;
+        newVerificaciones.verificacionesExtras = verificaciones.verificacionesExtras.filter(
+          (verif) => verif.id !== idVerificacion
+        );
+        setVerificaciones(newVerificaciones);
+      }
     } else {
       setRequestStatus({
         responseStatus: "error",
@@ -100,7 +125,7 @@ export function useVerificaciones() {
         status: true,
       });
     }
-    loadramo();
+    // loadramo();
 
     // deleteVerificacionFromBranch(tipoVerificacion, idVerificacion);
     // deleteVerificacion(tipoVerificacion, idVerificacion);
@@ -113,13 +138,24 @@ export function useVerificaciones() {
       descripcion: updatedVerif.descrip_verif,
     };
     const apiResponse = await updateVerificacion(tipoVerificacion, newVerificacion, idVerificacion, masterVerifId);
-
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
         text: apiResponse.data.message,
         status: true,
       });
+      const newVerificaciones = verificaciones;
+      if (tipoVerificacion === "criticas") {
+        const index = verificaciones.verificacionesCriticas.findIndex((verif) => verif.id === idVerificacion);
+        newVerificaciones.verificacionesCriticas[index].titulo = updatedVerif.title_verif;
+        newVerificaciones.verificacionesCriticas[index].descripcion = updatedVerif.descrip_verif;
+        setVerificaciones(newVerificaciones);
+      } else {
+        const index = verificaciones.verificacionesExtras.findIndex((verif) => verif.id === idVerificacion);
+        newVerificaciones.verificacionesExtras[index].titulo = updatedVerif.title_verif;
+        newVerificaciones.verificacionesExtras[index].descripcion = updatedVerif.descrip_verif;
+        setVerificaciones(newVerificaciones);
+      }
     } else {
       setRequestStatus({
         responseStatus: "error",
@@ -127,10 +163,9 @@ export function useVerificaciones() {
         status: true,
       });
     }
-    loadramo();
   };
 
-  return { createVerificacion, requestStatus, removeVerificacion, modifyVerificacion };
+  return { verificaciones, loading, createVerificacion, requestStatus, removeVerificacion, modifyVerificacion };
 }
 //-------------------------------------EVENTOS----------------------------------------
 export function useEventos(idRamo) {
