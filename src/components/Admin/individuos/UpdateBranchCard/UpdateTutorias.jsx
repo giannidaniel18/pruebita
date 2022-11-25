@@ -22,6 +22,7 @@ import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
 import { useTutorias } from "../../../../hooks/useMangeRamo";
 import LoaderBasic from "../../../common/LoaderBasic";
 import SnackBar from "../../../common/SnackBar";
+import StatusSwitch from "../../../common/StatusSwitch";
 
 const FORMULARIOS_HEADERS = [
   { id: "form", titulo: "Formulario", cabecera: true },
@@ -29,11 +30,11 @@ const FORMULARIOS_HEADERS = [
 ];
 const TUTORIA_HEADERS = [{ id: "tutoria", titulo: "tutorias", cabecera: true }];
 
-export default function UpdateTutorias({ idRamo }) {
+export default function UpdateTutorias({ idBranch }) {
   const [currentTutoria, setCurrentTutoria] = useState(null);
   const { control, handleSubmit, resetField } = useForm();
   const { tutorias, createTutoria, loading, modifyTutoria, removeTutoria, requestStatus, updateFormularios } =
-    useTutorias(idRamo);
+    useTutorias(idBranch);
 
   const {
     drawerDataToHandle,
@@ -54,8 +55,9 @@ export default function UpdateTutorias({ idRamo }) {
   const onUpdateTutoriaFromBranch = (updatedTutoria) => {
     modifyTutoria(drawerDataToHandle.id, updatedTutoria.tutoria);
   };
-  const onUpdateFormsTutorias = (idTutoria, idForm, status) => {
-    updateFormularios(idTutoria, idForm, status);
+  const onUpdateFormsTutorias = async (idTutoria, idForm, status) => {
+    const apiResponse = await updateFormularios(idTutoria, idForm, status);
+    return apiResponse;
   };
 
   const handleCurrentTutoria = (e) => {
@@ -127,8 +129,9 @@ export default function UpdateTutorias({ idRamo }) {
 }
 
 function TutoriaTable({ tutoria, updateFormsFunc }) {
-  const onUpdateFormulariosFromTutoria = (idform, status) => {
-    updateFormsFunc(tutoria.id, idform, status);
+  const onUpdateFormulariosFromTutoria = async (idform, status) => {
+    const apiResponse = await updateFormsFunc(tutoria.id, idform, status);
+    return apiResponse;
   };
   return (
     <Stack spacing={2}>
@@ -161,9 +164,9 @@ function TutoriaTable({ tutoria, updateFormsFunc }) {
                   {row.info}
                 </TableCell>
                 <TableCell>
-                  <FormSwitch
-                    idform={row.id}
-                    handleUpdateTutoria={onUpdateFormulariosFromTutoria}
+                  <StatusSwitch
+                    idToUpdate={row.id}
+                    onChangeFunc={onUpdateFormulariosFromTutoria}
                     status={tutoria.formularios.includes(row.id)}
                   />
                 </TableCell>
@@ -176,17 +179,17 @@ function TutoriaTable({ tutoria, updateFormsFunc }) {
   );
 }
 
-function FormSwitch({ status, idform, handleUpdateTutoria }) {
-  const [checked, setChecked] = React.useState(false);
+// function FormSwitch({ status, idform, handleUpdateTutoria }) {
+//   const [checked, setChecked] = React.useState(false);
 
-  useEffect(() => {
-    setChecked(status);
-  }, [status]);
+//   useEffect(() => {
+//     setChecked(status);
+//   }, [status]);
 
-  const handleChange = (e) => {
-    setChecked(!checked);
-    handleUpdateTutoria(idform, e.target.checked);
-  };
+//   const handleChange = async (e) => {
+//     await handleUpdateTutoria(idform, e.target.checked);
+//     setChecked(!checked);
+//   };
 
-  return <Switch checked={checked} onChange={handleChange} />;
-}
+//   return <Switch checked={checked} onChange={handleChange} />;
+// }

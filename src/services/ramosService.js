@@ -73,7 +73,6 @@ export const updateBranch = (idRamo, dataToUpdate) => {
       return response;
     })
     .catch((error) => {
-      console.log(error);
       return error;
     });
 };

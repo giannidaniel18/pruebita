@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   addVerificacion,
   deleteVerificacion,
-  getBranch,
   updateVerificacion,
   addEvento,
   deleteEvento,
@@ -623,6 +622,8 @@ export function useTutorias(idRamo) {
         status: true,
       });
     }
+
+    return apiResponse;
   };
 
   return { requestStatus, loading, tutorias, createTutoria, removeTutoria, modifyTutoria, updateFormularios };

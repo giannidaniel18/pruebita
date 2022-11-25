@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Switch } from "@mui/material";
 import LoaderBasic from "./LoaderBasic";
 
-export default function StatusSwitch({ ramoId, status, onChange }) {
+export default function StatusSwitch({ idToUpdate, status, onChangeFunc }) {
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
 
@@ -10,11 +10,11 @@ export default function StatusSwitch({ ramoId, status, onChange }) {
     setChecked(status);
   }, [status]);
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     setLoading(true);
-    onChange(event.target.id, event.target.checked).then(() => {
-      setLoading(false);
-    });
+    const apiResponse = await onChangeFunc(event.target.id, event.target.checked);
+    console.log(apiResponse);
+    setLoading(false);
   };
 
   return (
@@ -22,7 +22,7 @@ export default function StatusSwitch({ ramoId, status, onChange }) {
       {loading ? (
         <LoaderBasic size={20} />
       ) : (
-        <Switch id={ramoId} checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+        <Switch id={idToUpdate} checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
       )}
     </>
   );

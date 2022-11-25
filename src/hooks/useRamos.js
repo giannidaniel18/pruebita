@@ -62,17 +62,17 @@ export function useRamos() {
     });
   };
 
-  const updateStatusRamo = (branchId, newState) => {
+  const updateStatusRamo = async (branchId, newState) => {
     setRequestStatus({});
-    const newStatusRamo = updateBranch(branchId, newState).then((resp) => {
-      if (resp.data.statusCode === 200) {
-        setRequestStatus({ responseStatus: "success", text: resp.data.message, status: true });
-        getRamos();
-      } else {
-        setRequestStatus({ responseStatus: "error", text: "Error al actualizar el estado del ramo", status: true });
-      }
-    });
-    return newStatusRamo;
+    const apiResponse = await updateBranch(branchId, newState);
+    if (apiResponse.data.statusCode === 200) {
+      setRequestStatus({ responseStatus: "success", text: apiResponse.data.message, status: true });
+      getRamos();
+    } else {
+      setRequestStatus({ responseStatus: "error", text: "Error al actualizar el estado del ramo", status: true });
+    }
+
+    return apiResponse;
   };
 
   return { loading, branches, getRamos, createRamo, requestStatus, updateRamo, deleteRamo, updateStatusRamo };

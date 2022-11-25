@@ -23,10 +23,11 @@ import { useVerificaciones } from "../../../../hooks/useMangeRamo";
 import SnackBar from "../../../common/SnackBar";
 import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
 import useConfirmation from "../../../../hooks/useConfirmation";
+import LoaderBasic from "../../../common/LoaderBasic";
 
 export default function UpdateVerificaciones({ idBranch, tipoVerificacion, title }) {
   const { control, handleSubmit, resetField } = useForm();
-  const { verificaciones, createVerificacion, removeVerificacion, modifyVerificacion, requestStatus } =
+  const { verificaciones, loading, createVerificacion, removeVerificacion, modifyVerificacion, requestStatus } =
     useVerificaciones(idBranch);
 
   const arrayVerificaciones =
@@ -50,7 +51,9 @@ export default function UpdateVerificaciones({ idBranch, tipoVerificacion, title
   return (
     <Stack spacing={2}>
       <Stack spacing={2}>
-        {arrayVerificaciones?.length ? (
+        {loading ? (
+          <LoaderBasic />
+        ) : (
           <>
             <Typography variant="h6">{title}</Typography>
             <TableVerificaciones
@@ -65,17 +68,6 @@ export default function UpdateVerificaciones({ idBranch, tipoVerificacion, title
               dataType={"Verificacion"}
             />
           </>
-        ) : (
-          <DataNotFound>
-            <Stack>
-              <Typography px={2} variant="h5">
-                No existen tipificaciones del tipo " {tipoVerificacion} " creadas para el ramo actual.
-              </Typography>
-              <Typography px={2} py={1} variant="h6">
-                Crea la primera aqui!
-              </Typography>
-            </Stack>
-          </DataNotFound>
         )}
 
         <form onSubmit={handleSubmit(onAddVerificacion)}>
@@ -174,39 +166,53 @@ function TableVerificaciones({
 
   return (
     <Stack>
-      <TableContainer>
-        <Table aria-label="simple table" size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Titulo verificación</TableCell>
-              <TableCell align="left">Descripción</TableCell>
-              <TableCell align="right">Administrar</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {verificaciones?.map((row) => (
-              <TableRow key={row?.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell scope="row">{row?.titulo}</TableCell>
-                <TableCell align="left">{row?.descripcion}</TableCell>
-                <TableCell align="right" sx={{ minWidth: "115px" }}>
-                  <IconButton
-                    onClick={onSetData}
-                    id={row?.id}
-                    title_verif={row?.titulo}
-                    descrip_verif={row?.descripcion}
-                  >
-                    <ModeEditIcon />
-                  </IconButton>
-                  <IconButton onClick={onSetConfirmation} id={row?.id}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+      {verificaciones?.length ? (
+        <TableContainer>
+          <Table aria-label="simple table" size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Titulo verificación</TableCell>
+                <TableCell align="left">Descripción</TableCell>
+                <TableCell align="right">Administrar</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        {dataToConfirm.onOpen && <ConfirmationAlert {...dataToConfirm} confirmation={getConfirmation} />}
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {verificaciones?.map((row) => (
+                <TableRow key={row?.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                  <TableCell scope="row">{row?.titulo}</TableCell>
+                  <TableCell align="left">{row?.descripcion}</TableCell>
+                  <TableCell align="right" sx={{ minWidth: "115px" }}>
+                    <IconButton
+                      onClick={onSetData}
+                      id={row?.id}
+                      title_verif={row?.titulo}
+                      descrip_verif={row?.descripcion}
+                    >
+                      <ModeEditIcon />
+                    </IconButton>
+                    <IconButton onClick={onSetConfirmation} id={row?.id}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {dataToConfirm.onOpen && <ConfirmationAlert {...dataToConfirm} confirmation={getConfirmation} />}
+        </TableContainer>
+      ) : (
+        <DataNotFound>
+          <Stack>
+            <Typography px={2} variant="h5">
+              No existen tipificaciones del tipo " {tipoVerificacion} " creadas para el ramo actual.
+            </Typography>
+            <Typography px={2} py={1} variant="h6">
+              Crea la primera aqui!
+            </Typography>
+          </Stack>
+        </DataNotFound>
+      )}
+
       {drawerVisibleMode && (
         <AdminDrawerUpdate
           drawerVisibleMode={drawerVisibleMode}

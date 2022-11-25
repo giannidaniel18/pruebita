@@ -187,9 +187,9 @@ export default function TableAbmRamos({ branches, onUpdateRamo, onUpdateRamoStat
     const UpdatedBranch = { titulo: updatedBranch.ramo };
     onUpdateRamo(drawerDataToHandle.id, UpdatedBranch);
   };
-  const handleChangeStatusBranch = (branchId, newStatus) => {
+  const handleChangeStatusBranch = async (branchId, newStatus) => {
     const newState = { estado: newStatus };
-    const enpdointResponse = onUpdateRamoStatus(branchId, newState);
+    const enpdointResponse = await onUpdateRamoStatus(branchId, newState);
     return enpdointResponse;
   };
   const handleDeleteBranch = (idBranch) => {
@@ -212,7 +212,7 @@ export default function TableAbmRamos({ branches, onUpdateRamo, onUpdateRamoStat
         <IconButton size="small" id={ramo.id} name={ramo.titulo} onClick={onSetConfirmation}>
           <DeleteIcon fontSize="small" />
         </IconButton>
-        <StatusSwitch ramoId={ramo.id} status={ramo.estado} onChange={handleChangeStatusBranch} />
+        <StatusSwitch idToUpdate={ramo.id} status={ramo.estado} onChangeFunc={handleChangeStatusBranch} />
       </Stack>
     )
   );
@@ -258,7 +258,7 @@ export default function TableAbmRamos({ branches, onUpdateRamo, onUpdateRamoStat
                     </TableCell>
                     <TableCell align="left">{format(parseISO(row.fechaCreacion), "dd/MM/yyyy")}</TableCell>
                     <TableCell align="left">{format(parseISO(row.fechaModificacion), "dd/MM/yyyy")}</TableCell>
-                    <TableCell align="right" width={5}>
+                    <TableCell align="center" width={5}>
                       {row.editar}
                     </TableCell>
                     <TableCell align="center">{row.estado}</TableCell>

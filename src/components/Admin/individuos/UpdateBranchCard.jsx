@@ -46,13 +46,11 @@ export default function UpdateBranchCard({ branch }) {
         <>
           <UpdateVerificaciones
             idBranch={branch.id}
-            verificaciones={branch.verificaciones}
             tipoVerificacion="criticas"
             title="Administrar Verificaciones Criticas"
           />
           <UpdateVerificaciones
             idBranch={branch.id}
-            verificaciones={branch.verificaciones}
             tipoVerificacion="extras"
             title="Administrar Verificaciones Extras"
           />
@@ -60,7 +58,7 @@ export default function UpdateBranchCard({ branch }) {
       ) : propiedadAmodificar === TABARRAY[1].position ? (
         <UpdateEventos idBranch={branch.id} />
       ) : (
-        <UpdateTutorias idRamo={branch.id} />
+        <UpdateTutorias idBranch={branch.id} />
       )}
     </Stack>
   );
