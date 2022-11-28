@@ -5,7 +5,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { useTheme } from "@mui/material/styles";
 import { ColorModeContext } from "../../config/ColorModeContextProvider";
-import { Link, Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import StoreIcon from "@mui/icons-material/Store";
 import BusinessIcon from "@mui/icons-material/Business";

@@ -4,9 +4,9 @@ import SinesterLayout from "../layouts/SinesterLayout";
 // import Empresas from "../pages/Empresas";
 import Home from "../pages/Home";
 import Individuos from "../pages/individuos/Individuos";
-import Pymes from "../pages/Pymes";
-import Especialistas from "../pages/Especialistas";
-import Empresas from "../pages/Empresas";
+// import Pymes from "../pages/Pymes";
+// import Especialistas from "../pages/Especialistas";
+// import Empresas from "../pages/Empresas";
 import BranchContainer from "../pages/individuos/siniestros/BranchContainer";
 import AdminLayout from "../layouts/AdminLayout";
 

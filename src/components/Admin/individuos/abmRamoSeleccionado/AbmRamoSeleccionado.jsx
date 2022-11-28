@@ -2,11 +2,11 @@ import { Divider, Stack, Typography } from "@mui/material";
 import FeedIcon from "@mui/icons-material/Feed";
 
 import React, { useState } from "react";
-import UpdateEventos from "./UpdateBranchCard/UpdateEventos";
-import UpdateTutorias from "./UpdateBranchCard/UpdateTutorias";
-import UpdateVerificaciones from "./UpdateBranchCard/UpdateVerificaciones";
-import UpdateBranchTabs from "./UpdateBranchTabs";
-import DataNotFound from "../../common/DataNotFound";
+import DataNotFound from "../../../common/DataNotFound";
+import UpdateEventos from "./UpdateEventos";
+import UpdateTutorias from "./UpdateTutorias";
+import UpdateVerificaciones from "./UpdateVerificaciones";
+import UpdateBranchTabs from "../UpdateBranchTabs";
 
 const TABARRAY = [
   { id: "AdminVerificaciones", label: "Administrar verificaciones", position: 0 },
@@ -14,7 +14,7 @@ const TABARRAY = [
   { id: "AdminTutoria", label: "Administrar tutoria", position: 2 },
 ];
 
-export default function UpdateBranchCard({ branch }) {
+export default function AbmRamoSeleccionado({ branch }) {
   const [propiedadAmodificar, setPropiedadAmodificar] = useState(TABARRAY[0].position); //modificar a 0 antes de pasar a DEV
 
   const handleChangePropiedadAmodificar = (newIndex) => {

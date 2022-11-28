@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import {
   Button,
   Grid,
@@ -12,7 +12,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import TextImputControlSmall from "../../../../components/common/TextImputControlSmall";
+import TextImputControlSmall from "../../../common/TextImputControlSmall";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useForm } from "react-hook-form";
@@ -29,9 +29,6 @@ export default function UpdateVerificaciones({ idBranch, tipoVerificacion, title
   const { control, handleSubmit, resetField } = useForm();
   const { verificaciones, loading, createVerificacion, removeVerificacion, modifyVerificacion, requestStatus } =
     useVerificaciones(idBranch);
-
-  const arrayVerificaciones =
-    tipoVerificacion === "criticas" ? verificaciones?.verificacionesCriticas : verificaciones?.verificacionesExtras;
 
   const onAddVerificacion = (data) => {
     resetField("titulo_Verificacion_" + tipoVerificacion);

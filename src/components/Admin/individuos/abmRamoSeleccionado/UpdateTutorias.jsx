@@ -1,8 +1,8 @@
+import React, { useState } from "react";
 import {
   Button,
   Grid,
   Stack,
-  Switch,
   Table,
   TableBody,
   TableCell,
@@ -11,8 +11,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { formsAndInfo } from "../../../../constants/variablesGlobales";
 import AdministracionTable from "../../../common/AdministracionTable";

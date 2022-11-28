@@ -7,6 +7,8 @@ export function useRamos() {
   const [loading, setLoading] = useState(true);
   const { branches, setBranches } = useBranchContext();
 
+  //Deberia tener un hook geter que me traiga los rramos y en este hook hacer la manipulacion de los ramos pero como un estado local
+
   const getRamos = () => {
     getBranches().then((branches) => {
       setBranches(branches);

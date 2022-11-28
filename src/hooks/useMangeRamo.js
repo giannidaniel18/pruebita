@@ -29,7 +29,6 @@ import {
 //------------------------------------VERIFICACIONES------------------------------------
 export function useVerificaciones(idRamo) {
   const [requestStatus, setRequestStatus] = useState({});
-
   const [verificaciones, setVerificaciones] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -627,4 +626,9 @@ export function useTutorias(idRamo) {
   };
 
   return { requestStatus, loading, tutorias, createTutoria, removeTutoria, modifyTutoria, updateFormularios };
+}
+export function useGeneralInfo(branch) {
+  const [currentBranch, setcurrentBranch] = useState(branch);
+
+  //Desde el container me traigo el currentBranch, establesco un estado local en este hook para poder actualizar la informacion que se va a renderizar en pantalla y al mismo tiempo pegarle a los endpoints que actualicen la base
 }

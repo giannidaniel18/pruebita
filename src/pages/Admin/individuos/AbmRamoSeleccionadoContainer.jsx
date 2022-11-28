@@ -1,24 +1,18 @@
-import UpdateBranchCard from "../../../components/Admin/individuos/UpdateBranchCard";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getBranch } from "../../../services/ramosService";
-import { useCurrentBranchContext } from "../../../context/CurrentBranchContext";
+import { useGetCurrentBranch } from "../../../hooks/useGetters";
 import LoaderBasic from "../../../components/common/LoaderBasic";
+import ErrorBoundary from "../../../components/common/ErrorBoundary";
+import AbmRamoSeleccionado from "../../../components/Admin/individuos/abmRamoSeleccionado/AbmRamoSeleccionado";
 
 export default function AbmRamoSeleccionadoContainer() {
   const { selectedbranch } = useParams();
-  const [loading, setLoading] = useState(true);
+  const { loading, currentBranch } = useGetCurrentBranch(selectedbranch);
 
-  const { currentBranch, setUpCurrentBranch } = useCurrentBranchContext();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const apiResponse = await getBranch(selectedbranch);
-      setUpCurrentBranch(apiResponse);
-      setLoading(false);
-    };
-    fetchData();
-  }, [selectedbranch]);
-
-  return loading ? <LoaderBasic /> : <UpdateBranchCard branch={currentBranch} />;
+  return loading ? (
+    <LoaderBasic />
+  ) : (
+    <ErrorBoundary>
+      <AbmRamoSeleccionado branch={currentBranch} />
+    </ErrorBoundary>
+  );
 }
