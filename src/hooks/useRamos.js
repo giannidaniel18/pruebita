@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
 import { addBranch, deleteBranch, getBranches, updateBranch, startUpVerificacion } from "../services/ramosService";
-import { useBranchContext } from "../context/BranchContext";
 
 export function useRamos() {
   const [requestStatus, setRequestStatus] = useState({});
   const [loading, setLoading] = useState(true);
-  const { branches, setBranches } = useBranchContext();
-
-  //Deberia tener un hook geter que me traiga los rramos y en este hook hacer la manipulacion de los ramos pero como un estado local
-
-  const getRamos = () => {
-    getBranches().then((branches) => {
-      setBranches(branches);
-      setLoading(false);
-    });
-  };
+  const [branches, setBranches] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,49 +17,58 @@ export function useRamos() {
 
   const createRamo = async (newRamo) => {
     setRequestStatus({});
-    const addRamoRespone = await addBranch(newRamo);
+    const apiResponse = await addBranch(newRamo);
 
-    if (addRamoRespone.status === 201) {
-      const setUpVerif = await startUpVerificacion(addRamoRespone.data.id);
+    if (apiResponse.status === 201) {
+      const setUpVerif = await startUpVerificacion(apiResponse.data.obj.id);
       if (setUpVerif.status === 201) {
         setRequestStatus({
           responseStatus: "success",
-          text: `Agregado exitosamente el Ramo : ${addRamoRespone.data.titulo}`,
+          text: apiResponse.data.message,
           status: true,
         });
-        getRamos();
+        setBranches([...branches, apiResponse.data.obj]);
       }
     } else {
-      setRequestStatus({ responseStatus: "error", text: addRamoRespone.data.message, status: true });
+      setRequestStatus({ responseStatus: "error", text: apiResponse.data.message, status: true });
     }
   };
 
-  const updateRamo = (idRamo, updatedRamo) => {
+  const updateRamo = async (idRamo, updatedRamo) => {
     setRequestStatus({});
-    updateBranch(idRamo, updatedRamo).then((resp) => {
-      if (resp.status === 200) {
-        setRequestStatus({ responseStatus: "success", text: resp.data.message, status: true });
-        getRamos();
-      } else {
-        setRequestStatus({ responseStatus: "error", text: "Error al actualizar el nombre del ramo", status: true });
-      }
-    });
-  };
-
-  const deleteRamo = (idBranch) => {
-    setRequestStatus({});
-    deleteBranch(idBranch).then((resp) => {
-      setRequestStatus({ responseStatus: "success", text: resp.data.message, status: true });
-      getRamos();
-    });
-  };
-
-  const updateStatusRamo = async (branchId, newState) => {
-    setRequestStatus({});
-    const apiResponse = await updateBranch(branchId, newState);
-    if (apiResponse.data.statusCode === 200) {
+    const apiResponse = await updateBranch(idRamo, updatedRamo);
+    if (apiResponse.status === 200) {
       setRequestStatus({ responseStatus: "success", text: apiResponse.data.message, status: true });
-      getRamos();
+      const newBranches = branches;
+      const indexBranch = branches.findIndex((branch) => branch.id === idRamo);
+      newBranches[indexBranch] = apiResponse.data.obj;
+      setBranches(newBranches);
+    } else {
+      setRequestStatus({ responseStatus: "error", text: apiResponse.data.message, status: true });
+    }
+  };
+
+  const deleteRamo = async (idBranch) => {
+    setRequestStatus({});
+    const apiResponse = await deleteBranch(idBranch);
+    if (apiResponse.status === 200) {
+      setRequestStatus({ responseStatus: "success", text: apiResponse.data.message, status: true });
+      setBranches(branches.filter((branch) => branch.id !== idBranch));
+    } else {
+      setRequestStatus({ responseStatus: "error", text: apiResponse.data.message, status: true });
+    }
+  };
+
+  const updateStatusRamo = async (idRamo, newState) => {
+    setRequestStatus({});
+    const apiResponse = await updateBranch(idRamo, newState);
+
+    if (apiResponse.status === 200) {
+      setRequestStatus({ responseStatus: "success", text: apiResponse.data.message, status: true });
+      const newBranches = branches;
+      const indexBranch = branches.findIndex((branch) => branch.id === idRamo);
+      newBranches[indexBranch] = apiResponse.data.obj;
+      setBranches(newBranches);
     } else {
       setRequestStatus({ responseStatus: "error", text: "Error al actualizar el estado del ramo", status: true });
     }
@@ -77,5 +76,5 @@ export function useRamos() {
     return apiResponse;
   };
 
-  return { loading, branches, getRamos, createRamo, requestStatus, updateRamo, deleteRamo, updateStatusRamo };
+  return { loading, branches, createRamo, requestStatus, updateRamo, deleteRamo, updateStatusRamo };
 }

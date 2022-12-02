@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { IconButton } from "@mui/material";
+//UI LIBRARY COMPONENTS
+import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+//CUSTOM COMPONENTS
+import ConfirmationAlert from "components/common/ConfirmationAlert";
+//ICONS
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import ConfirmationAlert from "../../common/ConfirmationAlert";
 
 const HEADERS = [
   { id: "event", titulo: "Situación", cabecera: true },

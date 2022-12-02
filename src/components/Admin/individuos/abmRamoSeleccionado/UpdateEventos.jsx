@@ -1,18 +1,20 @@
+//REACT FnC
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { useDocumentacion, useEventos, useSubtipos, useTipificaciones } from "hooks/useMangeRamo";
+import { useDrawerHandler } from "hooks/useDrawerHandler";
+//UI LIBRARY COMPONENTS
 import { Button, Card, Divider, Grid, Stack, Typography } from "@mui/material";
-import TipificationTable from "../../../individuos/siniestros/TipíficationTable";
-import TextImputControlSmall from "../../../common/TextImputControlSmall";
-
-import AdministracionTable from "../../../common/AdministracionTable";
+//CUSTOM COMPONENTS
+import { AdminDrawerUpdate, AdminDrawerCreate, AdminDrawerMarkDown } from "../AdminDrawers";
+import TextImputControlSmall from "components/common/TextImputControlSmall";
+import TipificationTable from "components/individuos/siniestros/TipíficationTable";
+import LoaderBasic from "components/common/LoaderBasic";
+import SnackBar from "components/common/SnackBar";
+import AdministracionTable from "components/common/AdministracionTable";
+//ICONS
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EmailIcon from "@mui/icons-material/Email";
-import { AdminDrawerUpdate, AdminDrawerCreate, AdminDrawerMarkDown } from "../AdminDrawers";
-import SnackBar from "../../../common/SnackBar";
-import { useDocumentacion, useEventos, useSubtipos, useTipificaciones } from "../../../../hooks/useMangeRamo";
-import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
-import LoaderBasic from "../../../common/LoaderBasic";
 
 const EVENTOS_HEADERS = [{ id: "event", titulo: "Eventos", cabecera: true }];
 const SUBTIPOS_HEADERS = [{ id: "subtipo", titulo: "Subtipos", cabecera: true }];
@@ -40,6 +42,9 @@ export default function UpdateEventos({ idBranch }) {
   };
   const resetCurrentSubtipo = () => {
     setCurrentSubtipo(null);
+  };
+  const refreshCurrentSubtipo = (subtipo) => {
+    setCurrentSubtipo(subtipo);
   };
 
   return (
@@ -69,6 +74,7 @@ export default function UpdateEventos({ idBranch }) {
               handleCurrentSubtipo={handleCurrentSubtipo}
               currentSubtipo={currentSubtipo}
               resetCurrentSubtipo={resetCurrentSubtipo}
+              refreshCurrentSubtipo={refreshCurrentSubtipo}
             />
           </>
         ) : (
@@ -161,7 +167,13 @@ function EventosPanel({ idBranch, handleCurrentEvent, currentEvento, resetCurren
   );
 }
 
-function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, resetCurrentSubtipo }) {
+function SubtiposPanel({
+  currentEvento,
+  currentSubtipo,
+  handleCurrentSubtipo,
+  resetCurrentSubtipo,
+  refreshCurrentSubtipo,
+}) {
   const { control, handleSubmit, resetField } = useForm();
   const { subtipos, loading, createSubtipo, modifySubtipo, modifyPlantillaSubtipo, removeSubtipo, requestStatus } =
     useSubtipos(currentEvento.id);
@@ -201,8 +213,9 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
   const onUpdateSubtipo = (updatedSubtipo) => {
     modifySubtipo(updatedSubtipo.subtipo, drawerDataToHandle.id, currentEvento.id);
   };
-  const onUpdatePlantilla = (updatedPlantilla) => {
-    modifyPlantillaSubtipo(updatedPlantilla, currentSubtipo.id, currentEvento.id);
+  const onUpdatePlantilla = async (updatedPlantilla) => {
+    await modifyPlantillaSubtipo(updatedPlantilla, currentSubtipo.id, currentEvento.id);
+    refreshCurrentSubtipo(subtipos.find((subtipo) => subtipo.id === currentSubtipo.id));
   };
 
   return (
@@ -269,7 +282,7 @@ function SubtiposPanel({ currentEvento, currentSubtipo, handleCurrentSubtipo, re
     </Stack>
   );
 }
-// falta a partir de aca
+
 function DocAndTip({ currentSubtipo, onUpdatePlantilla }) {
   const [drawerVisibleMode, setDrawerVisibleMode] = useState(false);
 
@@ -279,6 +292,7 @@ function DocAndTip({ currentSubtipo, onUpdatePlantilla }) {
 
   const onUpdateTemplate = (updatedPlantilla) => {
     onUpdatePlantilla(updatedPlantilla);
+    onToggleDrawerVisibleMode();
   };
 
   return (

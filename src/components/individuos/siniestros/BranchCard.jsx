@@ -17,11 +17,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import DocumentationTab from "./DocumentationTab";
 import Tutoria from "./Tutoria";
-import CustomAlert from "../../common/CustomAlert.";
+import CustomAlert from "components/common/CustomAlert.";
 import SubtipoCard from "./SubtipoCard";
-import DataNotFound from "../../common/DataNotFound";
+import DataNotFound from "components/common/DataNotFound";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import NewInfoBadge from "../../common/NewInfoBadge";
+import NewInfoBadge from "components/common/NewInfoBadge";
 
 export default function BranchCard({ branch }) {
   const [selectedTutoria, setSelectedTutoria] = useState(null);
@@ -42,7 +42,7 @@ export default function BranchCard({ branch }) {
         </Box>
         <Divider />
         <Box>
-          {branch?.eventos.length ? (
+          {branch?.eventos ? (
             <DocumentacionTipificacion eventos={branch.eventos} />
           ) : (
             <DataNotFound>
@@ -55,7 +55,7 @@ export default function BranchCard({ branch }) {
 
         <Divider />
 
-        {branch.tutorias.length ? (
+        {branch.tutorias ? (
           <Stack direction={"column"} alignItems={"flex-start"} spacing={2}>
             <Stack direction="row" spacing={2}>
               {branch.tutorias.map((tutoria) => (
@@ -89,7 +89,7 @@ export default function BranchCard({ branch }) {
 function VerificacionesInfo({ verificaciones }) {
   return (
     <Stack>
-      {verificaciones.verificacionesCriticas.length ? (
+      {verificaciones?.verificacionesCriticas?.length ? (
         <CustomAlert type={"hint"}>
           <Typography variant="h4">
             <NewInfoBadge array={verificaciones.verificacionesCriticas}>Verificaciones criticas</NewInfoBadge>
@@ -122,7 +122,7 @@ function VerificacionesInfo({ verificaciones }) {
           </Typography>
         </DataNotFound>
       )}
-      {verificaciones.verificacionesExtras.length ? (
+      {verificaciones?.verificacionesExtras?.length ? (
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
             <Typography variant="h4">
@@ -191,7 +191,7 @@ function DocumentacionTipificacion({ eventos }) {
 
       <Stack spacing={1}>
         <DocumentationTab eventos={eventos} handleChangeEvento={handleChangeEvento} initialValue={initialValue} />
-        {!selectedEventTab.subtiposSiniestro?.length ? (
+        {!selectedEventTab?.subtiposSiniestro?.length ? (
           <DataNotFound>
             <Typography px={2} variant="body">
               No existen subtipos creados para el Evento actual, ponete en contacto con mejora continua para nutrir de

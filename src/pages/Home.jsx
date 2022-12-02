@@ -1,5 +1,5 @@
-import { Stack, Typography } from "@mui/material";
 import React from "react";
+import { Stack, Typography } from "@mui/material";
 
 export default function Home() {
   return (

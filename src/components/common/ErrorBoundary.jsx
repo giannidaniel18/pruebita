@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Card, Stack, Typography } from "@mui/material";
 import SentimentVeryDissatisfiedOutlinedIcon from "@mui/icons-material/SentimentVeryDissatisfiedOutlined";
 import HomeIcon from "@mui/icons-material/Home";
-import { Link } from "react-router-dom";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {

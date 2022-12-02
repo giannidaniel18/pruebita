@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Card, Stack } from "@mui/material";
-import { welcomePagesData } from "../constants/variablesGlobales";
+import { welcomePagesData } from "constants/variablesGlobales";
 
 export default function WelcomePage({ idWelcome }) {
   const welcomeObject = welcomePagesData?.find((data) => data.id === idWelcome);

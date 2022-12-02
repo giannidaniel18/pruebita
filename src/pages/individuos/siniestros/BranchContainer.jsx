@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
+import ErrorBoundary from "../../../components/common/ErrorBoundary";
+import LoaderBasic from "../../../components/common/LoaderBasic";
 import BranchCard from "../../../components/individuos/siniestros/BranchCard";
-import { useCurrentBranchContext } from "../../../context/CurrentBranchContext";
-import { getBranch } from "../../../services/ramosService";
+import { useGetCurrentBranch } from "../../../hooks/useGetters";
 
 export default function BranchContainer() {
-  const [loading, setLoading] = useState(true);
   const { selectedbranch } = useParams();
-  const { currentBranch, setUpCurrentBranch } = useCurrentBranchContext();
+  const { loading, currentBranch } = useGetCurrentBranch(selectedbranch);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const apiResponse = await getBranch(selectedbranch);
-      setUpCurrentBranch(apiResponse);
-      setLoading(false);
-    };
-    fetchData();
-  }, [selectedbranch]);
-
-  return !loading ? <BranchCard branch={currentBranch} /> : <div>cargando...</div>;
+  return loading ? (
+    <LoaderBasic />
+  ) : (
+    <ErrorBoundary>
+      <BranchCard branch={currentBranch} />
+    </ErrorBoundary>
+  );
 }

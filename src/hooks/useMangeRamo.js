@@ -53,17 +53,17 @@ export function useVerificaciones(idRamo) {
       if (apiResponse.status === 201) {
         setRequestStatus({
           responseStatus: "success",
-          text: `verificacion ${apiResponse.data.titulo} agregada a verificaciones ${tipoVerificacion} `,
+          text: apiResponse.data.message,
           status: true,
         });
-        const { verificacion, ...newVerificacion } = apiResponse.data;
+        const { verificacion, ...newVerificacion } = apiResponse.data.obj;
         const newVerificaciones = verificaciones;
         newVerificaciones.verificacionesCriticas = [...verificaciones.verificacionesCriticas, newVerificacion];
         setVerificaciones(newVerificaciones);
       } else {
         setRequestStatus({
           responseStatus: "error",
-          text: `Error al intentar agregar ${apiResponse.data.titulo} a verificaciones ${tipoVerificacion} `,
+          text: apiResponse.data.message,
           status: true,
         });
       }
@@ -74,20 +74,21 @@ export function useVerificaciones(idRamo) {
         id: idVerificacion,
       };
       const apiResponse = await addVerificacion(tipoVerificacion, newVerificacion);
+      console.log(apiResponse);
       if (apiResponse.status === 201) {
         setRequestStatus({
           responseStatus: "success",
-          text: `verificacion ${apiResponse.data.titulo} agregada a verificaciones ${tipoVerificacion} `,
+          text: apiResponse.data.message,
           status: true,
         });
-        const { verificacion, ...newVerificacion } = apiResponse.data;
+        const { verificacion, ...newVerificacion } = apiResponse.data.obj;
         const newVerificaciones = verificaciones;
         newVerificaciones.verificacionesExtras = [...verificaciones.verificacionesExtras, newVerificacion];
         setVerificaciones(newVerificaciones);
       } else {
         setRequestStatus({
           responseStatus: "error",
-          text: `Error al intentar agregar ${apiResponse.data.titulo} a verificaciones ${tipoVerificacion} `,
+          text: apiResponse.data.message,
           status: true,
         });
       }
@@ -97,10 +98,11 @@ export function useVerificaciones(idRamo) {
   const removeVerificacion = async (tipoVerificacion, idVerificacion) => {
     setRequestStatus({});
     const apiResponse = await deleteVerificacion(tipoVerificacion, idVerificacion);
+    console.log(apiResponse);
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
       if (tipoVerificacion === "criticas") {
@@ -119,7 +121,7 @@ export function useVerificaciones(idRamo) {
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
     }
@@ -136,6 +138,7 @@ export function useVerificaciones(idRamo) {
       descripcion: updatedVerif.descrip_verif,
     };
     const apiResponse = await updateVerificacion(tipoVerificacion, newVerificacion, idVerificacion, masterVerifId);
+    console.log(apiResponse);
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
@@ -145,13 +148,11 @@ export function useVerificaciones(idRamo) {
       const newVerificaciones = verificaciones;
       if (tipoVerificacion === "criticas") {
         const index = verificaciones.verificacionesCriticas.findIndex((verif) => verif.id === idVerificacion);
-        newVerificaciones.verificacionesCriticas[index].titulo = updatedVerif.title_verif;
-        newVerificaciones.verificacionesCriticas[index].descripcion = updatedVerif.descrip_verif;
+        newVerificaciones.verificacionesCriticas[index] = apiResponse.data.obj;
         setVerificaciones(newVerificaciones);
       } else {
         const index = verificaciones.verificacionesExtras.findIndex((verif) => verif.id === idVerificacion);
-        newVerificaciones.verificacionesExtras[index].titulo = updatedVerif.title_verif;
-        newVerificaciones.verificacionesExtras[index].descripcion = updatedVerif.descrip_verif;
+        newVerificaciones.verificacionesExtras[index] = apiResponse.data.obj;
         setVerificaciones(newVerificaciones);
       }
     } else {
@@ -186,14 +187,14 @@ export function useEventos(idRamo) {
     if (apiResponse.status === 201) {
       setRequestStatus({
         responseStatus: "success",
-        text: `Evento ${apiResponse.data.titulo} creado Satisfactoriamente`,
+        text: apiResponse.data.message,
         status: true,
       });
-      setEventos([...eventos, apiResponse.data]);
+      setEventos([...eventos, apiResponse.data.obj]);
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: `Error al intentar crear el evento : ${apiResponse.data.titulo}  `,
+        text: apiResponse.data.message,
         status: true,
       });
     }
@@ -205,24 +206,22 @@ export function useEventos(idRamo) {
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
       setEventos(eventos.filter((evento) => evento.id !== idEvento));
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
     }
-    // loadramo();
   };
 
   const modifyEvento = async (idEvento, updatedEvento) => {
     setRequestStatus({});
     const apiResponse = await updateEvento(idEvento, updatedEvento, idRamo);
-
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
@@ -231,7 +230,7 @@ export function useEventos(idRamo) {
       });
       const newEventos = eventos;
       const indexEvento = eventos.findIndex((evento) => evento.id === idEvento);
-      newEventos[indexEvento].titulo = updatedEvento;
+      newEventos[indexEvento] = apiResponse.data.obj;
       setEventos(newEventos);
     } else {
       setRequestStatus({
@@ -262,37 +261,36 @@ export function useSubtipos(idEvento) {
   const createSubtipo = async (newSubtipo, idEvento) => {
     setRequestStatus({});
     const apiResponse = await addSubtipo(newSubtipo, idEvento);
-
+    console.log(apiResponse);
     if (apiResponse.status === 201) {
       setRequestStatus({
         responseStatus: "success",
-        text: `subtipo ${apiResponse.data.titulo} creado Satisfactoriamente`,
+        text: apiResponse.data.message,
         status: true,
       });
-      setSubtipos([...subtipos, apiResponse.data]);
+      setSubtipos([...subtipos, apiResponse.data.obj]);
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: `Error al intentar crear el subtipo : ${apiResponse.data.titulo}  `,
+        text: apiResponse.data.message,
         status: true,
       });
     }
   };
-
   const removeSubtipo = async (idSubtipo) => {
     setRequestStatus({});
     const apiResponse = await deleteSubtipo(idSubtipo);
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
       setSubtipos(subtipos.filter((subtipo) => subtipo.id !== idSubtipo));
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
     }
@@ -309,7 +307,7 @@ export function useSubtipos(idEvento) {
       });
       const newSubtipos = subtipos;
       const indexSubtipo = subtipos.findIndex((subtipo) => subtipo.id === idSubtipo);
-      newSubtipos[indexSubtipo].titulo = updatedSubtipo;
+      newSubtipos[indexSubtipo] = apiResponse.data.obj;
       setSubtipos(newSubtipos);
     } else {
       setRequestStatus({
@@ -323,7 +321,6 @@ export function useSubtipos(idEvento) {
     setRequestStatus({});
     const subtipoToUpdate = { plantilla: updatedSubtipo, evento: idEvento };
     const apiResponse = await updateSubtipo(subtipoToUpdate, idSubtipo);
-    console.log(apiResponse);
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
@@ -332,7 +329,7 @@ export function useSubtipos(idEvento) {
       });
       const newSubtipos = subtipos;
       const indexSubtipo = subtipos.findIndex((subtipo) => subtipo.id === idSubtipo);
-      newSubtipos[indexSubtipo].plantilla = updatedSubtipo;
+      newSubtipos[indexSubtipo] = apiResponse.data.obj;
       setSubtipos(newSubtipos);
     } else {
       setRequestStatus({
@@ -367,14 +364,14 @@ export function useDocumentacion(idSubtipo) {
     if (apiResponse.status === 201) {
       setRequestStatus({
         responseStatus: "success",
-        text: `documento ${apiResponse.data.titulo} creado Satisfactoriamente`,
+        text: apiResponse.data.message,
         status: true,
       });
-      setDocumentacion([...documentacion, apiResponse.data]);
+      setDocumentacion([...documentacion, apiResponse.data.obj]);
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: `Error al intentar crear el documento : ${apiResponse.data.titulo}  `,
+        text: apiResponse.data.message,
         status: true,
       });
     }
@@ -385,14 +382,14 @@ export function useDocumentacion(idSubtipo) {
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
       setDocumentacion(documentacion.filter((documento) => documento.id !== idDocumento));
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
     }
@@ -409,7 +406,7 @@ export function useDocumentacion(idSubtipo) {
       });
       const newDocumentacion = documentacion;
       const indexDocumento = documentacion.findIndex((documento) => documento.id === idDocumento);
-      newDocumentacion[indexDocumento].titulo = updatedDocumento;
+      newDocumentacion[indexDocumento] = apiResponse.data.obj;
       setDocumentacion(newDocumentacion);
     } else {
       setRequestStatus({
@@ -452,14 +449,14 @@ export function useTipificaciones(idSubtipo) {
     if (apiResponse.status === 201) {
       setRequestStatus({
         responseStatus: "success",
-        text: `Tipificación ${apiResponse.data.titulo} creada Satisfactoriamente`,
+        text: apiResponse.data.message,
         status: true,
       });
-      setTipificaciones([...tipificaciones, apiResponse.data]);
+      setTipificaciones([...tipificaciones, apiResponse.data.obj]);
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: `Error al intentar crear la tipificación : ${apiResponse.data.titulo}  `,
+        text: apiResponse.data.message,
         status: true,
       });
     }
@@ -470,14 +467,14 @@ export function useTipificaciones(idSubtipo) {
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
       setTipificaciones(tipificaciones.filter((tipificacion) => tipificacion.id !== tipificacionId));
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
     }
@@ -502,11 +499,7 @@ export function useTipificaciones(idSubtipo) {
       });
       const newTipificaciones = tipificaciones;
       const indexTipificacion = tipificaciones.findIndex((tipificaion) => tipificaion.id === tipificacionID);
-      newTipificaciones[indexTipificacion].titulo = updatedTipificacion.titulo;
-      newTipificaciones[indexTipificacion].core = updatedTipificacion.core;
-      newTipificaciones[indexTipificacion].accion = updatedTipificacion.accion;
-      newTipificaciones[indexTipificacion].tipo_De_Resultado = updatedTipificacion.tipgesdesc;
-      newTipificaciones[indexTipificacion].subtipoSiniestro = updatedTipificacion.resgesdesc;
+      newTipificaciones[indexTipificacion] = apiResponse.data.obj;
       setTipificaciones(newTipificaciones);
     } else {
       setRequestStatus({
@@ -627,8 +620,8 @@ export function useTutorias(idRamo) {
 
   return { requestStatus, loading, tutorias, createTutoria, removeTutoria, modifyTutoria, updateFormularios };
 }
-export function useGeneralInfo(branch) {
-  const [currentBranch, setcurrentBranch] = useState(branch);
 
+export function useGeneralInfo(branch) {
+  // const [currentBranch, setcurrentBranch] = useState(branch);
   //Desde el container me traigo el currentBranch, establesco un estado local en este hook para poder actualizar la informacion que se va a renderizar en pantalla y al mismo tiempo pegarle a los endpoints que actualicen la base
 }

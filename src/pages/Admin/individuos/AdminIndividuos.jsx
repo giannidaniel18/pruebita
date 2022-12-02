@@ -1,10 +1,10 @@
-import { Grid, Stack, Typography } from "@mui/material";
 import React from "react";
+import { Grid, Stack, Typography } from "@mui/material";
+import ModuleCard from "components/common/ModuleCard";
+import BuildIcon from "@mui/icons-material/Build";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
-import ModuleCard from "../../../components/common/ModuleCard";
-import BuildIcon from "@mui/icons-material/Build";
 
 const modules = [
   {

@@ -11,7 +11,8 @@ export const getBranches = () => {
       return data;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 
@@ -22,11 +23,11 @@ export const getBranch = (id) => {
       headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "69420" },
     })
     .then((response) => {
-      const { data } = response;
-      return data;
+      return response;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 
@@ -62,18 +63,21 @@ export const deleteBranch = (idRamo) => {
       return response;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 
 export const updateBranch = (idRamo, dataToUpdate) => {
+  console.log(dataToUpdate);
   return axios
     .put(`${URL}/api/ramos/${idRamo}`, dataToUpdate)
     .then((response) => {
       return response;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 
@@ -104,7 +108,8 @@ export const getVerificacionesByRamo = (idRamo) => {
       return data;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 
@@ -179,7 +184,8 @@ export const getEventosByRamo = (idRamo) => {
       return data;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 
@@ -238,7 +244,8 @@ export const getSubtiposByEvento = (idEvento) => {
       return data;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 
@@ -293,7 +300,8 @@ export const getDocumentacionBySubtipo = (idSubtipo) => {
       return data;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 export const addDocumento = (newDocumento, idSubtipo) => {
@@ -345,7 +353,8 @@ export const getTipificacionesBySubtipo = (idSubtipo) => {
       return data;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 
@@ -398,7 +407,8 @@ export const getTutoriasByRamo = (idRamo) => {
       return data;
     })
     .catch((error) => {
-      return error;
+      const { response } = error;
+      return response;
     });
 };
 export const addTutoria = (newTutoria) => {

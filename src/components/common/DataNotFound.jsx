@@ -1,10 +1,10 @@
-import { Stack } from "@mui/material";
+import React from "react";
 import { useTheme } from "@mui/material/styles";
-import { ColorsPalette } from "../../config/ColorsPalette";
+import { ColorsPalette } from "config/ColorsPalette";
+
+import { Stack } from "@mui/material";
 
 import AddReactionIcon from "@mui/icons-material/AddReaction";
-
-import React from "react";
 
 export default function DataNotFound({ children }) {
   const theme = useTheme();

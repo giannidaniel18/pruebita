@@ -1,4 +1,9 @@
+//REACT FnC
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDrawerHandler } from "hooks/useDrawerHandler";
+import { useTutorias } from "hooks/useMangeRamo";
+// UI LIBRARY COMPONENTS
 import {
   Button,
   Grid,
@@ -11,21 +16,21 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { formsAndInfo } from "../../../../constants/variablesGlobales";
-import AdministracionTable from "../../../common/AdministracionTable";
-import TextImputControlSmall from "../../../common/TextImputControlSmall";
+// CUSTOM COMPONENTS
+import AdministracionTable from "components/common/AdministracionTable";
+import TextImputControlSmall from "components/common/TextImputControlSmall";
+import StatusSwitch from "components/common/StatusSwitch";
+import LoaderBasic from "components/common/LoaderBasic";
+import SnackBar from "components/common/SnackBar";
 import { AdminDrawerUpdate } from "../AdminDrawers";
-import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
-import { useTutorias } from "../../../../hooks/useMangeRamo";
-import LoaderBasic from "../../../common/LoaderBasic";
-import SnackBar from "../../../common/SnackBar";
-import StatusSwitch from "../../../common/StatusSwitch";
+//CONSTANTS
+import { formsAndInfo } from "constants/variablesGlobales";
 
 const FORMULARIOS_HEADERS = [
   { id: "form", titulo: "Formulario", cabecera: true },
   { id: "info", titulo: "Información solicitada" },
 ];
+
 const TUTORIA_HEADERS = [{ id: "tutoria", titulo: "tutorias", cabecera: true }];
 
 export default function UpdateTutorias({ idBranch }) {
@@ -131,6 +136,7 @@ function TutoriaTable({ tutoria, updateFormsFunc }) {
     const apiResponse = await updateFormsFunc(tutoria.id, idform, status);
     return apiResponse;
   };
+
   return (
     <Stack spacing={2}>
       <Typography variant="h4">{tutoria.titulo}</Typography>
@@ -176,18 +182,3 @@ function TutoriaTable({ tutoria, updateFormsFunc }) {
     </Stack>
   );
 }
-
-// function FormSwitch({ status, idform, handleUpdateTutoria }) {
-//   const [checked, setChecked] = React.useState(false);
-
-//   useEffect(() => {
-//     setChecked(status);
-//   }, [status]);
-
-//   const handleChange = async (e) => {
-//     await handleUpdateTutoria(idform, e.target.checked);
-//     setChecked(!checked);
-//   };
-
-//   return <Switch checked={checked} onChange={handleChange} />;
-// }

@@ -1,8 +1,9 @@
 import React from "react";
-import { Card, CardActionArea, CardContent, Divider, Icon, Stack, Typography } from "@mui/material";
-import { Link as ReactLink } from "react-router-dom";
+import { ColorsPalette } from "config/ColorsPalette";
 import { styled, useTheme } from "@mui/material/styles";
-import { ColorsPalette } from "../../config/ColorsPalette";
+import { Link as ReactLink } from "react-router-dom";
+import { Card, CardActionArea, CardContent, Divider, Icon, Stack, Typography } from "@mui/material";
+
 import ConstructionIcon from "@mui/icons-material/Construction";
 
 export default function ModuleCard({ title, text, icon, to, disabled }) {

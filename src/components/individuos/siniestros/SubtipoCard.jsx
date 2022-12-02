@@ -1,4 +1,8 @@
+//REACT and Func
 import React, { useState } from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import { ColorsPalette } from "config/ColorsPalette";
+//UI LIBRARY COMPONENTS
 import {
   Card,
   CardContent,
@@ -12,18 +16,16 @@ import {
   CardActions,
   Divider,
 } from "@mui/material";
+//CUSTOM COMPONENTS
+import TipificationTable from "./TipíficationTable";
+import { ViewerDrawerMarkDown } from "components/Admin/individuos/AdminDrawers";
+import DataNotFound from "components/common/DataNotFound";
+import NewInfoBadge from "components/common/NewInfoBadge";
+//ICONS
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import NoiseControlOffIcon from "@mui/icons-material/NoiseControlOff";
 import DownloadIcon from "@mui/icons-material/Download";
-import TipificationTable from "./TipíficationTable";
-import { styled, useTheme } from "@mui/material/styles";
-import { ColorsPalette } from "../../../config/ColorsPalette";
-
-import DataNotFound from "../../common/DataNotFound";
-
-import { ViewerDrawerMarkDown } from "../../Admin/individuos/AdminDrawers";
-import NewInfoBadge from "../../common/NewInfoBadge";
 
 export default function SubtipoCard({ subtipos }) {
   const [selectedSubtipo, setSelectedSubtipo] = useState(null);
@@ -45,13 +47,12 @@ export default function SubtipoCard({ subtipos }) {
             sx={{ justifyContent: "space-between", alignItems: "end", borderRadius: 2, padding: 1.5 }}
           >
             <Typography variant="overline" fontSize={14}>
-              <NewInfoBadge array={[...subtipo.documentacion, ...subtipo.tipificacion]}>
+              <NewInfoBadge array={subtipo.documentacion && [...subtipo.documentacion, ...subtipo.tipificacion]}>
                 Evento {subtipo.titulo}
               </NewInfoBadge>
             </Typography>
             <Box>{subtipo.id === selectedSubtipo ? <VisibilityIcon /> : <VisibilityOffIcon />}</Box>
           </Button>
-
           {subtipo.id === selectedSubtipo && <DocAndTipCard subtipo={subtipo} />}
         </Card>
       ))}
@@ -82,8 +83,7 @@ function DocAndTipCard({ subtipo }) {
   return (
     <Stack p={1} spacing={2}>
       <Divider />
-
-      {!subtipo.documentacion.length ? (
+      {!subtipo.documentacion ? (
         <DataNotFound>
           <Stack>
             <Typography px={2} variant="h5">
@@ -94,7 +94,6 @@ function DocAndTipCard({ subtipo }) {
       ) : (
         <CustomCard>
           <CustomCardHeader title="Documentacion a presentar" titleTypographyProps={{ variant: "h6" }} />
-
           <CardContent>
             <List>
               {subtipo.documentacion.map((doc) => (
@@ -115,7 +114,7 @@ function DocAndTipCard({ subtipo }) {
           </CardActions>
         </CustomCard>
       )}
-      {!subtipo.tipificacion.length ? (
+      {!subtipo.tipificacion ? (
         <DataNotFound>
           <Stack>
             <Typography px={2} variant="h5">
@@ -138,11 +137,6 @@ function DocAndTipCard({ subtipo }) {
           drawerVisibleMode={drawerVisibleMode}
           onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
         />
-        // <TextViewerDrawer
-        //   rawContent={subtipo.plantilla.contenido}
-        //   drawerVisibleMode={drawerVisibleMode}
-        //   onToggleDrawerVisibleMode={onToggleDrawerVisibleMode}
-        // />
       )}
     </Stack>
   );

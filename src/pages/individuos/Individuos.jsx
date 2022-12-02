@@ -30,7 +30,6 @@ const modules = [
 ];
 
 export default function Individuos() {
-  console.log("asdas");
   return (
     <Stack textAlign={"center"} alignItems={"center"} spacing={2}>
       <Typography variant="h3">Individuos</Typography>

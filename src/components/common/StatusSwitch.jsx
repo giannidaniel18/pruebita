@@ -12,8 +12,8 @@ export default function StatusSwitch({ idToUpdate, status, onChangeFunc }) {
 
   const handleChange = async (event) => {
     setLoading(true);
-    const apiResponse = await onChangeFunc(event.target.id, event.target.checked);
-    console.log(apiResponse);
+    await onChangeFunc(event.target.id, event.target.checked);
+
     setLoading(false);
   };
 

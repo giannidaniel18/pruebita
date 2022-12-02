@@ -1,7 +1,9 @@
 import React from "react";
-import { Stack } from "@mui/material";
 import { useTheme } from "@emotion/react";
+
+import { Stack } from "@mui/material";
 import { grey } from "@mui/material/colors";
+
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";

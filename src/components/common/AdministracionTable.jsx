@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+//UI LIBRARY COMPONENTS
 import {
   IconButton,
   Stack,
@@ -10,12 +11,14 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+//CUSTOM COMPONENTS
+import ConfirmationAlert from "./ConfirmationAlert";
+import DataNotFound from "./DataNotFound";
+//ICONS
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import ConfirmationAlert from "./ConfirmationAlert";
-import DataNotFound from "./DataNotFound";
 
 export default function AdministracionTable({
   headers,

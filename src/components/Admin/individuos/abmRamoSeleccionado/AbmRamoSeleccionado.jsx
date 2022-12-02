@@ -2,11 +2,12 @@ import { Divider, Stack, Typography } from "@mui/material";
 import FeedIcon from "@mui/icons-material/Feed";
 
 import React, { useState } from "react";
-import DataNotFound from "../../../common/DataNotFound";
+// import DataNotFound from "../../../common/DataNotFound";
 import UpdateEventos from "./UpdateEventos";
 import UpdateTutorias from "./UpdateTutorias";
 import UpdateVerificaciones from "./UpdateVerificaciones";
 import UpdateBranchTabs from "../UpdateBranchTabs";
+// import { useNavigate } from "react-router-dom";
 
 const TABARRAY = [
   { id: "AdminVerificaciones", label: "Administrar verificaciones", position: 0 },
@@ -16,20 +17,11 @@ const TABARRAY = [
 
 export default function AbmRamoSeleccionado({ branch }) {
   const [propiedadAmodificar, setPropiedadAmodificar] = useState(TABARRAY[0].position); //modificar a 0 antes de pasar a DEV
-
   const handleChangePropiedadAmodificar = (newIndex) => {
     setPropiedadAmodificar(newIndex);
   };
 
-  return !branch ? (
-    <DataNotFound>
-      <Stack>
-        <Typography px={2} variant="h5">
-          Ups! aparentemente ya no existe el ramo que acabas de seleccionar
-        </Typography>
-      </Stack>
-    </DataNotFound>
-  ) : (
+  return (
     <Stack spacing={2}>
       <Stack direction={"row"} alignItems="center" spacing={2}>
         <Typography variant="h3">Actualizando el ramo {branch.titulo}</Typography>

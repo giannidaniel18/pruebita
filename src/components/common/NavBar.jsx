@@ -1,25 +1,28 @@
+//REACT AND FUNCTIONS
 import React, { useEffect, useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
+import { ColorModeContext } from "config/ColorModeContextProvider";
+import { useTheme } from "@mui/material/styles";
 import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import { Link as ReactLink } from "react-router-dom";
+//ICONS
+import MenuIcon from "@mui/icons-material/Menu";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { useTheme } from "@mui/material/styles";
-import { ColorModeContext } from "../../config/ColorModeContextProvider";
-import { Link as ReactLink } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import StoreIcon from "@mui/icons-material/Store";
 import BusinessIcon from "@mui/icons-material/Business";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
+
 const usuario = { nombreUsuario: "admin", rol: "admin" };
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+// const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function NavBar() {
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [selectedNavItem, setSelectedNavItem] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
 
@@ -39,18 +42,18 @@ export default function NavBar() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
   const handleCloseNavMenu = (e) => {
     setSelectedNavItem(e.target.text);
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Box px={4} sx={{ paddingX: { xs: 0, sm: 5 } }}>
@@ -167,12 +170,12 @@ export default function NavBar() {
             <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
               {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Tooltip title="Usuario">
+              <IconButton sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" sx={{ width: 30, height: 30 }} />
               </IconButton>
             </Tooltip>
-            <Menu
+            {/* <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -193,7 +196,7 @@ export default function NavBar() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu> */}
           </Box>
         </Toolbar>
       </Box>

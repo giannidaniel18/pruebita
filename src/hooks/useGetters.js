@@ -8,7 +8,9 @@ export function useGetCurrentBranch(idRamo) {
   useEffect(() => {
     const fetchData = async () => {
       const apiResponse = await getBranch(idRamo);
-      setCurrentBranch(apiResponse);
+      if (apiResponse.status === 200) {
+        setCurrentBranch(apiResponse.data);
+      }
       setLoading(false);
     };
     fetchData();

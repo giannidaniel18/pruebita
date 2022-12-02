@@ -1,4 +1,10 @@
+//REACT and Hooks
 import React from "react";
+import { useForm } from "react-hook-form";
+import { useVerificaciones } from "hooks/useMangeRamo";
+import { useDrawerHandler } from "hooks/useDrawerHandler";
+import useConfirmation from "hooks/useConfirmation";
+// UI LIBRARY COMPONENTS
 import {
   Button,
   Grid,
@@ -12,18 +18,16 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import TextImputControlSmall from "../../../common/TextImputControlSmall";
+// CUSTOM COMPONENTS
+import TextImputControlSmall from "components/common/TextImputControlSmall";
+import DataNotFound from "components/common/DataNotFound";
+import { AdminDrawerUpdate } from "../AdminDrawers";
+import ConfirmationAlert from "components/common/ConfirmationAlert";
+import SnackBar from "components/common/SnackBar";
+import LoaderBasic from "components/common/LoaderBasic";
+//ICONS
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import { useForm } from "react-hook-form";
-import DataNotFound from "../../../common/DataNotFound";
-import { AdminDrawerUpdate } from "../AdminDrawers";
-import ConfirmationAlert from "../../../common/ConfirmationAlert";
-import { useVerificaciones } from "../../../../hooks/useMangeRamo";
-import SnackBar from "../../../common/SnackBar";
-import { useDrawerHandler } from "../../../../hooks/useDrawerHandler";
-import useConfirmation from "../../../../hooks/useConfirmation";
-import LoaderBasic from "../../../common/LoaderBasic";
 
 export default function UpdateVerificaciones({ idBranch, tipoVerificacion, title }) {
   const { control, handleSubmit, resetField } = useForm();
@@ -58,8 +62,8 @@ export default function UpdateVerificaciones({ idBranch, tipoVerificacion, title
               onDeleteVerificacion={onDeleteVerificacion}
               verificaciones={
                 tipoVerificacion === "criticas"
-                  ? verificaciones.verificacionesCriticas
-                  : verificaciones.verificacionesExtras
+                  ? verificaciones?.verificacionesCriticas
+                  : verificaciones?.verificacionesExtras
               }
               tipoVerificacion={tipoVerificacion}
               dataType={"Verificacion"}
