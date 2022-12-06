@@ -31,11 +31,9 @@ export const getBranch = (id) => {
     });
 };
 
-export const addBranch = ({ titulo }) => {
+export const addBranch = (newBranch) => {
   return axios
-    .post(`${URL}/api/ramos`, {
-      titulo,
-    })
+    .post(`${URL}/api/ramos`, newBranch)
     .then((response) => {
       return response;
     })
@@ -69,7 +67,6 @@ export const deleteBranch = (idRamo) => {
 };
 
 export const updateBranch = (idRamo, dataToUpdate) => {
-  console.log(dataToUpdate);
   return axios
     .put(`${URL}/api/ramos/${idRamo}`, dataToUpdate)
     .then((response) => {

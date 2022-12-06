@@ -146,3 +146,10 @@ export const defaultDrawerDataToHandle = {
   method: "",
   data: [],
 };
+
+export const ArrayNegocios = [
+  { value: "individuos", text: "individuos" },
+  { value: "empresas", text: "empresas" },
+  { value: "pymes", text: "pymes" },
+  { value: "colaboradores", text: "colaboradores" },
+];

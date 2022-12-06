@@ -24,6 +24,8 @@ import {
   deleteTutoria,
   updateTutoria,
   getVerificacionesByRamo,
+  updateBranch,
+  deleteBranch,
 } from "../services/ramosService";
 
 //------------------------------------VERIFICACIONES------------------------------------
@@ -622,6 +624,45 @@ export function useTutorias(idRamo) {
 }
 
 export function useGeneralInfo(branch) {
-  // const [currentBranch, setcurrentBranch] = useState(branch);
+  const [requestStatus, setRequestStatus] = useState({});
+  const [currentBranch, setCurrentBranch] = useState(branch);
   //Desde el container me traigo el currentBranch, establesco un estado local en este hook para poder actualizar la informacion que se va a renderizar en pantalla y al mismo tiempo pegarle a los endpoints que actualicen la base
+
+  const updateRamoNegocio = async (idRamo, negocio) => {
+    setRequestStatus({});
+    const dataToUpdate = { negocio: negocio };
+    const apiResponse = await updateBranch(idRamo, dataToUpdate);
+
+    if (apiResponse.status === 200) {
+      setRequestStatus({ responseStatus: "success", text: apiResponse.data.message, status: true });
+
+      setCurrentBranch(apiResponse.data.obj);
+    } else {
+      setRequestStatus({ responseStatus: "error", text: apiResponse.data.message, status: true });
+    }
+  };
+
+  const deleteRamo = async (idBranch) => {
+    setRequestStatus({});
+    const apiResponse = await deleteBranch(idBranch);
+    if (apiResponse.status === 200) {
+      setRequestStatus({ responseStatus: "success", text: apiResponse.data.message, status: true });
+    } else {
+      setRequestStatus({ responseStatus: "error", text: apiResponse.data.message, status: true });
+    }
+    return apiResponse;
+  };
+
+  const updateRamoTitulo = async (titulo) => {
+    setRequestStatus({});
+    const apiResponse = await updateBranch(branch.id, titulo);
+    if (apiResponse.status === 200) {
+      setRequestStatus({ responseStatus: "success", text: apiResponse.data.message, status: true });
+      setCurrentBranch(apiResponse.data.obj);
+    } else {
+      setRequestStatus({ responseStatus: "error", text: apiResponse.data.message, status: true });
+    }
+  };
+
+  return { currentBranch, requestStatus, updateRamoNegocio, deleteRamo, updateRamoTitulo };
 }

@@ -1,20 +1,25 @@
 import { Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useRamos } from "../../../../hooks/useRamos";
+import { useRamos } from "hooks/useRamos";
+import { ArrayNegocios } from "constants/variablesGlobales";
 
-import LoaderBasic from "../../../common/LoaderBasic";
-import SnackBar from "../../../common/SnackBar";
-import TextImputControlSmall from "../../../common/TextImputControlSmall";
+import CustomSelect from "components/common/CustomSelect";
+import LoaderBasic from "components/common/LoaderBasic";
+import SnackBar from "components/common/SnackBar";
+import TextImputControlSmall from "components/common/TextImputControlSmall";
 import TableAbmRamos from "./TableAbmRamos";
+import { useLocation } from "react-router-dom";
 
 export default function AbmRamosGeneral() {
   const { control, handleSubmit, resetField } = useForm();
   const { branches, loading, createRamo, requestStatus, updateRamo, deleteRamo, updateStatusRamo } = useRamos();
+  const { state } = useLocation();
 
   const onAddRamo = (data) => {
-    const newRamo = { titulo: data.titulo_ramo };
+    const newRamo = { titulo: data.titulo_ramo, negocio: data.negocio };
     createRamo(newRamo);
     resetField("titulo_ramo");
+    resetField("negocio");
   };
   const onUpdateRamo = (idBranch, updatedBranch) => {
     updateRamo(idBranch, updatedBranch);
@@ -44,11 +49,14 @@ export default function AbmRamosGeneral() {
             <Typography variant="h6"> Agrega un nuevo ramo</Typography>
             <Paper>
               <form onSubmit={handleSubmit(onAddRamo)}>
-                <Grid container spacing={2} alignItems="center" textAlign="end" p={2}>
-                  <Grid item xs={12} sm={7}>
+                <Grid container spacing={2} alignItems="center" p={2}>
+                  <Grid item xs={12} sm={6}>
                     <TextImputControlSmall control={control} name="titulo_ramo" label="Nombre del ramo a crear" />
                   </Grid>
-                  <Grid item xs={12} sm={5}>
+                  <Grid item xs={12} sm={3}>
+                    <CustomSelect control={control} name="negocio" optionArray={ArrayNegocios} />
+                  </Grid>
+                  <Grid item xs={12} sm={3} textAlign="end">
                     <Button variant="outlined" type="submit">
                       Agregar +
                     </Button>
@@ -59,7 +67,8 @@ export default function AbmRamosGeneral() {
           </Stack>
         </>
       )}
-      {requestStatus.status && <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} />}
+      {requestStatus?.status && <SnackBar title={requestStatus.text} severity={requestStatus.responseStatus} />}
+      {state?.status && <SnackBar title={state.text} severity={state.responseStatus} />}
     </Stack>
   );
 }

@@ -18,7 +18,6 @@ export function useRamos() {
   const createRamo = async (newRamo) => {
     setRequestStatus({});
     const apiResponse = await addBranch(newRamo);
-
     if (apiResponse.status === 201) {
       const setUpVerif = await startUpVerificacion(apiResponse.data.obj.id);
       if (setUpVerif.status === 201) {
