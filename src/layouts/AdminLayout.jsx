@@ -9,11 +9,16 @@ import {
   List,
   ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
+import DesignServicesIcon from "@mui/icons-material/DesignServices";
 
 import { Link as ReactLink, Outlet } from "react-router-dom";
 
@@ -21,12 +26,30 @@ const drawerWidth = 180;
 
 function AdminLayout(props) {
   const { window } = props;
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const modulos = [
-    { text: "individuos", path: "individuos " },
-    // { text: "Empresas", path: "empresas" },
-    // { text: "Pymes", path: "pymes" },
+    {
+      text: "Ramos",
+      path: "abmramos",
+      icon: <DesignServicesIcon fontSize="medium" />,
+      disabled: false,
+      tooltip: "Administracion de Ramos",
+    },
+    {
+      text: "Cotizadores",
+      path: "abmcotizadores",
+      icon: <CalculateOutlinedIcon fontSize="medium" />,
+      disabled: true,
+      tooltip: "Administracion de consultas",
+    },
+    {
+      text: "Consultas",
+      path: "abmconsultas",
+      icon: <AutoStoriesOutlinedIcon fontSize="medium" />,
+      disabled: true,
+      tooltip: "Administracion de cotizadores",
+    },
     // { text: "Especialistas", path: "especialistas" },
     // { text: "Usuarios", path: "usuarios" },
   ];
@@ -44,14 +67,18 @@ function AdminLayout(props) {
       <List>
         {modulos.map((modulo, index) => (
           <ListItem key={modulo.text} disablePadding>
-            <ListItemButton
-              component={ReactLink}
-              to={`${modulo.path}`}
-              selected={selectedOption === index}
-              onClick={(e) => handleSelectedOption(e, index)}
-            >
-              <ListItemText value={modulo.text} primary={modulo.text} />
-            </ListItemButton>
+            <Tooltip title={modulo.tooltip}>
+              <ListItemButton
+                component={ReactLink}
+                to={`${modulo.path}`}
+                disabled={modulo.disabled}
+                selected={selectedOption === index}
+                onClick={(e) => handleSelectedOption(e, index)}
+              >
+                <ListItemIcon>{modulo.icon}</ListItemIcon>
+                <ListItemText value={modulo.text} primary={modulo.text} />
+              </ListItemButton>
+            </Tooltip>
           </ListItem>
         ))}
       </List>

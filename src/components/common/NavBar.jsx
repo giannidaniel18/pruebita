@@ -36,7 +36,7 @@ export default function NavBar() {
     { text: "Empresas", path: "/empresas", display: null, icon: <BusinessIcon /> },
     { text: "Pymes", path: "/pymes", display: null, icon: <StoreIcon /> },
     { text: "Especialistas", path: "/especialistas", display: null, icon: <SupportAgentIcon /> },
-    { text: "Administracion", path: "/admin", display: isAdmin, icon: <SettingsSuggestIcon /> },
+    { text: "Administracion", path: "/admin/abmramos", display: isAdmin, icon: <SettingsSuggestIcon /> },
   ];
 
   const handleOpenNavMenu = (event) => {

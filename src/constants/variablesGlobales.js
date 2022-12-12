@@ -79,8 +79,7 @@ export const welcomePagesData = [
   {
     id: "admin",
     titulo: "Administración",
-    subtitulo:
-      "Selecciona la sección de cliente que deseas administrar para luego obtener un listado de funcionalidades de administración",
+    subtitulo: "Selecciona el modulo que deseas administrar",
   },
 ];
 export const formsAndInfo = [
@@ -146,7 +145,6 @@ export const defaultDrawerDataToHandle = {
   method: "",
   data: [],
 };
-
 export const ArrayNegocios = [
   { value: "individuos", text: "individuos" },
   { value: "empresas", text: "empresas" },
