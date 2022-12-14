@@ -60,7 +60,7 @@ export default function UpdateGeneralInfo({ branch }) {
   const handleRemoveRamo = async () => {
     const resp = await deleteRamo(currentBranch.id);
     const requestStatus = { responseStatus: "success", text: resp.data.message, status: true };
-    navigate("/admin/abmramos", { state: requestStatus });
+    navigate("/abmramos", { state: requestStatus });
   };
 
   // Watch es una funcion de RHF que espia el valor del inputName que le pasas en el primer parametro,

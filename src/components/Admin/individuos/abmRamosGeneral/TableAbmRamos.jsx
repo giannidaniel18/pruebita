@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { format, parseISO } from "date-fns";
 import PropTypes from "prop-types";
 import { visuallyHidden } from "@mui/utils";
-import { format, parseISO } from "date-fns";
-import { Link as ReactLink } from "react-router-dom";
 import {
   Box,
   Table,
@@ -16,11 +17,14 @@ import {
   Typography,
   IconButton,
   Stack,
+  Button,
 } from "@mui/material";
-
 import StatusSwitch from "components/common/StatusSwitch";
 import SnackBar from "components/common/SnackBar";
 import SettingsIcon from "@mui/icons-material/Settings";
+import TextImputControlSmall from "components/common/TextImputControlSmall";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import BackspaceIcon from "@mui/icons-material/Backspace";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -154,6 +158,12 @@ export default function TableAbmRamos({ branches, onUpdateRamoStatus, requestSta
   const [orderBy, setOrderBy] = useState("titulo_Ramo");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [filteredBranches, SetFilteredBranches] = useState(branches);
+  const { control, resetField } = useForm();
+
+  useEffect(() => {
+    SetFilteredBranches(branches);
+  }, [branches]);
 
   const handleChangeStatusBranch = async (branchId, newStatus) => {
     const newState = { estado: newStatus };
@@ -161,7 +171,7 @@ export default function TableAbmRamos({ branches, onUpdateRamoStatus, requestSta
     return enpdointResponse;
   };
 
-  const rows = branches.map((ramo) =>
+  const rows = filteredBranches.map((ramo) =>
     createData(
       ramo.id,
       ramo.titulo,
@@ -189,6 +199,22 @@ export default function TableAbmRamos({ branches, onUpdateRamoStatus, requestSta
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleFilterByTitle = (e) => {
+    const texto = e.target.value.toLowerCase();
+    let newArrayofBranches = [];
+
+    for (let branch of branches) {
+      let titulo = branch.titulo.toLowerCase();
+      if (titulo.indexOf(texto) !== -1) {
+        newArrayofBranches = [...newArrayofBranches, branch];
+      }
+    }
+    SetFilteredBranches(newArrayofBranches);
+  };
+  const HandleClearFilter = () => {
+    resetField("titulo_ramo");
+    SetFilteredBranches(branches);
+  };
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -202,37 +228,55 @@ export default function TableAbmRamos({ branches, onUpdateRamoStatus, requestSta
       <Typography variant="h5" py={3}>
         Administración de Ramos
       </Typography>
+      <Stack spacing={2}>
+        <Box id="boxFilter">
+          <Stack direction="row" alignItems={"center"} spacing={1} flex={1}>
+            <ManageSearchIcon />
+            <Typography variant="overline">Filtrar por titulo del ramo </Typography>
+          </Stack>
+          <Stack direction={"row"} spacing={2}>
+            <Box width={500}>
+              <form onChange={handleFilterByTitle}>
+                <TextImputControlSmall control={control} name="titulo_ramo" label="Buscar Ramo" />
+              </form>
+            </Box>
+            <Button endIcon={<BackspaceIcon />} onClick={HandleClearFilter}>
+              Limpiar
+            </Button>
+          </Stack>
+        </Box>
 
-      <TableContainer>
-        <Table aria-labelledby="tableTitle" size={"small"}>
-          <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
-          <TableBody>
-            {stableSort(rows, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                    <TableCell component="th" scope="row">
-                      {row.titulo_Ramo}
-                    </TableCell>
-                    <TableCell align="left">{format(parseISO(row.fechaCreacion), "dd/MM/yyyy")}</TableCell>
-                    <TableCell align="left">{format(parseISO(row.fechaModificacion), "dd/MM/yyyy")}</TableCell>
-                    <TableCell align="left">{row.negocio}</TableCell>
-                    <TableCell align="center" width={5}>
-                      {row.editar}
-                    </TableCell>
-                    <TableCell align="center">{row.estado}</TableCell>
-                  </TableRow>
-                );
-              })}
-            {emptyRows > 0 && (
-              <TableRow>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        <TableContainer>
+          <Table aria-labelledby="tableTitle" size={"small"}>
+            <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+            <TableBody>
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                      <TableCell component="th" scope="row">
+                        {row.titulo_Ramo}
+                      </TableCell>
+                      <TableCell align="left">{format(parseISO(row.fechaCreacion), "dd/MM/yyyy")}</TableCell>
+                      <TableCell align="left">{format(parseISO(row.fechaModificacion), "dd/MM/yyyy")}</TableCell>
+                      <TableCell align="left">{row.negocio}</TableCell>
+                      <TableCell align="center" width={5}>
+                        {row.editar}
+                      </TableCell>
+                      <TableCell align="center">{row.estado}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Stack>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"

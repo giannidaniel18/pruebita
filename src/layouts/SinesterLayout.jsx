@@ -21,7 +21,7 @@ import { useRamos } from "../hooks/useRamos";
 
 const drawerWidth = 230;
 
-export default function SinesterLayout() {
+export default function SinesterLayout({ negocio }) {
   const { branches } = useRamos();
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -41,6 +41,7 @@ export default function SinesterLayout() {
       <List>
         {branches
           .filter((ramoActivo) => ramoActivo.estado)
+          .filter((ramo) => ramo.negocio === negocio) //ver como filtrar aca por individuos dependiendo de la ruta
           .map((ramo) => (
             <ListItem key={ramo.id} disablePadding>
               <ListItemButton

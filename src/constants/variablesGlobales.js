@@ -72,7 +72,7 @@ export const defaultTutoria = {
 
 export const welcomePagesData = [
   {
-    id: "individuosSiniestros",
+    id: "siniestros",
     titulo: "Siniestros",
     subtitulo: "Selecciona un ramo en el menú lateral para ver la información del mismo",
   },
@@ -149,5 +149,5 @@ export const ArrayNegocios = [
   { value: "individuos", text: "individuos" },
   { value: "empresas", text: "empresas" },
   { value: "pymes", text: "pymes" },
-  { value: "colaboradores", text: "colaboradores" },
+  { value: "especialistas", text: "especialistas" },
 ];

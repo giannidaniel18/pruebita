@@ -20,18 +20,18 @@ import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 
-import { Link as ReactLink, Outlet } from "react-router-dom";
+import { Link as ReactLink } from "react-router-dom";
 
 const drawerWidth = 180;
 
 function AdminLayout(props) {
-  const { window } = props;
+  // const { window } = props;
   const [selectedOption, setSelectedOption] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const modulos = [
     {
       text: "Ramos",
-      path: "abmramos",
+      path: "/abmramos",
       icon: <DesignServicesIcon fontSize="medium" />,
       disabled: false,
       tooltip: "Administracion de Ramos",
@@ -85,7 +85,7 @@ function AdminLayout(props) {
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  // const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -117,7 +117,7 @@ function AdminLayout(props) {
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
-          container={container}
+          // container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
@@ -157,7 +157,8 @@ function AdminLayout(props) {
           width: { xs: "100vw", sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <Outlet />
+        {props.children}
+        {/* <Outlet /> */}
       </Box>
     </Box>
   );
