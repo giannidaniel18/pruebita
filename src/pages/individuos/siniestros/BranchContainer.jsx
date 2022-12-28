@@ -9,6 +9,8 @@ export default function BranchContainer() {
   const { selectedbranch } = useParams();
   const { loading, currentBranch } = useGetCurrentBranch(selectedbranch);
 
+  console.log(currentBranch);
+
   return loading ? (
     <LoaderBasic />
   ) : (

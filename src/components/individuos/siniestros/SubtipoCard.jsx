@@ -83,7 +83,7 @@ function DocAndTipCard({ subtipo }) {
   return (
     <Stack p={1} spacing={2}>
       <Divider />
-      {!subtipo.documentacion ? (
+      {!subtipo.documentacion.length ? (
         <DataNotFound>
           <Stack>
             <Typography px={2} variant="h5">
@@ -114,7 +114,7 @@ function DocAndTipCard({ subtipo }) {
           </CardActions>
         </CustomCard>
       )}
-      {!subtipo.tipificacion ? (
+      {!subtipo.tipificacion.length ? (
         <DataNotFound>
           <Stack>
             <Typography px={2} variant="h5">

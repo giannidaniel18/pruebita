@@ -15,7 +15,7 @@ export default function NewInfoBadge({ children, array = [] }) {
     },
   }));
 
-  return newDate >= -2 ? (
+  return newDate >= -1 ? (
     <StyledBadge color="primary" variant="dot">
       {children}
     </StyledBadge>

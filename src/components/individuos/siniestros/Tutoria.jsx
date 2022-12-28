@@ -23,12 +23,11 @@ export default function Tutoria({ formularios = ["PolizaBasic"], tituloTutoria =
   const onSubmit = (data) => {
     //aca va el copy to clipboard
     navigator.clipboard.writeText(JSON.stringify(data, null, 2).toString());
+    alert("Tutoria copiada");
   };
-
   const onHandleChange = (data) => {
     setCharacterLength(JSON.stringify(data).length);
   };
-
   const formsMapping = [
     { idform: "PolizaBasic", componente: <PolizaBasic control={control} /> },
     {
@@ -61,7 +60,12 @@ export default function Tutoria({ formularios = ["PolizaBasic"], tituloTutoria =
     },
     {
       idform: "DescripcionDelHechoExtended",
-      componente: <DescripcionDelHechoExtended control={control} />,
+      componente: (
+        <DescripcionDelHechoExtended
+          control={control}
+          tiposDeSiniestros={["Cristales", "Perdida de alimentos por falta de frio"]}
+        />
+      ),
     },
     {
       idform: "ObservacionesFinalesBasic",
@@ -72,9 +76,7 @@ export default function Tutoria({ formularios = ["PolizaBasic"], tituloTutoria =
       componente: <ObservacionesFinalesExtended control={control} />,
     },
   ];
-
   const mapeo = formsMapping.filter((item) => formularios.includes(item.idform));
-
   const formulariosArenderizar = mapeo.map((form) => (
     <Grid key={form.idform} item xs={12}>
       {form.componente}

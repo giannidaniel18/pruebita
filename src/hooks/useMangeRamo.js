@@ -539,7 +539,8 @@ export function useTutorias(idRamo) {
         text: `Tututoria ${apiResponse.data.titulo} creada Satisfactoriamente`,
         status: true,
       });
-      setTutorias([...tutorias, apiResponse.data]);
+
+      setTutorias([...tutorias, apiResponse.data.obj]);
     } else {
       setRequestStatus({
         responseStatus: "error",
@@ -551,17 +552,18 @@ export function useTutorias(idRamo) {
   const removeTutoria = async (idTutoria) => {
     setRequestStatus({});
     const apiResponse = await deleteTutoria(idTutoria);
+    console.log(apiResponse);
     if (apiResponse.status === 200) {
       setRequestStatus({
         responseStatus: "success",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
       setTutorias(tutorias.filter((tutoria) => tutoria.id !== idTutoria));
     } else {
       setRequestStatus({
         responseStatus: "error",
-        text: apiResponse.data,
+        text: apiResponse.data.message,
         status: true,
       });
     }
@@ -656,6 +658,7 @@ export function useGeneralInfo(branch) {
   const updateRamoTitulo = async (titulo) => {
     setRequestStatus({});
     const apiResponse = await updateBranch(branch.id, titulo);
+    console.log(apiResponse);
     if (apiResponse.status === 200) {
       setRequestStatus({ responseStatus: "success", text: apiResponse.data.message, status: true });
       setCurrentBranch(apiResponse.data.obj);

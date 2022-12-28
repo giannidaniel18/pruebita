@@ -181,27 +181,36 @@ function DocumentacionTipificacion({ eventos }) {
 
   return (
     <Stack spacing={2}>
-      <Typography variant="h4" component="div">
-        Documentación a presentar y tipificación
-      </Typography>
-      <Typography variant="subtitle1">
-        Para ver la documentación y tipificación de cada evento, presiona el botón{" "}
-        <VisibilityIcon sx={{ verticalAlign: "top" }} />
-      </Typography>
+      {!eventos.length ? (
+        <DataNotFound>
+          <Typography px={2} variant="h5">
+            No existen eventos Creados para el Ramo actual
+          </Typography>
+        </DataNotFound>
+      ) : (
+        <>
+          <Typography variant="h4" component="div">
+            Documentación a presentar y tipificación
+          </Typography>
+          <Typography variant="subtitle1">
+            Para ver la documentación y tipificación de cada evento, presiona el botón{" "}
+            <VisibilityIcon sx={{ verticalAlign: "top" }} />
+          </Typography>
 
-      <Stack spacing={1}>
-        <DocumentationTab eventos={eventos} handleChangeEvento={handleChangeEvento} initialValue={initialValue} />
-        {!selectedEventTab?.subtiposSiniestro?.length ? (
-          <DataNotFound>
-            <Typography px={2} variant="body">
-              No existen subtipos creados para el Evento actual, ponete en contacto con mejora continua para nutrir de
-              información esta sección
-            </Typography>
-          </DataNotFound>
-        ) : (
-          <SubtipoCard subtipos={selectedEventTab.subtiposSiniestro} />
-        )}
-      </Stack>
+          <Stack spacing={1}>
+            <DocumentationTab eventos={eventos} handleChangeEvento={handleChangeEvento} initialValue={initialValue} />
+            {!selectedEventTab?.subtiposSiniestro?.length ? (
+              <DataNotFound>
+                <Typography px={2} variant="h5">
+                  No existen Subtipos creados para el evento actual
+                </Typography>
+              </DataNotFound>
+            ) : (
+              <SubtipoCard subtipos={selectedEventTab.subtiposSiniestro} />
+            )}
+          </Stack>
+        </>
+      )}
     </Stack>
   );
 }
