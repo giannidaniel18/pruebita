@@ -16,7 +16,7 @@ import useConfirmation from "hooks/useConfirmation";
 import ConfirmationAlert from "components/common/ConfirmationAlert";
 
 export default function UpdateGeneralInfo({ branch }) {
-  const { currentBranch, updateRamoNegocio, requestStatus, deleteRamo, updateRamoTitulo } = useGeneralInfo(branch);
+  const { currentBranch, updateRamo, requestStatus, deleteRamo } = useGeneralInfo(branch);
   const { dataToConfirm, handleConfirmation, resetDataToConfirm } = useConfirmation();
   const { control, handleSubmit, watch } = useForm();
   const navigate = useNavigate();
@@ -38,10 +38,10 @@ export default function UpdateGeneralInfo({ branch }) {
   };
 
   const handleUpdateTitulo = (updatedRamo) => {
-    updateRamoTitulo(updatedRamo);
+    updateRamo("titulo", updatedRamo.titulo);
   };
   const handleUpdateNegocio = (data) => {
-    updateRamoNegocio(branch.id, data.negocio);
+    updateRamo("negocio", data.negocio);
   };
 
   //ELIMINACION DEL RAMO
@@ -58,7 +58,7 @@ export default function UpdateGeneralInfo({ branch }) {
     resetDataToConfirm({});
   };
   const handleRemoveRamo = async () => {
-    const resp = await deleteRamo(currentBranch.id);
+    const resp = await deleteRamo();
     const requestStatus = { responseStatus: "success", text: resp.data.message, status: true };
     navigate("/abmramos", { state: requestStatus });
   };

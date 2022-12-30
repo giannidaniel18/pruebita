@@ -10,8 +10,7 @@ export function useRamos() {
   useEffect(() => {
     const fetchData = async () => {
       const apiResponse = await startRequest("get", "/api/ramos", "", false);
-
-      setBranches(apiResponse);
+      setBranches(apiResponse.data);
       setLoading(false);
     };
     fetchData();
@@ -19,17 +18,23 @@ export function useRamos() {
 
   const createRamo = async (newRamo) => {
     const apiResponse = await startRequest("post", "/api/ramos", newRamo, true);
-    // const createdRamo = { ramo: apiResponse.obj.id };
-    // await startRequest("post", "/api/verificacion", createdRamo, false);
-    await setBranches([...branches, apiResponse.obj]);
+    console.log(apiResponse);
+    if (apiResponse.ok) {
+      const createdRamo = { ramo: apiResponse.data.obj.id };
+      await startRequest("post", "/api/verificacion", createdRamo, true);
+      await setBranches([...branches, apiResponse.data.obj]);
+    }
   };
 
   const updateStatusRamo = async (idRamo, newState) => {
     const apiResponse = await startRequest("put", "/api/ramos/" + idRamo, newState, true);
-    const newBranches = branches;
-    const indexBranch = branches.findIndex((branch) => branch.id === idRamo);
-    newBranches[indexBranch] = apiResponse.obj;
-    return apiResponse;
+    if (apiResponse.ok) {
+      const newBranches = branches;
+      const indexBranch = branches.findIndex((branch) => branch.id === idRamo);
+      newBranches[indexBranch] = apiResponse.data.obj;
+      console.log(apiResponse);
+      return apiResponse;
+    }
   };
 
   return { loading, branches, createRamo, requestStatus, updateStatusRamo };
