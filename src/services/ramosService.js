@@ -15,7 +15,6 @@ export const getBranches = () => {
       return response;
     });
 };
-
 export const getBranch = (id) => {
   const getCurrentBranchURL = `${URL}/api/ramos/${id}`;
   return axios
@@ -30,7 +29,6 @@ export const getBranch = (id) => {
       return response;
     });
 };
-
 export const addBranch = (newBranch) => {
   return axios
     .post(`${URL}/api/ramos`, newBranch)
@@ -53,7 +51,6 @@ export const addBranch = (newBranch) => {
   //   console.log(response);
   //   return response;
 };
-
 export const deleteBranch = (idRamo) => {
   return axios
     .delete(`${URL}/api/ramos/${idRamo}`)
@@ -65,7 +62,6 @@ export const deleteBranch = (idRamo) => {
       return response;
     });
 };
-
 export const updateBranch = (idRamo, dataToUpdate) => {
   return axios
     .put(`${URL}/api/ramos/${idRamo}`, dataToUpdate)
@@ -77,7 +73,6 @@ export const updateBranch = (idRamo, dataToUpdate) => {
       return response;
     });
 };
-
 export const startUpVerificacion = (idRamo) => {
   return axios
     .post(`${URL}/api/verificacion`, {
@@ -109,7 +104,6 @@ export const getVerificacionesByRamo = (idRamo) => {
       return response;
     });
 };
-
 export const addVerificacion = (tipoVerificacion, verificacion) => {
   return axios
     .post(`${URL}/api/verificaciones${tipoVerificacion}`, {
@@ -125,7 +119,6 @@ export const addVerificacion = (tipoVerificacion, verificacion) => {
       return response;
     });
 };
-
 export const deleteVerificacion = (tipoVerificacion, idVerificacion) => {
   return axios
     .delete(`${URL}/api/verificaciones${tipoVerificacion}/${idVerificacion}`, {})
@@ -137,7 +130,6 @@ export const deleteVerificacion = (tipoVerificacion, idVerificacion) => {
       return response;
     });
 };
-
 export const updateVerificacion = (tipoVerificacion, updatedVerif, idVerificacion, masterVerifId) => {
   return axios
     .put(`${URL}/api/verificaciones${tipoVerificacion}/${idVerificacion}`, {
@@ -185,7 +177,6 @@ export const getEventosByRamo = (idRamo) => {
       return response;
     });
 };
-
 export const addEvento = (newEvento, idBranch) => {
   return axios
     .post(`${URL}/api/eventos`, {
@@ -200,7 +191,6 @@ export const addEvento = (newEvento, idBranch) => {
       return response;
     });
 };
-
 export const deleteEvento = (idEvento) => {
   return axios
     .delete(`${URL}/api/eventos/${idEvento}`, {})
@@ -212,7 +202,6 @@ export const deleteEvento = (idEvento) => {
       return response;
     });
 };
-
 export const updateEvento = (idEvento, updatedEvento, idBranch) => {
   return axios
     .put(`${URL}/api/eventos/${idEvento}`, {
@@ -245,7 +234,6 @@ export const getSubtiposByEvento = (idEvento) => {
       return response;
     });
 };
-
 export const addSubtipo = (newSubtipo, idEvento) => {
   return axios
     .post(`${URL}/api/subtiposiniestro`, {
@@ -354,7 +342,6 @@ export const getTipificacionesBySubtipo = (idSubtipo) => {
       return response;
     });
 };
-
 export const addTipificacion = (newTipificacion) => {
   return axios
     .post(`${URL}/api/tipificacion`, newTipificacion)
@@ -366,7 +353,6 @@ export const addTipificacion = (newTipificacion) => {
       return response;
     });
 };
-
 export const deleteTipificacion = (idTipificacion) => {
   return axios
     .delete(`${URL}/api/tipificacion/${idTipificacion}`)
@@ -378,7 +364,6 @@ export const deleteTipificacion = (idTipificacion) => {
       return response;
     });
 };
-
 export const updateTipificacion = (updatedTipificacion, idTipificacion) => {
   return axios
     .put(`${URL}/api/tipificacion/${idTipificacion}`, updatedTipificacion)

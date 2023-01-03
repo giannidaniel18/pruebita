@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { getBranch } from "../services/ramosService";
+import useFetch from "./useFetch";
 
 export function useGetCurrentBranch(idRamo) {
   const [loading, setLoading] = useState(true);
   const [currentBranch, setCurrentBranch] = useState({});
+  const { startRequest } = useFetch();
 
   useEffect(() => {
     const fetchData = async () => {
-      const apiResponse = await getBranch(idRamo);
-      if (apiResponse.status === 200) {
+      const apiResponse = await startRequest("get", `/api/ramos/${idRamo}`, "", false);
+      if (apiResponse.ok) {
         setCurrentBranch(apiResponse.data);
       }
       setLoading(false);

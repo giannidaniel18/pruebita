@@ -7,7 +7,6 @@ export default function useFetch() {
   const [requestStatus, setRequestStatus] = useState({});
 
   const startRequest = (method, url, payload, updateRequestStatus) => {
-    console.log(payload);
     setRequestStatus({});
     return axios({
       method: method,
@@ -17,13 +16,11 @@ export default function useFetch() {
     })
       .then((response) => {
         const { data } = response;
-        console.log("🚀 ~ file: useFetch.js:20 ~ .then ~ data", data);
         setRequestStatus({ responseStatus: "success", text: data.message, status: updateRequestStatus });
         return { data, ok: true };
       })
       .catch((error) => {
         const { data } = error.response;
-        console.log("🚀 ~ file: useFetch.js:26 ~ startRequest ~ data", data);
         setRequestStatus({ responseStatus: "error", text: data.message, status: updateRequestStatus });
         return { data, ok: false };
       });
