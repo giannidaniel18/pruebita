@@ -14,8 +14,9 @@ import BusinessIcon from "@mui/icons-material/Business";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
+import { useUserContext } from "context/UserContext";
 
-const usuario = { nombreUsuario: "admin", rol: "admin" };
+// const usuario = { nombreUsuario: "admin", rol: "admin" };
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function NavBar() {
@@ -25,11 +26,12 @@ export default function NavBar() {
   // const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [selectedNavItem, setSelectedNavItem] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
+  const { currentUser } = useUserContext();
 
   //Esto se deberia reemplazar por el contexto del usuario
   useEffect(() => {
-    usuario.rol === "admin" ? setIsAdmin(null) : setIsAdmin("none");
-  }, []);
+    currentUser.group === "Admin" ? setIsAdmin(null) : setIsAdmin("none");
+  }, [currentUser]);
 
   const pages = [
     { text: "Individuos", path: "/individuos", display: null, icon: <PersonIcon /> },
@@ -170,9 +172,9 @@ export default function NavBar() {
             <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
               {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
-            <Tooltip title="Usuario">
+            <Tooltip title={currentUser.userName}>
               <IconButton sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" sx={{ width: 30, height: 30 }} />
+                <Avatar alt="Remy Sharp" src={currentUser.avatar} sx={{ width: 30, height: 30 }} />
               </IconButton>
             </Tooltip>
             {/* <Menu
