@@ -15,9 +15,14 @@ import BranchContainer from "../pages/individuos/siniestros/BranchContainer";
 import AbmRamosGeneralContainer from "../pages/Admin/individuos/AbmRamosGeneralContainer";
 import AbmRamoSeleccionadoContainer from "../pages/Admin/individuos/AbmRamoSeleccionadoContainer";
 import WelcomePage from "../pages/WelcomePage";
+import { useUserContext } from "context/UserContext";
+import DataNotFound from "components/common/DataNotFound";
+import { Typography } from "@mui/material";
 // import BuildingPage from "../pages/BuildingPage";
 
 export default function HomeRoutes() {
+  const { currentUser } = useUserContext();
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -51,10 +56,54 @@ export default function HomeRoutes() {
       {/* <Route path="" element={<WelcomePage idWelcome="admin" />} /> */}
       {/* <Route path="individuos" element={<AdminIndividuos />} /> */}
       {/* <Route path="usuarios" element={<AdminUsuarios />} /> */}
-      <Route path="/abmramos" element={<AbmRamosGeneralContainer />} />
-      <Route path="/abmramos/:selectedbranch" element={<AbmRamoSeleccionadoContainer />} />
-      <Route path="/abmCotizadores" element={<WelcomePage idWelcome="admin" />} />
-      <Route path="/abmconsultas" element={<WelcomePage idWelcome="admin" />} />
+      <Route
+        path="/abmramos"
+        element={
+          currentUser.group === "Admin" ? (
+            <AbmRamosGeneralContainer />
+          ) : (
+            <DataNotFound>
+              <Typography variant="h5">No tienes permisos suficientes para acceder a esta sección</Typography>{" "}
+            </DataNotFound>
+          )
+        }
+      />
+      <Route
+        path="/abmramos/:selectedbranch"
+        element={
+          currentUser.group === "Admin" ? (
+            <AbmRamoSeleccionadoContainer />
+          ) : (
+            <DataNotFound>
+              <Typography variant="h5">No tienes permisos suficientes para acceder a esta sección</Typography>{" "}
+            </DataNotFound>
+          )
+        }
+      />
+      <Route
+        path="/abmCotizadores"
+        element={
+          currentUser.group === "Admin" ? (
+            <WelcomePage idWelcome="admin" />
+          ) : (
+            <DataNotFound>
+              <Typography variant="h5">No tienes permisos suficientes para acceder a esta sección</Typography>{" "}
+            </DataNotFound>
+          )
+        }
+      />
+      <Route
+        path="/abmconsultas"
+        element={
+          currentUser.group === "Admin" ? (
+            <WelcomePage idWelcome="admin" />
+          ) : (
+            <DataNotFound>
+              <Typography variant="h5">No tienes permisos suficientes para acceder a esta sección</Typography>{" "}
+            </DataNotFound>
+          )
+        }
+      />
       {/* </Route> */}
     </Routes>
   );

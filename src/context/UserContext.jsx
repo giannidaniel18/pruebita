@@ -5,7 +5,7 @@ export const useUserContext = () => useContext(UserContext);
 
 const MOCK_USER = {
   userName: "dgianni",
-  group: "Admin",
+  group: "Admias",
   avatar:
     "https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Round&hairColor=Brown&facialHairType=MoustacheMagnum&facialHairColor=Auburn&clotheType=Hoodie&clotheColor=Black&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Pale",
 };
