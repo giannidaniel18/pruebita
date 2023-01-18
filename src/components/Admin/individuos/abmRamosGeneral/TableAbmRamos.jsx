@@ -229,6 +229,7 @@ export default function TableAbmRamos({ branches, onUpdateRamoStatus, requestSta
         Administración de Ramos
       </Typography>
       <Stack spacing={2}>
+        {/* Extraer a componente en common */}
         <Box id="boxFilter">
           <Stack direction="row" alignItems={"center"} spacing={1} flex={1}>
             <ManageSearchIcon />
