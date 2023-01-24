@@ -151,3 +151,4 @@ export const ArrayNegocios = [
   { value: "pymes", text: "pymes" },
   { value: "especialistas", text: "especialistas" },
 ];
+export const PERMISO_ADMINISTRADOR = "admin";

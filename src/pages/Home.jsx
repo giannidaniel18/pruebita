@@ -7,6 +7,9 @@ export default function Home() {
   const { currentUser } = useUserContext();
   return (
     <Stack alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+      <Typography variant="overline" fontSize={30} lineHeight={1} alignSelf={{ xs: "start", md: "end" }}>
+        Demo
+      </Typography>
       {currentUser.userName ? (
         <>
           <Typography variant="h1" color="primary">
@@ -17,7 +20,7 @@ export default function Home() {
           </Typography>
         </>
       ) : (
-        <>
+        <Stack spacing={10}>
           <Typography variant="h1" color="primary">
             Scripting CAC
           </Typography>
@@ -26,7 +29,7 @@ export default function Home() {
               Iniciar sesión
             </Button>
           </Typography>
-        </>
+        </Stack>
       )}
     </Stack>
   );

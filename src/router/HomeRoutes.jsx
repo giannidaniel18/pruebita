@@ -1,27 +1,17 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import SinesterLayout from "../layouts/SinesterLayout";
-// import Empresas from "../pages/Empresas";
-import Home from "../pages/Home";
-import SeleccionDeModulo from "../pages/individuos/SeleccionDeModulo";
-// import Pymes from "../pages/Pymes";
-// import Especialistas from "../pages/Especialistas";
-// import Empresas from "../pages/Empresas";
-import BranchContainer from "../pages/individuos/siniestros/BranchContainer";
-// import AdminLayout from "../layouts/AdminLayout";
-
-// Individuos
-// import AdminIndividuos from "../pages/Admin/individuos/AdminIndividuos";
-import AbmRamosGeneralContainer from "../pages/Admin/individuos/AbmRamosGeneralContainer";
-import AbmRamoSeleccionadoContainer from "../pages/Admin/individuos/AbmRamoSeleccionadoContainer";
-import WelcomePage from "../pages/WelcomePage";
+import SinesterLayout from "layouts/SinesterLayout";
+import Home from "pages/Home";
+import SeleccionDeModulo from "pages/SeleccionDeModulo";
+import BranchContainer from "pages/siniestros/BranchContainer";
+import AbmRamosGeneralContainer from "pages/Admin/ramos/AbmRamosGeneralContainer";
+import AbmRamoSeleccionadoContainer from "pages/Admin/ramos/AbmRamoSeleccionadoContainer";
+import WelcomePage from "pages/WelcomePage";
+import LoginPage from "pages/LoginPage";
 import { useUserContext } from "context/UserContext";
 import DataNotFound from "components/common/DataNotFound";
 import { Typography } from "@mui/material";
-import LoginPage from "pages/LoginPage";
-// import BuildingPage from "../pages/BuildingPage";
-
-const PERMISO_ADMINISTRADOR = "admin";
+import { PERMISO_ADMINISTRADOR } from "constants/variablesGlobales";
 
 export default function HomeRoutes() {
   const { currentUser } = useUserContext();

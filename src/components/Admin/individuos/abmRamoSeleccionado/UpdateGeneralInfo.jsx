@@ -71,10 +71,10 @@ export default function UpdateGeneralInfo({ branch }) {
   return (
     <Stack spacing={4}>
       <Stack spacing={2}>
-        <Typography variant="h5"> Bienvenido a la administracion general del Ramo</Typography>
+        <Typography variant="h5"> Bienvenido a la administración general del Ramo</Typography>
         <Typography variant="subtitle1">
-          en esta seccion podras editar el titulo a mostrar del mismo, asignar su respectiva unidad de negocio,
-          habilitarlo o deshabilitarlo segun sea necesario y eliminarlo de la base de datos
+          En esta sección podrás editar el titulo a mostrar del mismo, asignar su respectiva unidad de negocio,
+          habilitarlo o deshabilitarlo según sea necesario y eliminarlo de la base de datos
         </Typography>
       </Stack>
       <Stack>

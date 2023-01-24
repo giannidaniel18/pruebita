@@ -2,19 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { ColorModeContext } from "config/ColorModeContextProvider";
 import { useTheme } from "@mui/material/styles";
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 //ICONS
 import MenuIcon from "@mui/icons-material/Menu";

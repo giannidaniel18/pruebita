@@ -32,14 +32,13 @@ const UserContextProvider = ({ children }) => {
     const credentials = { username, password };
 
     const apiResponse = await startRequest("post", "/api/auth/login", credentials, true);
-    console.log(apiResponse);
 
     if (apiResponse.ok) {
       const newCurrentUser = {};
       newCurrentUser.userName = apiResponse.data.user.username;
       newCurrentUser.group = apiResponse.data.user.roles[0];
       newCurrentUser.avatar = "/logo192.png";
-      console.log(newCurrentUser);
+
       localStorage.setItem("userName", newCurrentUser.userName);
       localStorage.setItem("rolID", newCurrentUser.group);
       localStorage.setItem("avatar", newCurrentUser.avatar);
