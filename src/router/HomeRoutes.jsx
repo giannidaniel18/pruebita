@@ -18,7 +18,10 @@ import WelcomePage from "../pages/WelcomePage";
 import { useUserContext } from "context/UserContext";
 import DataNotFound from "components/common/DataNotFound";
 import { Typography } from "@mui/material";
+import LoginPage from "pages/LoginPage";
 // import BuildingPage from "../pages/BuildingPage";
+
+const PERMISO_ADMINISTRADOR = "admin";
 
 export default function HomeRoutes() {
   const { currentUser } = useUserContext();
@@ -26,6 +29,8 @@ export default function HomeRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/login" element={<LoginPage />} />
+
       <Route path="/individuos" element={<SeleccionDeModulo negocio={"individuos"} />} />
       <Route path="/individuos/siniestros" element={<SinesterLayout negocio="individuos" />}>
         {/* para cada nested route genero una ruta vacia para renderizar un componente de bienvenida en el Layout */}
@@ -59,7 +64,7 @@ export default function HomeRoutes() {
       <Route
         path="/abmramos"
         element={
-          currentUser.group === "Admin" ? (
+          currentUser.group === PERMISO_ADMINISTRADOR ? (
             <AbmRamosGeneralContainer />
           ) : (
             <DataNotFound>
@@ -71,7 +76,7 @@ export default function HomeRoutes() {
       <Route
         path="/abmramos/:selectedbranch"
         element={
-          currentUser.group === "Admin" ? (
+          currentUser.group === PERMISO_ADMINISTRADOR ? (
             <AbmRamoSeleccionadoContainer />
           ) : (
             <DataNotFound>
@@ -83,7 +88,7 @@ export default function HomeRoutes() {
       <Route
         path="/abmCotizadores"
         element={
-          currentUser.group === "Admin" ? (
+          currentUser.group === PERMISO_ADMINISTRADOR ? (
             <WelcomePage idWelcome="admin" />
           ) : (
             <DataNotFound>
@@ -95,7 +100,7 @@ export default function HomeRoutes() {
       <Route
         path="/abmconsultas"
         element={
-          currentUser.group === "Admin" ? (
+          currentUser.group === PERMISO_ADMINISTRADOR ? (
             <WelcomePage idWelcome="admin" />
           ) : (
             <DataNotFound>

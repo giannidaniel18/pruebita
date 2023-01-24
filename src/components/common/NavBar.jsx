@@ -2,7 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { ColorModeContext } from "config/ColorModeContextProvider";
 import { useTheme } from "@mui/material/styles";
-import { AppBar, Avatar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 //ICONS
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,21 +28,20 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import { useUserContext } from "context/UserContext";
 
-// const usuario = { nombreUsuario: "admin", rol: "admin" };
-// const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = [{ idsetting: "logout", title: "LogOut" }];
 
 export default function NavBar() {
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  // const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [selectedNavItem, setSelectedNavItem] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
-  const { currentUser } = useUserContext();
+  const { currentUser, logOut } = useUserContext();
 
   //Esto se deberia reemplazar por el contexto del usuario
   useEffect(() => {
-    currentUser.group === "Admin" ? setIsAdmin(null) : setIsAdmin("none");
+    currentUser.group === "admin" ? setIsAdmin(null) : setIsAdmin("none");
   }, [currentUser]);
 
   const pages = [
@@ -44,18 +55,21 @@ export default function NavBar() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  // const handleOpenUserMenu = (event) => {
-  //   setAnchorElUser(event.currentTarget);
-  // };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleCloseNavMenu = (e) => {
     setSelectedNavItem(e.target.text);
     setAnchorElNav(null);
   };
 
-  // const handleCloseUserMenu = () => {
-  //   setAnchorElUser(null);
-  // };
+  const handleLogOut = () => {
+    logOut();
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Box px={4} sx={{ paddingX: { xs: 0, sm: 5 } }}>
@@ -172,33 +186,37 @@ export default function NavBar() {
             <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
               {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
-            <Tooltip title={currentUser.userName}>
-              <IconButton sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={currentUser.avatar} sx={{ width: 30, height: 30 }} />
-              </IconButton>
-            </Tooltip>
-            {/* <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu> */}
+            {currentUser.userName && (
+              <>
+                <Tooltip title={currentUser.userName}>
+                  <IconButton sx={{ p: 0 }} onClick={handleOpenUserMenu}>
+                    <Avatar alt="Remy Sharp" src={currentUser.avatar} sx={{ width: 30, height: 30 }} />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting.idsetting} onClick={handleLogOut}>
+                      <Typography textAlign="center">{setting.title}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Box>
