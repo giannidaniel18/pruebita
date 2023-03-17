@@ -86,7 +86,6 @@ export const startUpVerificacion = (idRamo) => {
       return response;
     });
 };
-
 // ---------------------------------- Verificaciones -----------------------------------
 
 export const getVerificacionesByRamo = (idRamo) => {

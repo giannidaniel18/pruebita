@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import useFetch from "./useFetch";
 
@@ -110,6 +111,7 @@ export function useEventos(idRamo) {
     const fetchData = async () => {
       const apiResponse = await startRequest("get", `/api/eventos/ramo/${idRamo}`, {}, false);
       await setEventos(apiResponse.data);
+
       setLoading(false);
     };
     fetchData();
@@ -164,7 +166,6 @@ export function useSubtipos(idEvento) {
   const createSubtipo = async (newSubtipo, idEvento) => {
     const subtipoToCreate = { titulo: newSubtipo.tituloSubtipo, plantilla: "", evento: idEvento };
     const apiResponse = await startRequest("post", `/api/subtiposiniestro`, subtipoToCreate, true);
-    console.log(apiResponse);
     if (apiResponse.ok) {
       setSubtipos([...subtipos, apiResponse.data.obj]);
     }
@@ -366,7 +367,7 @@ export function useGeneralInfo(branch) {
   const updateRamo = async (propToUpdate, dataToUpdate) => {
     const objectToUpdate = propToUpdate === "negocio" ? { negocio: dataToUpdate } : { titulo: dataToUpdate };
     const apiResponse = await startRequest("put", `/api/ramos/${currentBranch.id}`, objectToUpdate, true);
-    console.log(apiResponse);
+
     if (apiResponse.ok) {
       setCurrentBranch(apiResponse.data.obj);
     }
