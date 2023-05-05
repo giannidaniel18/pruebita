@@ -1,21 +1,57 @@
 import { useState } from "react";
-import { AppBar, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
+import DesignServicesIcon from "@mui/icons-material/DesignServices";
 
-import { Link as ReactLink, Outlet } from "react-router-dom";
+import { Link as ReactLink } from "react-router-dom";
 
 const drawerWidth = 180;
 
 function AdminLayout(props) {
-  const { window } = props;
-  const [selectedOption, setSelectedOption] = useState(null);
+  // const { window } = props;
+  const [selectedOption, setSelectedOption] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const modulos = [
-    { text: "individuos", path: "individuos " },
-    // { text: "Empresas", path: "empresas" },
-    // { text: "Pymes", path: "pymes" },
+    {
+      text: "Ramos",
+      path: "/abmramos",
+      icon: <DesignServicesIcon fontSize="medium" />,
+      disabled: false,
+      tooltip: "Administracion de Ramos",
+    },
+    {
+      text: "Cotizadores",
+      path: "abmcotizadores",
+      icon: <CalculateOutlinedIcon fontSize="medium" />,
+      disabled: true,
+      tooltip: "Administracion de consultas",
+    },
+    {
+      text: "Consultas",
+      path: "abmconsultas",
+      icon: <AutoStoriesOutlinedIcon fontSize="medium" />,
+      disabled: true,
+      tooltip: "Administracion de cotizadores",
+    },
     // { text: "Especialistas", path: "especialistas" },
-    { text: "Usuarios", path: "usuarios" },
+    // { text: "Usuarios", path: "usuarios" },
   ];
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -31,16 +67,25 @@ function AdminLayout(props) {
       <List>
         {modulos.map((modulo, index) => (
           <ListItem key={modulo.text} disablePadding>
-            <ListItemButton component={ReactLink} to={`${modulo.path}`} selected={selectedOption === index} onClick={(e) => handleSelectedOption(e, index)}>
-              <ListItemText value={modulo.text} primary={modulo.text} />
-            </ListItemButton>
+            <Tooltip title={modulo.tooltip}>
+              <ListItemButton
+                component={ReactLink}
+                to={`${modulo.path}`}
+                disabled={modulo.disabled}
+                selected={selectedOption === index}
+                onClick={(e) => handleSelectedOption(e, index)}
+              >
+                <ListItemIcon>{modulo.icon}</ListItemIcon>
+                <ListItemText value={modulo.text} primary={modulo.text} />
+              </ListItemButton>
+            </Tooltip>
           </ListItem>
         ))}
       </List>
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  // const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -55,7 +100,13 @@ function AdminLayout(props) {
         }}
       >
         <Toolbar>
-          <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
@@ -66,7 +117,7 @@ function AdminLayout(props) {
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
-          container={container}
+          // container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
@@ -98,14 +149,16 @@ function AdminLayout(props) {
         </Drawer>
       </Box>
       <Box
+        id="layoutContainer"
         sx={{
           flexGrow: 1,
           px: { xs: 2, sm: 3 },
           py: { xs: 6, sm: 3 },
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { xs: "100vw", sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <Outlet />
+        {props.children}
+        {/* <Outlet /> */}
       </Box>
     </Box>
   );
